@@ -12,12 +12,16 @@ b = complex.get_phase_rot(a)
 b = b[int(2.4e6):int(3.8e6)]
 # NOTE: Equivalent of above but visual only, need to modify the signal for the
 # PSD computation later.
-#plt.xlim(left=0.08, right=0.125)
+# plt.xlim(left=0.08, right=0.125)
 
 # Trad. specgram
 plt.specgram(b, Fs=30e6, NFFT=2048, sides="onesided", mode="magnitude")
-plt.show()
+plt.savefig("specgram.pdf")
+plt.clf()
+#plt.show()
 
 # New PSD:
 plt.psd(b, Fs=30e6, NFFT=None)
-plt.show()
+plt.savefig("psd.pdf")
+plt.clf()
+#plt.show()
