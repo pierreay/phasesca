@@ -9,6 +9,14 @@
 :ID:       d14ec7c7-c990-4bea-b022-0d507a904631
 :END:
 
+- Source ::
+  - Phase rotation trace.
+- Results ::
+  - [[file:24-03-14_freq-estimation/psd.pdf]]
+  - [[file:24-03-14_freq-estimation/specgram.pdf]]
+  - Major frequency components of 5.5 MHz, 6.5 MHz, and 11.5 MHz.
+  - High-pass filtered.
+
 * Bibliography
 
 #+print_bibliography:
