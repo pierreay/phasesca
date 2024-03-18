@@ -1,0 +1,15 @@
+#+TITLE: Experimentation laboratory
+#+SETUPFILE: https://raw.githubusercontent.com/pierreay/orgcss/master/orgcss.setup
+
+* Experiments
+
+** [2024-03-14 jeu.] Frequency estimation
+:PROPERTIES:
+:DIR:      24-03-14_freq-estimation
+:END:
+
+* Bibliography
+
+#+print_bibliography:
+
+* Footnotes

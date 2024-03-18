@@ -4,4 +4,5 @@ Repository of the phase data.
 
 * Files
 
-- [[file:scripts/]] :: Scripts to work with the repository.
+- [[file:expe]] :: Experiments of the project.
+- [[file:scripts]] :: Scripts to work with the repository.
