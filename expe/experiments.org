@@ -3,7 +3,7 @@
 
 * Experiments
 
-** [2024-03-14 jeu.] Frequency estimation
+** [2024-03-14 jeu.] Frequency estimation                               :plot:
 :PROPERTIES:
 :DIR:      24-03-14_freq-estimation
 :ID:       d14ec7c7-c990-4bea-b022-0d507a904631
@@ -16,6 +16,22 @@
   - [[file:24-03-14_freq-estimation/specgram.pdf]]
   - Major frequency components of 5.5 MHz, 6.5 MHz, and 11.5 MHz.
   - High-pass filtered.
+
+** [2024-03-19 mar.] Phasor plot                                        :plot:
+:PROPERTIES:
+:DIR:      24-03-19_phasor-plot
+:ID:       336a19e9-d4e3-492d-bba4-f626b02fd51a
+:END:
+
+- Source ::
+  - Traces of AES from the =240305_custom_firmware_phase_eval_iq= [[id:98437a5b-5d86-4097-96b1-9a069fd30a79][datasets]].
+- Goal :: Plot the I/Q and/or the amplitude/phase rotation using phasor
+  representation (2D without time and 3D with time).
+- Results ::
+  - 2D :
+    - [[attachment:plot_amp;phr.pdf]]
+    - [[attachment:plot_abs(iq_augmented);angle(iq_augmented).pdf]]
+    - [[attachment:plot_abs(iq);angle(iq).pdf]]
 
 * Bibliography
 
