@@ -77,9 +77,34 @@ def plot_polar(mag, ang, title=""):
     cbar.ax.set_title("Time [s]")
 
     plt.title(title)
-    plt.savefig("plot_{}.pdf".format(title))
+    plt.savefig("plot_polar_{}.pdf".format(title))
+
+# NOTE: Copy of the plot_polar without polar projection for comparison purpose.
+def plot_rectangular(real, imag, title=""):
+    # Using Polar projection transforms radians into visual angles.
+    fig = plt.figure(figsize=(9,6))
+    ax = fig.add_subplot()
+
+    # Plot time using colors. Yellow = Older points ; Blue = New points.
+    times = np.linspace(0, len(real) / SAMP_RATE, num=len(real)) # Time vector.
+    cm = plt.get_cmap('cividis_r')                             # Color map.
+
+    # Create the scatter plot.
+    marker_size = 5
+    im = ax.scatter(imag, real, c=times, cmap=cm, s=marker_size)
+
+    # Create the right color bar.
+    cbar = fig.colorbar(im, ticks=[times[0], times[len(times)//2], times[-1]])
+    cbar.ax.set_yticklabels([times[0], times[len(times)//2], times[-1]])
+    cbar.ax.set_title("Time [s]")
+
+    plt.title(title)
+    plt.savefig("plot_rectangular_{}.pdf".format(title))
 
 # DONE:
 plot_polar(np.abs(iq), np.angle(iq), "abs(iq);angle(iq)")
 plot_polar(np.abs(iq_augmented), np.angle(iq_augmented), "abs(iq_augmented);angle(iq_augmented)")
 plot_polar(amp, phr, "amp;phr")
+plot_rectangular(iq.real, iq.imag, "iq.real;iq.imag")
+plot_rectangular(iq_augmented.real, iq_augmented.imag, "iq_augmented.real;iq_augmented.imag")
+plot_rectangular(amp, phr, "amp;phr")
