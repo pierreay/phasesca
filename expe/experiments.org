@@ -28,10 +28,13 @@
 - Goal :: Plot the I/Q and/or the amplitude/phase rotation using phasor
   representation (2D without time and 3D with time).
 - Results ::
-  - 2D :
-    - [[attachment:plot_amp;phr.pdf]]
-    - [[attachment:plot_abs(iq_augmented);angle(iq_augmented).pdf]]
-    - [[attachment:plot_abs(iq);angle(iq).pdf]]
+  - 3D representing time as color :
+    - [[attachment:plot_polar_amp;phr.pdf]] (best plot)
+    - [[attachment:plot_polar_abs(iq_augmented);angle(iq_augmented).pdf]]
+    - [[attachment:plot_polar_abs(iq);angle(iq).pdf]]
+    - [[attachment:plot_rectangular_amp;phr.pdf]]
+    - [[attachment:plot_rectangular_iq_augmented.real;iq_augmented.imag.pdf]]
+    - [[attachment:plot_rectangular_iq.real;iq.imag.pdf]]
 
 * Bibliography
 
