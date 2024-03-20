@@ -42,7 +42,7 @@ for ii, iv in enumerate(i_augmented):
 # plt.plot(iq_augmented, sides="twosided", mode="magnitude")
 # plt.show()
 
-# * Plot polar 3D using colors
+# * Plot polar 2D using color for time
 
 def plot_polar(mag, ang, title=""):
     """Polar plot of complex-valued data using color for time (3rd dimension).
@@ -87,7 +87,7 @@ def plot_rectangular(real, imag, title=""):
 
     # Plot time using colors. Yellow = Older points ; Blue = New points.
     times = np.linspace(0, len(real) / SAMP_RATE, num=len(real)) # Time vector.
-    cm = plt.get_cmap('cividis_r')                             # Color map.
+    cm = plt.get_cmap('cividis_r')                               # Color map.
 
     # Create the scatter plot.
     marker_size = 5
@@ -102,9 +102,54 @@ def plot_rectangular(real, imag, title=""):
     plt.savefig("plot_rectangular_{}.pdf".format(title))
 
 # DONE:
-plot_polar(np.abs(iq), np.angle(iq), "abs(iq);angle(iq)")
-plot_polar(np.abs(iq_augmented), np.angle(iq_augmented), "abs(iq_augmented);angle(iq_augmented)")
-plot_polar(amp, phr, "amp;phr")
-plot_rectangular(iq.real, iq.imag, "iq.real;iq.imag")
-plot_rectangular(iq_augmented.real, iq_augmented.imag, "iq_augmented.real;iq_augmented.imag")
-plot_rectangular(amp, phr, "amp;phr")
+# plot_polar(np.abs(iq), np.angle(iq), "abs(iq);angle(iq)")
+# plot_polar(np.abs(iq_augmented), np.angle(iq_augmented), "abs(iq_augmented);angle(iq_augmented)")
+# plot_polar(amp, phr, "amp;phr")
+# plot_rectangular(iq.real, iq.imag, "iq.real;iq.imag")
+# plot_rectangular(iq_augmented.real, iq_augmented.imag, "iq_augmented.real;iq_augmented.imag")
+# plot_rectangular(amp, phr, "amp;phr")
+
+# * Plot polar 3D using color for time
+
+def plot_real_imaginary_3d(real, imag, title=""):
+    fig = plt.figure(figsize=(9,6))
+    ax = fig.add_subplot(projection='3d')
+
+    # Plot time using colors.
+    times = np.linspace(0, len(real) / SAMP_RATE, num=len(real)) # Time vector.
+
+    COLOR_ENABLE = True
+
+    # Plotting using single color:
+    if not COLOR_ENABLE is True:
+        ax.plot(times, real, imag)
+    # Plotting using time for color: segment plot and color depending on "times".
+    elif COLOR_ENABLE is True:
+        s = 2                                   # Segment length
+        r, g, b = 0, 0, 0                       # RGB color
+        r_incr, g_incr, b_incr = 0.02, 0.1, 0.3 # Color increments
+        for i in range(0, len(real) - s, s):
+            r = (r + r_incr) % 1
+            if r > 0.98:
+                r = 0
+                g = (g + g_incr) % 1
+            if g > 0.80:
+                g = 0
+                b = (b + b_incr) % 1
+            ax.plot(times[i : i+s+1], real[i : i+s+1], imag[i : i+s+1], c=(r, g, b))
+    
+    ax.set_ylabel("Real component")
+    ax.set_zlabel("Imaginary component")
+
+    plt.title(title)
+    plt.savefig("plot_polar_3d_{}.pdf".format(title))
+
+    INTERACTIVE_ENABLE = False
+    if INTERACTIVE_ENABLE is True:
+        fig.tight_layout()
+        plt.show()
+
+# DONE:
+# plot_real_imaginary_3d(iq_augmented.real, iq_augmented.imag, title="iq_augmnented.real;iq_augmented.imag")
+# plot_real_imaginary_3d(iq.real, iq.imag, title="iq.real;iq.imag")
+# plot_real_imaginary_3d(amp, phr, title="amp;phr")
