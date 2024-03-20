@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
+# Inspired from:
+# https://ni4ai-blog.readthedocs.io/en/latest/blog/analysis/visualizing-phasor-timeseries.html
+
 import numpy as np
 import matplotlib.pyplot as plt
+
+# * Trace parameters
+
+# Trace sample rate [Msps].
+SAMP_RATE=8e6
 
 # * Import traces
 
@@ -34,28 +42,44 @@ for ii, iv in enumerate(i_augmented):
 # plt.plot(iq_augmented, sides="twosided", mode="magnitude")
 # plt.show()
 
-# * Plot polar
-
-# PROG:
+# * Plot polar 3D using colors
 
 def plot_polar(mag, ang, title=""):
+    """Polar plot of complex-valued data using color for time (3rd dimension).
+    
+    Inputs are magnitude and angle because of the polar projection used in
+    matplotlib. It is the same as plotting I/Q using the scatter in non-polar
+    mode. In order to have I/Q as inputs ("iq.real" instead of "mag", and
+    "iq.imag" instead of "ang"), unset the "projection" parameter.
+
+    :param mag: Magnitude of the complex-valued data.
+
+    :param ang: Angle of the complex-valued data.
+
+    """
+    assert mag.shape == ang.shape
+
+    # Using Polar projection transforms radians into visual angles.
     fig = plt.figure(figsize=(9,6))
     ax = fig.add_subplot(projection='polar')
 
-    # Plot color by time
-    times = mag.astype(np.int64)
+    # Plot time using colors. Yellow = Older points ; Blue = New points.
+    times = np.linspace(0, len(mag) / SAMP_RATE, num=len(mag)) # Time vector.
+    cm = plt.get_cmap('cividis_r')                             # Color map.
 
-    cm = plt.get_cmap('cividis_r')
-    im = ax.scatter(ang, mag, c=times, cmap=cm, s=10)
+    # Create the scatter plot.
+    marker_size = 5
+    im = ax.scatter(ang, mag, c=times, cmap=cm, s=marker_size)
 
+    # Create the right color bar.
     cbar = fig.colorbar(im, ticks=[times[0], times[len(times)//2], times[-1]])
-    cbar.ax.set_yticklabels([mag[0], mag[len(times)//2], mag[-1]])
+    cbar.ax.set_yticklabels([times[0], times[len(times)//2], times[-1]])
+    cbar.ax.set_title("Time [s]")
 
-    #fig.tight_layout()
     plt.title(title)
     plt.savefig("plot_{}.pdf".format(title))
 
+# DONE:
 plot_polar(np.abs(iq), np.angle(iq), "abs(iq);angle(iq)")
 plot_polar(np.abs(iq_augmented), np.angle(iq_augmented), "abs(iq_augmented);angle(iq_augmented)")
 plot_polar(amp, phr, "amp;phr")
-
