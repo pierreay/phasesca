@@ -40,6 +40,19 @@
     - [[attachment:plot_polar_3d_iq.real;iq.imag.pdf]]
     - [[attachment:plot_polar_3d_iq_augmnented.real;iq_augmented.imag.pdf]]
 
+** [2024-03-21 jeu.] IQ problem                                         :issue:
+:PROPERTIES:
+:DIR:      24-03-21_iq-issue
+:ID:       3fdf41e9-a9b9-4728-aceb-8a065e4e37f3
+:END:
+
+- Issue :: We have I and Q stored while we also have the amplitude and the
+  phase rotation stored. While computing the amplitude and the phase rotation
+  from the stored IQ, we don't get the same values as the stored amplitude and
+  the phase rotation. See [[attachment:plot.py]].
+- Source :: Storage ? Complex IQ reconstruction from integer IQ ? Polar to
+  rectangular or Rectangular to polar conversion problem ?
+
 * Bibliography
 
 #+print_bibliography:
