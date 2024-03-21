@@ -1,0 +1,664 @@
+========================= 2000 attack traces =========================
+pois_algo=snr
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_amp_16000_snr
+comp=amp
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^58.52901016
+actual rounded: 2^59.58977482
+max: 2^60.42446215
+time enum: 0.142351 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bf   42   a4   43   4d   19   b2   4b   ca   2e   49   1e   c9   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  007  002  005  002  004  002  009  011  011  003  004  004  001  001  001  
+HD:              002  001  001  002  001  002  001  004  001  005  001  001  002  001  001  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 0
+HD SUM:                  27
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_phr_16000_snr
+comp=phr
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^62.30186179
+actual rounded: 2^63.86090338
+max: 2^65.07730339
+time enum: 0.136499 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   41   bc   41   4c   78   a9   56   ca   51   0f   1f   a7   41   2a   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             005  003  011  001  000  003  011  001  009  002  004  018  022  003  001  011  
+HD:              001  001  003  001  000  001  003  002  001  002  002  002  005  001  001  002  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  28
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_i_augmented_16000_snr
+comp=i_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^53.9440082
+actual rounded: 2^55.73944476
+max: 2^57.13631418
+time enum: 0.139396 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   43   a5   41   4e   78   ad   56   c9   52   4a   1f   c2   40   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             004  002  005  001  002  001  006  001  006  000  020  010  003  001  001  005  
+HD:              001  002  002  001  001  001  004  002  001  000  001  002  001  002  001  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  23
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_q_augmented_16000_snr
+comp=q_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^71.26595064
+actual rounded: 2^72.24629469
+max: 2^73.01900731
+time enum: 0.161071 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   84   74   a6   42   5a   7b   b3   54   8c   52   49   1f   90   55   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             029  003  000  005  002  004  003  006  030  000  001  001  063  027  005  001  
+HD:              003  003  000  001  003  001  002  001  004  000  001  002  002  003  002  001  
+SUCCESS:           0    0    1    0    0    0    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 2
+HD SUM:                  29
+
+Starting key ranking using HEL
+comp=recombined_4major_vote
+Best Key Guess:   bd   42   a4   43   4c   79   b3   56   ca   52   49   1f   c1   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  255  002  001  000  000  002  004  255  000  255  004  003  001  001  001  
+HD:              001  001  001  002  000  000  002  002  001  000  001  002  001  001  001  001  
+SUCCESS:           0    0    0    0    1    1    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  17
+========================= 3000 attack traces =========================
+pois_algo=snr
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_amp_16000_snr
+comp=amp
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^54.02654392
+actual rounded: 2^55.15830358
+max: 2^56.04728637
+time enum: 0.137468 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bc   43   a5   43   4d   79   b2   54   88   53   4a   1e   c9   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             000  001  002  003  003  000  003  006  009  004  003  011  001  001  002  001  
+HD:              000  002  002  002  001  000  001  001  003  001  001  001  002  001  001  001  
+SUCCESS:           1    0    0    0    0    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 2
+HD SUM:                  20
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_phr_16000_snr
+comp=phr
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^58.36674706
+actual rounded: 2^59.95038645
+max: 2^61.18814263
+time enum: 0.137475 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   43   bc   41   4c   78   b0   56   ca   51   4b   1e   c2   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  002  027  001  000  003  000  001  007  002  000  018  029  003  003  006  
+HD:              001  002  003  001  000  001  000  002  001  002  000  001  001  001  001  001  
+SUCCESS:           0    0    0    0    1    0    1    0    0    0    1    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  18
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_i_augmented_16000_snr
+comp=i_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^52.35427059
+actual rounded: 2^54.1093268
+max: 2^55.478593
+time enum: 0.138014 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   43   a5   41   4e   78   b3   56   c9   51   4a   1f   c2   40   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             001  002  003  001  001  002  002  001  003  001  043  010  002  003  002  005  
+HD:              001  002  002  001  001  001  002  002  001  002  001  002  001  002  002  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 0
+HD SUM:                  24
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_q_augmented_16000_snr
+comp=q_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^61.5456975
+actual rounded: 2^62.69724558
+max: 2^63.6039219
+time enum: 0.136591 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   84   49   a7   41   4c   7b   b3   54   8c   50   49   1f   93   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             010  002  001  004  000  001  002  003  037  002  003  002  054  017  003  001  
+HD:              003  002  001  001  000  001  002  001  004  001  001  002  004  003  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  29
+
+Starting key ranking using HEL
+comp=recombined_4major_vote
+Best Key Guess:   bc   43   a5   41   4c   79   b2   54   88   51   4a   1e   c3   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             000  002  002  001  000  000  002  006  005  001  003  255  002  001  002  001  
+HD:              000  002  002  001  000  000  001  001  003  002  001  001  002  001  001  001  
+SUCCESS:           1    0    0    0    1    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  19
+========================= 4000 attack traces =========================
+pois_algo=snr
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_amp_16000_snr
+comp=amp
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^52.63767789
+actual rounded: 2^53.78273852
+max: 2^54.68356856
+time enum: 0.139911 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bf   43   a5   43   4f   79   b2   54   c9   50   4a   1e   c2   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  002  002  003  002  000  003  005  011  004  003  006  001  002  003  001  
+HD:              002  002  002  002  002  000  001  001  001  001  001  001  001  001  001  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  20
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_phr_16000_snr
+comp=phr
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^47.99765885
+actual rounded: 2^50.07530752
+max: 2^51.68670638
+time enum: 0.137413 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   43   a2   41   4c   78   a7   56   c9   52   4b   1e   c2   43   24   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  002  030  001  000  003  002  001  005  000  000  006  002  000  004  004  
+HD:              001  002  001  001  000  001  004  002  001  000  000  001  001  000  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    1    1    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 4
+HD SUM:                  18
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_i_augmented_16000_snr
+comp=i_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^45.47350961
+actual rounded: 2^47.47473087
+max: 2^49.03208174
+time enum: 0.138917 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bc   43   a5   41   4f   7b   b3   56   c9   52   51   1e   c2   43   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             000  002  001  001  002  002  002  002  003  000  028  004  001  000  002  002  
+HD:              000  002  002  001  002  001  002  002  001  000  003  001  001  000  002  001  
+SUCCESS:           1    0    0    0    0    0    0    0    0    1    0    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  21
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_q_augmented_16000_snr
+comp=q_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^56.79424047
+actual rounded: 2^58.03603598
+max: 2^59.01340728
+time enum: 0.137986 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   84   49   a7   41   4c   7b   b3   54   84   50   49   1f   c2   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             001  001  001  002  000  003  003  003  031  003  003  001  005  013  003  001  
+HD:              003  002  001  001  000  001  002  001  005  001  001  002  001  003  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  27
+
+Starting key ranking using HEL
+comp=recombined_4major_vote
+Best Key Guess:   bd   43   a5   41   4f   79   b3   54   c9   50   4b   1e   c2   43   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             002  001  001  255  002  000  003  255  005  255  000  006  001  000  003  001  
+HD:              001  002  002  001  002  000  002  001  001  001  000  001  001  000  001  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    0    1    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  17
+========================= 1000 attack traces =========================
+pois_algo=snr
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_amp_16000_snr
+comp=amp
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^71.50498361
+actual rounded: 2^72.28159134
+max: 2^72.89526238
+time enum: 0.137269 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bf   4d   a5   71   4f   19   b0   54   f4   4e   49   14   c0   43   5c   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             010  013  003  014  005  002  000  020  012  043  002  021  000  000  006  002  
+HD:              002  003  002  003  002  002  000  001  006  003  001  001  000  000  006  001  
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  33
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_phr_16000_snr
+comp=phr
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^81.78294132
+actual rounded: 2^82.86031395
+max: 2^83.70560646
+time enum: 0.137982 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   5a   bc   41   09   78   9b   55   c9   51   05   1b   d3   5e   5c   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             051  002  082  002  002  003  011  000  019  002  013  030  022  004  007  008  
+HD:              001  003  003  001  003  001  004  000  001  002  004  003  003  004  006  002  
+SUCCESS:           0    0    0    0    0    0    0    1    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  41
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_i_augmented_16000_snr
+comp=i_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^68.81640425
+actual rounded: 2^70.31462015
+max: 2^71.48542895
+time enum: 0.138557 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   ee   40   ae   41   4e   78   b3   55   ca   52   7e   1b   c0   5e   20   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             050  000  011  002  002  004  004  000  007  000  094  017  000  004  001  003  
+HD:              003  000  001  001  001  001  002  000  001  000  004  003  000  004  001  002  
+SUCCESS:           0    1    0    0    0    0    0    1    0    1    0    0    1    0    0    0  
+NUMBER OF CORRECT BYTES: 4
+HD SUM:                  24
+
+Starting key ranking using HEL
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train/../profile_q_augmented_16000_snr
+comp=q_augmented
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^86.6000021
+actual rounded: 2^87.27603158
+max: 2^87.8092058
+time enum: 0.1378 seconds
+
+
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   e3   40   aa   42   5a   7b   b3   54   ae   52   4b   1f   82   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             089  000  002  023  004  024  001  003  070  000  000  009  104  031  025  001  
+HD:              006  000  002  001  003  001  002  001  004  000  000  002  002  003  002  001  
+SUCCESS:           0    1    0    0    0    0    0    0    0    1    1    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  30
+
+Starting key ranking using HEL
+comp=recombined_4major_vote
+Best Key Guess:   bf   48   ac   41   4f   79   b3   54   ec   52   49   1f   c0   5f   5c   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+PGE:             255  255  001  255  002  000  059  003  001  000  002  255  000  015  001  001  
+HD:              002  001  002  001  002  000  002  001  004  000  001  002  000  003  006  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    1    0    0    1    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  28

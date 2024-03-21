@@ -1,0 +1,124 @@
+========================= 2000 attack traces =========================
+Best Key Guess:   bf   42   a4   43   4d   19   b2   4b   ca   2e   49   1e   c9   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              002  001  001  002  001  002  001  004  001  005  001  001  002  001  001  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 0
+HD SUM:                  27
+Best Key Guess:   bd   41   bc   41   4c   78   a9   56   ca   51   0f   1f   a7   41   2a   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  001  003  001  000  001  003  002  001  002  002  002  005  001  001  002  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  28
+Best Key Guess:   bd   43   a5   41   4e   78   ad   56   c9   52   4a   1f   c2   40   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  002  002  001  001  001  004  002  001  000  001  002  001  002  001  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  23
+Best Key Guess:   84   74   a6   42   5a   7b   b3   54   8c   52   49   1f   90   55   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              003  003  000  001  003  001  002  001  004  000  001  002  002  003  002  001  
+SUCCESS:           0    0    1    0    0    0    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 2
+HD SUM:                  29
+Best Key Guess:   bd   42   a4   43   4c   79   b3   56   ca   52   49   1f   c1   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  001  001  002  000  000  002  002  001  000  001  002  001  001  001  001  
+SUCCESS:           0    0    0    0    1    1    0    0    0    1    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  17
+========================= 3000 attack traces =========================
+Best Key Guess:   bc   43   a5   43   4d   79   b2   54   88   53   4a   1e   c9   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              000  002  002  002  001  000  001  001  003  001  001  001  002  001  001  001  
+SUCCESS:           1    0    0    0    0    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 2
+HD SUM:                  20
+Best Key Guess:   bd   43   bc   41   4c   78   b0   56   ca   51   4b   1e   c2   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  002  003  001  000  001  000  002  001  002  000  001  001  001  001  001  
+SUCCESS:           0    0    0    0    1    0    1    0    0    0    1    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  18
+Best Key Guess:   bd   43   a5   41   4e   78   b3   56   c9   51   4a   1f   c2   40   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  002  002  001  001  001  002  002  001  002  001  002  001  002  002  001  
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 0
+HD SUM:                  24
+Best Key Guess:   84   49   a7   41   4c   7b   b3   54   8c   50   49   1f   93   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              003  002  001  001  000  001  002  001  004  001  001  002  004  003  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  29
+Best Key Guess:   bc   43   a5   41   4c   79   b2   54   88   51   4a   1e   c3   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              000  002  002  001  000  000  001  001  003  002  001  001  002  001  001  001  
+SUCCESS:           1    0    0    0    1    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  19
+========================= 4000 attack traces =========================
+Best Key Guess:   bf   43   a5   43   4f   79   b2   54   c9   50   4a   1e   c2   41   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              002  002  002  002  002  000  001  001  001  001  001  001  001  001  001  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  20
+Best Key Guess:   bd   43   a2   41   4c   78   a7   56   c9   52   4b   1e   c2   43   24   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  002  001  001  000  001  004  002  001  000  000  001  001  000  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    1    1    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 4
+HD SUM:                  18
+Best Key Guess:   bc   43   a5   41   4f   7b   b3   56   c9   52   51   1e   c2   43   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              000  002  002  001  002  001  002  002  001  000  003  001  001  000  002  001  
+SUCCESS:           1    0    0    0    0    0    0    0    0    1    0    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  21
+Best Key Guess:   84   49   a7   41   4c   7b   b3   54   84   50   49   1f   c2   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              003  002  001  001  000  001  002  001  005  001  001  002  001  003  002  001  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  27
+Best Key Guess:   bd   43   a5   41   4f   79   b3   54   c9   50   4b   1e   c2   43   20   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  002  002  001  002  000  002  001  001  001  000  001  001  000  001  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    0    1    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  17
+========================= 1000 attack traces =========================
+Best Key Guess:   bf   4d   a5   71   4f   19   b0   54   f4   4e   49   14   c0   43   5c   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              002  003  002  003  002  002  000  001  006  003  001  001  000  000  006  001  
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  33
+Best Key Guess:   bd   5a   bc   41   09   78   9b   55   c9   51   05   1b   d3   5e   5c   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              001  003  003  001  003  001  004  000  001  002  004  003  003  004  006  002  
+SUCCESS:           0    0    0    0    0    0    0    1    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  41
+Best Key Guess:   ee   40   ae   41   4e   78   b3   55   ca   52   7e   1b   c0   5e   20   ed  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              003  000  001  001  001  001  002  000  001  000  004  003  000  004  001  002  
+SUCCESS:           0    1    0    0    0    0    0    1    0    1    0    0    1    0    0    0  
+NUMBER OF CORRECT BYTES: 4
+HD SUM:                  24
+Best Key Guess:   e3   40   aa   42   5a   7b   b3   54   ae   52   4b   1f   82   5f   21   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              006  000  002  001  003  001  002  001  004  000  000  002  002  003  002  001  
+SUCCESS:           0    1    0    0    0    0    0    0    0    1    1    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  30
+Best Key Guess:   bf   48   ac   41   4f   79   b3   54   ec   52   49   1f   c0   5f   5c   ea  
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb  
+HD:              002  001  002  001  002  000  002  001  004  000  001  002  000  003  006  001  
+SUCCESS:           0    0    0    0    0    1    0    0    0    1    0    0    1    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  28
