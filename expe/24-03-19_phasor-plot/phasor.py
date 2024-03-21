@@ -120,6 +120,7 @@ def plot_real_imaginary_3d(real, imag, title=""):
 
     COLOR_ENABLE = True
 
+    # NOTE: Use ax.scatter instead of ax.plot() for points instead of lines.
     # Plotting using single color:
     if not COLOR_ENABLE is True:
         ax.plot(times, real, imag)
