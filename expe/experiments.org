@@ -53,6 +53,19 @@
 - Source :: Storage ? Complex IQ reconstruction from integer IQ ? Polar to
   rectangular or Rectangular to polar conversion problem ?
 
+** [2024-03-21 jeu.] Recombination using major votes                    :data:
+:PROPERTIES:
+:ID:       e54d1023-f624-4b2b-9fca-37e153b864f5
+:DIR:      24-03-21_recombination-vote
+:END:
+
+- Goal :: Test the major vote mechanism to recombine information from more than
+  2 channels.
+- Vote method :: Vertical 4-way major vote at bit level for best subkey guess.
+- Measure method :: Use the hamming distance between real key and best key.
+- Results :: Seems to always perform better than amplitude, but not always
+  better than the better (unpredictable) attack among the 4.
+
 * Bibliography
 
 #+print_bibliography:
