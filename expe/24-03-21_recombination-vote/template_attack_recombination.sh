@@ -2,15 +2,26 @@
 
 # * Parameters
 
-LOG_OUTPUT="$PATH_PROJ/expe/24-03-21_recombination-vote/output.log"
+# ** Paths
+
+PATH_DATASET_EXTERN="$PATH_DATASET/240309_custom_firmware_phase_eval_iq_norep_modgfsk"
+PATH_EXPE="$PATH_PROJ/expe/24-03-21_recombination-vote"
+
+# Output full logs for individual attacks.
+LOG_OUTPUT="$PATH_EXPE/output.log"
 LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 
+# Output CSV files for Python plots.
+LOG_CSV="$PATH_EXPE/attack_results.csv"
+
 # Path of dataset used to create the profile.
-TRAIN_SET=$PATH_DATASET/240309_custom_firmware_phase_eval_iq_norep_modgfsk/train
+TRAIN_SET="$PATH_DATASET_EXTERN/train"
 # Base path used to store the created profile.
-PROFILE_PATH_BASE=$TRAIN_SET/../profile
+PROFILE_PATH_BASE="$PATH_DATASET_EXTERN/profile"
 # Path of dataset used to perform the attack.
-ATTACK_SET=$PATH_DATASET/240309_custom_firmware_phase_eval_iq_norep_modgfsk/attack
+ATTACK_SET="$PATH_DATASET_EXTERN/attack"
+
+# ** Numbers
 
 # Number of traces to use for profile creation.
 NUM_TRACES_PROFILE=16000
@@ -46,3 +57,5 @@ function attack_recombined() {
 # DONE: Attack using recombination with major vote.
 attack_recombined | tee -a "$LOG_OUTPUT"
 grep -E "===|Best|Known|HD|SUCCESS|NUMBER" "$LOG_OUTPUT" > $LOG_OUTPUT_FILTERED
+
+# ** Plot
