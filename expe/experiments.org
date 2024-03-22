@@ -65,6 +65,7 @@
 - Measure method :: Use the hamming distance between real key and best key.
 - Results :: Seems to always perform better than amplitude, but not always
   better than the better (unpredictable) attack among the 4.
+- Plot result :: See [[attachment:attack_results.pdf]].
 
 * Bibliography
 
