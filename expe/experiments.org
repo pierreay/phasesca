@@ -53,7 +53,7 @@
 - Source :: Storage ? Complex IQ reconstruction from integer IQ ? Polar to
   rectangular or Rectangular to polar conversion problem ?
 
-** [2024-03-21 jeu.] Recombination using major votes                    :data:
+** [2024-03-21 jeu.] Recombination using major votes              :data:plot:
 :PROPERTIES:
 :ID:       e54d1023-f624-4b2b-9fca-37e153b864f5
 :DIR:      24-03-21_recombination-vote
