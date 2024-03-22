@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # NOTE:
-# Copied from "$STORAGE/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/scripts/plot_attacks_perf.py"
+# Copied and modified from "$STORAGE/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/scripts/plot_attacks_perf.py"
 
 """Read the output CSV file from the Bash partner script and plot the results."""
 
@@ -19,11 +19,18 @@ import lib.plot as libplot
 FILE=sys.argv[1]
 OUTFILE=sys.argv[2]
 
+# Do we show the plot interactively?
+INTERACTIVE=True
+# Do we save the plot on-disk?
+SAVE=True
+
 # Number of columns inside the CSV file.
 NCOL=0
 
 # Weither to smooth the plot.
 SMOOTH_PLOT=False
+
+ENABLE_LATEX_STYLE=True
 
 # * CSV reader
 
@@ -40,8 +47,12 @@ print("NCOL={}".format(NCOL))
 
 # X-axis, number of traces.
 x_nb = []
-# Y-axis, log_2(key rank).
-y_kr = []
+# Y-axis, sum of the hamming distance.
+y_hd_amp = []
+y_hd_phr = []
+y_hd_i_augmented = []
+y_hd_q_augmented = []
+y_hd_recombined = []
 
 # Read the CSV file into lists.
 with open(FILE, 'r') as csvfile:
@@ -56,47 +67,60 @@ with open(FILE, 'r') as csvfile:
             continue
         # Get data. Index is the column number. Do not index higher than NCOL.
         x_nb.append(int(float(row[0])))
-        y_kr.append(int(float(row[1])))
+        y_hd_amp.append(int(float(row[2])))
+        y_hd_phr.append(int(float(row[4])))
+        y_hd_i_augmented.append(int(float(row[6])))
+        y_hd_q_augmented.append(int(float(row[8])))
+        y_hd_recombined.append(int(float(row[10])))
 
-print("x_nb={}".format(x_nb))
-print("y_kr={}".format(y_kr))
+# DEBUG:
+# print("x_nb={}".format(x_nb))
 
 # * Plot
 
-# Use GGPlot style.
-# plt.style.use("ggplot")
-libplot.enable_latex_fonts()
+if ENABLE_LATEX_STYLE is True:
+    # Use LaTeX style.
+    libplot.enable_latex_fonts()
 
 def myplot(x, y, param_dict, smooth=False):
-    """Plot y over x.
+    """Plot y(s) over x.
 
     :param smooth: Smooth the X data if True.
 
     :param param_dict: Dictionnary of parameters for plt.plot().
 
+    :param labels: Labels associated to each y[i].
+
     """
+    assert len(y) == len(param_dict)
     if smooth is True:
-        spl = make_interp_spline(x, y, k=3)
         x_smooth = np.linspace(min(x), max(x), 300)
-        y_smooth = spl(x_smooth)
+        for yi in range(len(y)):
+            spl = make_interp_spline(x, y[yi], k=3)
+            y_smooth = spl(x_smooth)
+            y[yi] = y_smooth
         x = x_smooth
-        y = y_smooth
-    plt.plot(x, y, **param_dict)
+    for yi, yv in enumerate(y):
+        plt.plot(x, yv, **param_dict[yi])
 
-# General:
-
-# plt.title('Key rank vs. Trace number')
 plt.xlabel('Number of traces')
 
-# Key rank:
+myplot(x_nb, [y_hd_amp, y_hd_phr, y_hd_i_augmented, y_hd_q_augmented, y_hd_recombined],
+       param_dict=[
+           {"color": "red", "label": "hd_amp", "linewidth": 2},
+           {"color": "blue", "label": "hd_phr", "linewidth": 2},
+           {"color": "green", "label": "hd_i_augmented", "linestyle": "--"},
+           {"color": "cyan", "label": "hd_q_augmented", "linestyle": "--"},
+           {"color": "purple", "label": "hd_recombined", "linewidth": 4}
+       ], smooth=SMOOTH_PLOT)
 
-# myplot(x_nb, y_kr, {"color": "blue", "label": "Key rank", "marker": "."}, smooth=SMOOTH_PLOT)
-myplot(x_nb, y_kr, {"color": "blue", "label": "Key rank"}, smooth=SMOOTH_PLOT)
-plt.ylabel('Log2(Key rank)')
-plt.ylim(top=128, bottom=0)
+plt.ylabel('Hamming distance (\# bits)')
+# plt.ylim(top=60, bottom=0)
 plt.legend(loc="upper left")
 
-# General:
-
-# plt.show()
-plt.savefig(OUTFILE)
+if SAVE is True:
+    figure = plt.gcf()
+    figure.set_size_inches(32, 18)
+    plt.savefig(OUTFILE, bbox_inches='tight', dpi=300)
+if INTERACTIVE is True:
+    plt.show()

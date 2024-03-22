@@ -86,10 +86,15 @@ function iterate() {
 # attack_recombined | tee -a "$LOG_OUTPUT"
 # grep -E "===|Best|Known|HD|SUCCESS|NUMBER|template_dir" "$LOG_OUTPUT" > $LOG_OUTPUT_FILTERED
 
-# ** Plot
+# ** Get data for plot
 
 # WAIT:
-# Create the CSV.
-echo "trace_nb;correct_bytes_amp;hd_sum_amp;correct_bytes_phr;hd_sum_phr;correct_bytes_i_augmented;hd_sum_i_augmented;correct_bytes_q_augmented;hd_sum_q_augmented;" | tee "$OUTFILE_CSV"
+# Create the CSV header.
+echo "trace_nb;correct_bytes_amp;hd_sum_amp;correct_bytes_phr;hd_sum_phr;correct_bytes_i_augmented;hd_sum_i_augmented;correct_bytes_q_augmented;hd_sum_q_augmented;correct_bytes_recombined;hd_sum_bytes_recombined" | tee "$OUTFILE_CSV"
 # Iterate over number of traces to attack.
-iterate 10 10 100
+iterate 10 50 4000
+
+# ** Plot stored data
+
+# WAIT:
+python3 "$PATH_EXPE"/template_attack_recombination_plot.py
