@@ -27,8 +27,10 @@ PATH_EXPE="$PATH_PROJ/expe/24-03-21_recombination-vote"
 LOG_OUTPUT="$PATH_EXPE/output.log"
 LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 
-# Output CSV files for Python plots.
+# Output CSV file for Python plot.
 OUTFILE_CSV="$PATH_EXPE/attack_results.csv"
+# Output PDF file for Python plot.
+OUTFILE_PDF="${OUTFILE_CSV/.csv/.pdf}"
 
 # Path of dataset used to create the profile.
 TRAIN_SET="$PATH_DATASET_EXTERN/train"
@@ -91,10 +93,13 @@ function iterate() {
 # WAIT:
 # Create the CSV header.
 echo "trace_nb;correct_bytes_amp;hd_sum_amp;correct_bytes_phr;hd_sum_phr;correct_bytes_i_augmented;hd_sum_i_augmented;correct_bytes_q_augmented;hd_sum_q_augmented;correct_bytes_recombined;hd_sum_bytes_recombined" | tee "$OUTFILE_CSV"
-# Iterate over number of traces to attack.
-iterate 10 50 4000
+# Iterate over number of traces to attack [START STEP END].
+iterate 10 5 500
+iterate 500 20 1000
+iterate 1000 80 2000
+iterate 2000 320 4000
 
 # ** Plot stored data
 
 # WAIT:
-python3 "$PATH_EXPE"/template_attack_recombination_plot.py
+python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
