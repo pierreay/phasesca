@@ -80,7 +80,7 @@ function iterate() {
 # * Script
 
 # Checkout corresponding branch in Screaming Channels PoC repo
-(cd "$PATH_SCPOC" && git checkout feat-recombination)
+(cd "$PATH_SCPOC" && git checkout feat-recombination-vote)
 
 # ** Attacks
 
@@ -99,4 +99,4 @@ function iterate() {
 # ** Plot stored data
 
 # DONE:
-python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
+# python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
