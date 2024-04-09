@@ -67,6 +67,18 @@
   better than the better (unpredictable) attack among the 4.
 - Plot result :: See [[attachment:attack_results.pdf]].
 
+** [2024-04-09 mar.] Recombination using correlation coefficient  :data:plot:
+:PROPERTIES:
+:ID:       50f1a6fb-d65f-4b8c-af62-5895a4b93635
+:DIR:      24-04-09_recombination-corr
+:END:
+
+- Goal :: Test the (weighted ?) averaging of correlation coefficient given by 2
+  channels.
+- Recombination Method :: Just like POI recombination.
+- Measure method :: Calculating key rank.
+- Results :: N/C.
+  
 * Bibliography
 
 #+print_bibliography:
