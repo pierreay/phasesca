@@ -21,7 +21,7 @@ POIS_ALGO="snr"
 # ** Paths
 
 PATH_DATASET_EXTERN="$PATH_DATASET/240309_custom_firmware_phase_eval_iq_norep_modgfsk"
-PATH_EXPE="$PATH_PROJ/expe/24-03-21_recombination-vote"
+PATH_EXPE="$PATH_PROJ/expe/24-04-09_recombination-corr"
 
 # Output full logs for individual attacks.
 LOG_OUTPUT="$PATH_EXPE/output.log"
@@ -80,12 +80,12 @@ function iterate() {
 # * Script
 
 # Checkout corresponding branch in Screaming Channels PoC repo
-(cd "$PATH_SCPOC" && git checkout feat-recombination)
+(cd "$PATH_SCPOC" && git checkout feat-recombination-corr)
 
 # ** Attacks
 
-# DONE: Attack using recombination with major vote.
-# attack_recombined | tee -a "$LOG_OUTPUT"
+# TODO: Attack using recombination with major vote.
+attack_recombined # | tee -a "$LOG_OUTPUT"
 # grep -E "===|Best|Known|HD|SUCCESS|NUMBER|template_dir" "$LOG_OUTPUT" > $LOG_OUTPUT_FILTERED
 
 # ** Get data for plot
@@ -99,4 +99,4 @@ function iterate() {
 # ** Plot stored data
 
 # DONE:
-python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
+# python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
