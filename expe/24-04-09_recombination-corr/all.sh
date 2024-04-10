@@ -98,12 +98,11 @@ fi
 if [[ ! -f ${OUTFILE_CSV} ]]; then
     # Create the CSV header.
     echo -n "trace_nb"                                                           | tee "$OUTFILE_CSV"
-    echo -n ";log2(key_rank)_amp;correct_bytes_amp;hd_sum_amp"                   | tee -a "$OUTFILE_CSV"
-    echo -n ";log2(key_rank)_phr;correct_bytes_phr;hd_sum_phr"                   | tee -a "$OUTFILE_CSV"
-    echo ";log2(key_rank)_recombined;correct_bytes_recombined;hd_sum_recombined" | tee -a "$OUTFILE_CSV"
+    echo -n ";correct_bytes_amp;hd_sum_amp;log2(key_rank)_amp"                   | tee -a "$OUTFILE_CSV"
+    echo -n ";correct_bytes_phr;hd_sum_phr;log2(key_rank)_phr"                   | tee -a "$OUTFILE_CSV"
+    echo ";correct_bytes_recombined;hd_sum_recombined;log2(key_rank)_recombined" | tee -a "$OUTFILE_CSV"
     # Iterate over number of traces to attack [START STEP END].
-    # iterate 10 15 4000
-    iterate 10 15 100
+    iterate 10 15 4000
 else
     echo "SKIP: File exists: ${OUTFILE_CSV}"
 fi
