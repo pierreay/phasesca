@@ -73,11 +73,15 @@
 :DIR:      24-04-09_recombination-corr
 :END:
 
-- Goal :: Test the (weighted ?) averaging of correlation coefficient given by 2
-  channels.
-- Recombination Method :: Just like POI recombination.
-- Measure method :: Calculating key rank.
-- Results :: N/C.
+- Goal :: Test the "merging" of correlation coefficient given by 2 channels.
+- Recombination Method :: Inspired from POI recombination, use addition or
+  multiplication to combine result of correlation coefficient.
+- Measure method :: Calculating key rank && Measuring hamming distance.
+- Results :: Recombination is always better and finally lead to a key rank
+  smaller of on order of magnitude of 10. This method is also better than major
+  votes as it 1) easily allows to perform key enumeration and estimation 2)
+  leads to smaller intermediate hamming distances.
+  - [[attachment:plots/attack_results_kr.pdf]]
   
 * Bibliography
 
