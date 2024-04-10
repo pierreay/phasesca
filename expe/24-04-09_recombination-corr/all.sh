@@ -31,6 +31,7 @@ LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 OUTFILE_CSV="$PATH_EXPE/logs/attack_results.csv"
 # Output PDF file for Python plot.
 OUTFILE_PDF="${OUTFILE_CSV/.csv/.pdf}"
+OUTFILE_PDF="${OUTFILE_PDF/logs/plots}"
 
 # Path of dataset used to create the profile.
 TRAIN_SET="$PATH_DATASET_EXTERN/train"
@@ -109,5 +110,9 @@ fi
 
 # ** Plot stored data
 
-# DONE:
-# python3 "$PATH_EXPE"/template_attack_recombination_plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
+if [[ ! -f ${OUTFILE_PDF} ]]; then
+    mkdir -p "$(dirname ${OUTFILE_PDF})"
+    python3 "$PATH_EXPE"/plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
+else
+    echo "SKIP: File exists: ${OUTFILE_PDF}"
+fi
