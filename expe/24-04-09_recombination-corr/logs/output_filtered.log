@@ -1,0 +1,27 @@
+========================= 1000 attack traces =========================
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/profile_amp_16000_snr
+comp=amp
+Best Key Guess:   bf   4d   a5   71   4f   19   b0   54   f4   4e   49   14   c0   43   5c   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+HD:              002  003  002  003  002  002  000  001  006  003  001  001  000  000  006  001
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  33
+actual rounded: 2^72.28159134
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/profile_phr_16000_snr
+comp=phr
+Best Key Guess:   bd   5a   bc   41   09   78   9b   55   c9   51   05   1b   d3   5e   5c   ed
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+HD:              001  003  003  001  003  001  004  000  001  002  004  003  003  004  006  002
+SUCCESS:           0    0    0    0    0    0    0    1    0    0    0    0    0    0    0    0
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  41
+actual rounded: 2^82.86031395
+comp=recombined_corr
+Best Key Guess:   bd   4d   bc   43   4e   7b   b0   54   8b   53   4a   11   c0   43   5c   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+HD:              001  003  003  002  001  001  000  001  001  001  001  003  000  000  006  001
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  25
+actual rounded: 2^61.56452129

@@ -1,0 +1,109 @@
+========================= 1000 attack traces =========================
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/profile_amp_16000_snr
+comp=amp
+[2024-04-10 13:14:16,811] [716045] [MainThread] [attack] INFO  - Align attack traces with themselves...
+Align: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:00<00:00, 3219.80it/s]
+[2024-04-10 13:14:17,125] [716045] [MainThread] [attack] INFO  - Align attack traces with the profile...
+Align: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:00<00:00, 3337.24it/s]
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bf   4d   a5   71   4f   19   b0   54   f4   4e   49   14   c0   43   5c   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+PGE:             010  013  003  014  005  002  000  020  012  043  002  021  000  000  006  002
+HD:              002  003  002  003  002  002  000  001  006  003  001  001  000  000  006  001
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  33
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^71.50498361
+actual rounded: 2^72.28159134
+max: 2^72.89526238
+time enum: 0.136517 seconds
+
+
+template_dir=/home/drac/pro_storage/dataset/240309_custom_firmware_phase_eval_iq_norep_modgfsk/profile_phr_16000_snr
+comp=phr
+[2024-04-10 13:14:21,327] [716045] [MainThread] [attack] INFO  - Align attack traces with themselves...
+Align: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:00<00:00, 3354.52it/s]
+[2024-04-10 13:14:21,627] [716045] [MainThread] [attack] INFO  - Align attack traces with the profile...
+Align: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:00<00:00, 3331.75it/s]
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   bd   5a   bc   41   09   78   9b   55   c9   51   05   1b   d3   5e   5c   ed
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+PGE:             051  002  082  002  002  003  011  000  019  002  013  030  022  004  007  008
+HD:              001  003  003  001  003  001  004  000  001  002  004  003  003  004  006  002
+SUCCESS:           0    0    0    0    0    0    0    1    0    0    0    0    0    0    0    0
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  41
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^81.78294132
+actual rounded: 2^82.86031395
+max: 2^83.70560646
+time enum: 0.136114 seconds
+
+
+comp=recombined_corr
+Best Key Guess:   bd   4d   bc   43   4e   7b   b0   54   8b   53   4a   11   c0   43   5c   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+PGE:             013  004  009  002  001  003  000  001  005  008  002  017  000  000  002  001
+HD:              001  003  003  002  001  001  000  001  001  001  001  003  000  000  006  001
+SUCCESS:           0    0    0    0    0    0    1    0    0    0    0    0    1    1    0    0
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  25
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^60.48355185
+actual rounded: 2^61.56452129
+max: 2^62.41722156
+time enum: 0.136875 seconds
+
+
+
