@@ -109,6 +109,34 @@ fi
 
 # ** Plot stored data
 
+if [[ ! -f ${OUTFILE_PDF/'{}'/hd} ]]; then
+    mkdir -p "$(dirname ${OUTFILE_PDF})"
+    python3 "$PATH_EXPE"/plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
+else
+    echo "SKIP: File exists: ${OUTFILE_PDF/'{}'/hd}"
+fi
+
+# * Dirty code tested only once (to delete or refactor when copying this script)
+
+# ** Use the multiplication for "corr-method"
+
+# Output CSV file for Python plot.
+OUTFILE_CSV="$PATH_EXPE/logs/attack_results_corr-method_mul.csv"
+# Output PDF file for Python plot.
+OUTFILE_PDF="$PATH_EXPE/plots/attack_results_corr-method_mul_{}.pdf"
+
+if [[ ! -f ${OUTFILE_CSV} ]]; then
+    # Create the CSV header.
+    echo -n "trace_nb"                                                           | tee "$OUTFILE_CSV"
+    echo -n ";correct_bytes_amp;hd_sum_amp;log2(key_rank)_amp"                   | tee -a "$OUTFILE_CSV"
+    echo -n ";correct_bytes_phr;hd_sum_phr;log2(key_rank)_phr"                   | tee -a "$OUTFILE_CSV"
+    echo ";correct_bytes_recombined;hd_sum_recombined;log2(key_rank)_recombined" | tee -a "$OUTFILE_CSV"
+    # Iterate over number of traces to attack [START STEP END].
+    iterate 10 250 4000 "mul"
+else
+    echo "SKIP: File exists: ${OUTFILE_CSV}"
+fi
+
 if [[ ! -f ${OUTFILE_PDF} ]]; then
     mkdir -p "$(dirname ${OUTFILE_PDF})"
     python3 "$PATH_EXPE"/plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
