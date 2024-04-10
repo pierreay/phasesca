@@ -24,7 +24,7 @@ PATH_DATASET_EXTERN="$PATH_DATASET/240309_custom_firmware_phase_eval_iq_norep_mo
 PATH_EXPE="$PATH_PROJ/expe/24-04-09_recombination-corr"
 
 # Output full logs for individual attacks.
-LOG_OUTPUT="$PATH_EXPE/output.log"
+LOG_OUTPUT="$PATH_EXPE/logs/output.log"
 LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 
 # Output CSV file for Python plot.
@@ -79,14 +79,18 @@ function iterate() {
 
 # * Script
 
-# Checkout corresponding branch in Screaming Channels PoC repo
 (cd "$PATH_SCPOC" && git checkout feat-recombination-corr)
 
-# ** Attacks
+# ** Single attack evaluation
 
-# TODO: Attack using recombination with major vote.
-attack_recombined # | tee -a "$LOG_OUTPUT"
-# grep -E "===|Best|Known|HD|SUCCESS|NUMBER|template_dir" "$LOG_OUTPUT" > $LOG_OUTPUT_FILTERED
+if [[ ! -f "$LOG_OUTPUT" ]]; then
+    clear && mkdir -p "$(dirname ${LOG_OUTPUT})"
+    attack_recombined
+    tmux capture-pane -pS - > $LOG_OUTPUT
+    grep -E "===|Best|Known|HD|SUCCESS|NUMBER|template_dir|actual rounded|comp=" "${LOG_OUTPUT}" > "${LOG_OUTPUT_FILTERED}"
+else
+    echo "SKIP: File exists: $LOG_OUTPUT"
+fi
 
 # ** Get data for plot
 
