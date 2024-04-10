@@ -137,9 +137,9 @@ else
     echo "SKIP: File exists: ${OUTFILE_CSV}"
 fi
 
-if [[ ! -f ${OUTFILE_PDF} ]]; then
+if [[ ! -f ${OUTFILE_PDF/'{}'/hd} ]]; then
     mkdir -p "$(dirname ${OUTFILE_PDF})"
     python3 "$PATH_EXPE"/plot.py "$OUTFILE_CSV" "$OUTFILE_PDF"
 else
-    echo "SKIP: File exists: ${OUTFILE_PDF}"
+    echo "SKIP: File exists: ${OUTFILE_PDF/'{}'/hd}"
 fi
