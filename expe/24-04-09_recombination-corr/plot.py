@@ -17,7 +17,8 @@ import lib.plot as libplot
 
 # CSV file name.
 FILE=sys.argv[1]
-OUTFILE=sys.argv[2]
+OUTFILE_HD=sys.argv[2].format("hd")
+OUTFILE_KR=sys.argv[2].format("kr")
 
 # Do we show the plot interactively?
 INTERACTIVE=True
@@ -50,9 +51,11 @@ x_nb = []
 # Y-axis, sum of the hamming distance.
 y_hd_amp = []
 y_hd_phr = []
-y_hd_i_augmented = []
-y_hd_q_augmented = []
 y_hd_recombined = []
+# Y-axis, logarith of the key rank.
+y_kr_amp = []
+y_kr_phr = []
+y_kr_recombined = []
 
 # Read the CSV file into lists.
 with open(FILE, 'r') as csvfile:
@@ -68,10 +71,11 @@ with open(FILE, 'r') as csvfile:
         # Get data. Index is the column number. Do not index higher than NCOL.
         x_nb.append(int(float(row[0])))
         y_hd_amp.append(int(float(row[2])))
-        y_hd_phr.append(int(float(row[4])))
-        y_hd_i_augmented.append(int(float(row[6])))
-        y_hd_q_augmented.append(int(float(row[8])))
-        y_hd_recombined.append(int(float(row[10])))
+        y_hd_phr.append(int(float(row[5])))
+        y_hd_recombined.append(int(float(row[8])))
+        y_kr_amp.append(int(float(row[3])))
+        y_kr_phr.append(int(float(row[6])))
+        y_kr_recombined.append(int(float(row[9])))
 
 # DEBUG:
 # print("x_nb={}".format(x_nb))
@@ -103,24 +107,43 @@ def myplot(x, y, param_dict, smooth=False):
     for yi, yv in enumerate(y):
         plt.plot(x, yv, **param_dict[yi])
 
-plt.xlabel('Number of traces')
+def mysave(outfile):
+    if SAVE is True:
+        figure = plt.gcf()
+        figure.set_size_inches(32, 18)
+        plt.savefig(outfile, bbox_inches='tight', dpi=300)
+    if INTERACTIVE is True:
+        plt.show()
 
-myplot(x_nb, [y_hd_amp, y_hd_phr, y_hd_i_augmented, y_hd_q_augmented, y_hd_recombined],
-       param_dict=[
-           {"color": "red", "label": "hd_amp", "linewidth": 2},
-           {"color": "blue", "label": "hd_phr", "linewidth": 2},
-           {"color": "green", "label": "hd_i_augmented", "linestyle": "--"},
-           {"color": "cyan", "label": "hd_q_augmented", "linestyle": "--"},
-           {"color": "purple", "label": "hd_recombined", "linewidth": 4}
-       ], smooth=SMOOTH_PLOT)
+def plot_hd(x_nb, y_hd_amp, y_hd_phr, y_hd_recombined):
+    plt.xlabel('Number of traces')
 
-plt.ylabel('Hamming distance (\# bits)')
-# plt.ylim(top=60, bottom=0)
-plt.legend(loc="upper left")
+    myplot(x_nb, [y_hd_amp, y_hd_phr, y_hd_recombined],
+           param_dict=[
+               {"color": "red", "label": "hd_amp", "linewidth": 2},
+               {"color": "blue", "label": "hd_phr", "linewidth": 2},
+               {"color": "purple", "label": "hd_recombined", "linewidth": 4}
+           ], smooth=SMOOTH_PLOT)
 
-if SAVE is True:
-    figure = plt.gcf()
-    figure.set_size_inches(32, 18)
-    plt.savefig(OUTFILE, bbox_inches='tight', dpi=300)
-if INTERACTIVE is True:
-    plt.show()
+    plt.ylabel('Hamming distance (\# bits)')
+    plt.ylim(top=64, bottom=0)
+    plt.legend(loc="upper left")
+    mysave(OUTFILE_HD)
+
+def plot_kr(x_nb, y_kr_amp, y_kr_phr, y_kr_recombined):
+    plt.xlabel('Number of traces')
+
+    myplot(x_nb, [y_kr_amp, y_kr_phr, y_kr_recombined],
+           param_dict=[
+               {"color": "red", "label": "kr_amp", "linewidth": 2},
+               {"color": "blue", "label": "kr_phr", "linewidth": 2},
+               {"color": "purple", "label": "kr_recombined", "linewidth": 4}
+           ], smooth=SMOOTH_PLOT)
+
+    plt.ylabel('log2(Key rank)')
+    plt.ylim(top=127, bottom=0)
+    plt.legend(loc="upper left")
+    mysave(OUTFILE_KR)
+    
+plot_hd(x_nb, y_hd_amp, y_hd_phr, y_hd_recombined)
+plot_kr(x_nb, y_kr_amp, y_kr_phr, y_kr_recombined)

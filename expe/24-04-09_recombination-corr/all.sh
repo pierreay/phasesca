@@ -30,8 +30,7 @@ LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 # Output CSV file for Python plot.
 OUTFILE_CSV="$PATH_EXPE/logs/attack_results.csv"
 # Output PDF file for Python plot.
-OUTFILE_PDF="${OUTFILE_CSV/.csv/.pdf}"
-OUTFILE_PDF="${OUTFILE_PDF/logs/plots}"
+OUTFILE_PDF="$PATH_EXPE/plots/attack_results_{}.pdf"
 
 # Path of dataset used to create the profile.
 TRAIN_SET="$PATH_DATASET_EXTERN/train"
