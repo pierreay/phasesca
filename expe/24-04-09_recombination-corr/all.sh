@@ -28,7 +28,7 @@ LOG_OUTPUT="$PATH_EXPE/logs/output.log"
 LOG_OUTPUT_FILTERED="${LOG_OUTPUT/.log/_filtered.log}"
 
 # Output CSV file for Python plot.
-OUTFILE_CSV="$PATH_EXPE/attack_results.csv"
+OUTFILE_CSV="$PATH_EXPE/logs/attack_results.csv"
 # Output PDF file for Python plot.
 OUTFILE_PDF="${OUTFILE_CSV/.csv/.pdf}"
 
@@ -64,13 +64,13 @@ function iterate() {
         # 1) The sum of the hamming distance.
         # 1) The number of correct bytes.
         sc-attack --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces \
-                  attack-recombined $PROFILE_PATH --attack-algo pcc --variable p_xor_k --align --fs $FS 2>/dev/null \
-            | grep -E 'HD SUM|CORRECT' \
-            | cut -f 2 -d ':' \
-            | tr -d ' ' \
-            | tr '[\n]' '[;]' \
-            | sed 's/2^//' \
-            | sed 's/;$//' \
+                  attack-recombined $PROFILE_PATH --attack-algo pcc --variable p_xor_k --align --fs $FS 2>/dev/null                   \
+            | grep -E 'CORRECT|HD SUM|actual rounded' \
+            | cut -f 2 -d ':'                         \
+            | tr -d ' '                               \
+            | tr '[\n]' '[;]'                         \
+            | sed 's/2^//g'                           \
+            | sed 's/;$//'                            \
             | tee -a "$OUTFILE_CSV"
 
         echo "" | tee -a "$OUTFILE_CSV"
@@ -92,13 +92,20 @@ else
     echo "SKIP: File exists: $LOG_OUTPUT"
 fi
 
-# ** Get data for plot
+# ** Sweep attacks for plot
 
-# DONE:
-# Create the CSV header.
-# echo "trace_nb;correct_bytes_amp;hd_sum_amp;correct_bytes_phr;hd_sum_phr;correct_bytes_i_augmented;hd_sum_i_augmented;correct_bytes_q_augmented;hd_sum_q_augmented;correct_bytes_recombined;hd_sum_bytes_recombined" | tee "$OUTFILE_CSV"
-# Iterate over number of traces to attack [START STEP END].
-# iterate 10 15 4000
+if [[ ! -f ${OUTFILE_CSV} ]]; then
+    # Create the CSV header.
+    echo -n "trace_nb"                                                           | tee "$OUTFILE_CSV"
+    echo -n ";log2(key_rank)_amp;correct_bytes_amp;hd_sum_amp"                   | tee "$OUTFILE_CSV"
+    echo -n ";log2(key_rank)_phr;correct_bytes_phr;hd_sum_phr"                   | tee "$OUTFILE_CSV"
+    echo ";log2(key_rank)_recombined;correct_bytes_recombined;hd_sum_recombined" | tee "$OUTFILE_CSV"
+    # Iterate over number of traces to attack [START STEP END].
+    # iterate 10 15 4000
+    iterate 10 15 100
+else
+    echo "SKIP: File exists: ${OUTFILE_CSV}"
+fi
 
 # ** Plot stored data
 
