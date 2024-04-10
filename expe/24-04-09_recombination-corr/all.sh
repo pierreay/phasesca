@@ -55,6 +55,7 @@ function iterate() {
     i_start=$1
     i_step=$2
     i_end=$(($3 - 1 ))
+    corr_method=${4-"add"}
     # Iteration over number of traces.
     for num_traces in $(seq $i_start $i_step $i_end); do
         # Write number of traces.
@@ -64,7 +65,7 @@ function iterate() {
         # 1) The sum of the hamming distance.
         # 1) The number of correct bytes.
         sc-attack --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces \
-                  attack-recombined $PROFILE_PATH --attack-algo pcc --variable p_xor_k --align --fs $FS 2>/dev/null                   \
+                  attack-recombined $PROFILE_PATH --attack-algo pcc --variable p_xor_k --align --fs $FS --corr-method $corr_method 2>/dev/null                   \
             | grep -E 'CORRECT|HD SUM|actual rounded' \
             | cut -f 2 -d ':'                         \
             | tr -d ' '                               \
