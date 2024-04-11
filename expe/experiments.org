@@ -83,6 +83,18 @@
   leads to smaller intermediate hamming distances.
   - [[attachment:plots/attack_results_kr.pdf]]
   
+** [2024-04-11 jeu.] Multiple POIs in same channel with addition  :data:plot:
+:PROPERTIES:
+:ID:       39bfeed2-5394-4b1f-9442-8b947193412d
+:DIR:      24-04-11_poi-addition
+:END:
+
+- Goal :: As [[id:50f1a6fb-d65f-4b8c-af62-5895a4b93635][[2024-04-09 mar.] Recombination using correlation coefficient]]
+  suggest, it is better to use addition instead of multiplication. Want to test
+  weather using multiple POIs from same channel (amplitude) gives better
+  results using addition instead of multiplication.
+- Results :: TODO
+
 * Bibliography
 
 #+print_bibliography:
