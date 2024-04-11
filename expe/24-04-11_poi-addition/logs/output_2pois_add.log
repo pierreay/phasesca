@@ -1,0 +1,63 @@
+INFO: Patch POI recombination function
+
+Δ experiments/src/screamingchannels/attack.py
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────┐
+• 851: def run_attack(attack_algo, average_bytes, num_pois, pooled_cov, variable, retmo │
+────────────────────────────────────────────────────────────────────────────────────────┘
+
+                # Combine POIs as proposed in
+                # https://pastel.archives-ouvertes.fr/pastel-00850528/document
+                maxcpa[bnum][kguess] = 1
+                maxcpa[bnum][kguess] = 0
+                for i in range(num_pois):
+                    r,p = pearsonr(leaks[:, i], TRACES_REDUCED[bnum][:, i])
+                    maxcpa[bnum][kguess] *= r
+                    maxcpa[bnum][kguess] += r
+
+                LOG_PROBA[bnum][kguess] = maxcpa[bnum][kguess]
+
+INFO: Number of empty traces: 0
+[2024-04-11 14:33:32,084] [924209] [MainThread] [attack] INFO  - Align attack traces with themselves...
+Align: 100%|█████████████████████████████████████████████████████████████████████| 2000/2000 [00:00<00:00, 3231.63it/s]
+[2024-04-11 14:33:32,709] [924209] [MainThread] [attack] INFO  - Align attack traces with the profile...
+Align: 100%|█████████████████████████████████████████████████████████████████████| 2000/2000 [00:00<00:00, 3384.58it/s]
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   b6   43   a4   12   32   78   b3   57   c8   53   49   1b   cd   43   20   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+PGE:             007  001  003  017  014  001  003  004  012  006  001  030  012  000  001  001
+HD:              002  002  001  003  006  001  002  001  002  001  001  003  003  000  001  001
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    1    0    0
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  30
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^64.77037173
+actual rounded: 2^65.80680046
+max: 2^66.6235709
+time enum: 0.137132 seconds
+
+
+

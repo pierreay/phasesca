@@ -93,7 +93,8 @@
   suggest, it is better to use addition instead of multiplication. Want to test
   weather using multiple POIs from same channel (amplitude) gives better
   results using addition instead of multiplication.
-- Results :: TODO
+- Results :: POIs combination using addition is better than multiplication
+  (look at logs files in [[attachment:logs/]]).
 
 * Bibliography
 

@@ -1,0 +1,55 @@
+INFO: Number of empty traces: 0
+[2024-04-11 14:33:22,041] [924141] [MainThread] [attack] INFO  - Align attack traces with themselves...
+Align: 100%|█████████████████████████████████████████████████████████████████████| 2000/2000 [00:00<00:00, 3317.82it/s]
+[2024-04-11 14:33:22,649] [924141] [MainThread] [attack] INFO  - Align attack traces with the profile...
+Align: 100%|█████████████████████████████████████████████████████████████████████| 2000/2000 [00:00<00:00, 3307.84it/s]
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   b6   81   a4   12   32   78   b3   57   75   53   4b   1b   cd   43   20   ea
+Known Key:        bc   40   a6   40   4c   79   b0   55   cb   52   4b   1c   c0   43   22   eb
+PGE:             207  001  003  068  092  001  003  006  084  008  000  169  144  000  001  001
+HD:              002  003  001  003  006  001  002  001  006  001  000  003  003  000  001  001
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    1    0    0    1    0    0
+NUMBER OF CORRECT BYTES: 2
+HD SUM:                  34
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^81.50335443
+actual rounded: 2^81.98008274
+max: 2^82.35901294
+time enum: 0.136039 seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
