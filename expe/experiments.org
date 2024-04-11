@@ -94,7 +94,8 @@
   weather using multiple POIs from same channel (amplitude) gives better
   results using addition instead of multiplication.
 - Results :: POIs combination using addition is better than multiplication
-  (look at logs files in [[attachment:logs/]]).
+  (look at logs files in [[attachment:logs/]]) but not better than no POI
+  combination in our setup.
 
 * Bibliography
 
