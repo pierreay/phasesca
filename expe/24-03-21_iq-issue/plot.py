@@ -60,7 +60,7 @@ def get_phase_rot2(iq):
             phr2[i] = 0
     return phr2[:-1]
 
-# * TODO: Identify problem in number storage or conversion
+# * XXX: Found a problem in number storage or conversion
 
 # Amplitude and phase rototation from those IQ:
 amp3 = np.abs(iq)
