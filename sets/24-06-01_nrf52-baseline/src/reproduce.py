@@ -18,11 +18,8 @@ import subprocess
 import numpy as np
 from matplotlib import pyplot as plt
 
-from . import analyze
-
-import lib.log as ll
-import lib.load as load
-import lib.soapysdr as soapysdr
+from scaff import analyze
+from soapyrx import lib as soapysdr
 
 logging.basicConfig()
 l = logging.getLogger('reproduce')
@@ -210,7 +207,6 @@ def cli(device, baudrate, ykush_port, slowmode, radio, radio_address, radio_ante
     YKUSH_PORT = ykush_port
 
     l.setLevel(loglevel)
-    ll.set_level(loglevel)
 
 
 def _plot_outfile():

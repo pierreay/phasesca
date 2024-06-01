@@ -23,9 +23,8 @@ LOG_LEVEL=INFO
 NUM_TRACES=16000
 
 # If we are collecting a train set or an attack set.
-# MODE="train"
-MODE="attack"
-
+MODE="train"
+# MODE="attack"
 
 # Temporary collection path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
@@ -43,26 +42,26 @@ CALIBRATION_MODE="analyze"
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
 COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
 
-TMP_TRACE_PATH=$HOME/storage/tmp/raw_0_0.npy
+TMP_TRACE_PATH="/tmp/raw_0_0.npy"
 
 # * Functions
 
 # ** Firmware
 
 function flash_firmware_once() {
-    firmware_src="${SC_POC}/firmware/pca10040/blank/armgcc/_build/nrf52832_xxaa.hex"
+    firmware_src="${PATH_PHASEFW}/nrf52832/sc-poc/pca10040/blank/armgcc/_build/nrf52832_xxaa.hex"
     firmware_dst="${DATASET_PATH}/bin/nrf52832_xxaa.hex"
     if [[ -f "${firmware_dst}" ]]; then
         echo "SKIP: Flash firmware: File exists: ${firmware_dst}"
         return 0
     fi
     
-    echo "INFO: Checkout feat-recombination-corr -> $SC_POC"
-    cd $SC_POC/firmware
+    echo "INFO: Checkout master -> $PATH_PHASEFW"
+    cd ${PATH_PHASEFW}/nrf52832/sc-poc
 
     echo "INFO: Flash custom firmware..."
-    git checkout feat-recombination-corr
-    make -C pca10040/blank/armgcc flash
+    git checkout master
+    direnv exec . make -C pca10040/blank/armgcc flash
     echo "INFO: Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
     echo "DONE!"
@@ -91,24 +90,24 @@ function configure_param_json() {
 }
 
 function configure_json_common() {
-    export CONFIG_JSON_PATH_SRC=$SC_POC/experiments/config/example_collection_collect_plot.json
+    export CONFIG_JSON_PATH_SRC=$PATH_SCPOC/experiments/config/example_collection_collect_plot.json
     cp $CONFIG_JSON_PATH_SRC $CONFIG_JSON_PATH_DST
     configure_param_json $CONFIG_JSON_PATH_DST "channel" "20"
-    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_lower" "2.10e6"
-    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_upper" "2.30e6"
+    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_lower" "2.0e6"
+    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_upper" "2.15e6"
     configure_param_json $CONFIG_JSON_PATH_DST "drop_start" "2e-1"
     # May be set to 0 for auto-computation.
     configure_param_json $CONFIG_JSON_PATH_DST "trigger_threshold" "0e3"
     # Shift signal left  = Shift window right -> decrease offset.
     # Shift signal right = Shift window left  -> increase offset.
-    configure_param_json $CONFIG_JSON_PATH_DST "trigger_offset" "0e-6"
+    configure_param_json $CONFIG_JSON_PATH_DST "trigger_offset" "125e-6"
     configure_param_json $CONFIG_JSON_PATH_DST "trigger_rising" "true"
     configure_param_json $CONFIG_JSON_PATH_DST "signal_length" "200e-6"
     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point" 300
-    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_keep" 1
+    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_keep" 100
     configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
     # May be set to 0 for no reject.
-    configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "1.9e20"
+    configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"
 }
 
 function configure_json_plot() {
@@ -138,30 +137,36 @@ function experiment() {
     cmd=$3 # ["collect" or "snr"]
     
     # Kill previously started radio server.
-    pkill radio.py
+    pkill soapyrx
 
-    sudo ykushcmd -d a # power off all ykush device
+    #sudo ykushcmd -d a # power off all ykush device
     sleep 2
-    sudo ykushcmd -u a # power on all ykush device
-    sleep 4
+    #sudo ykushcmd -u a # power on all ykush device
+    #sleep 4
 
     # Start SDR server.
     # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.
-    $SC_SRC/radio.py --config $SC_SRC/config.toml --dir $HOME/storage/tmp --loglevel $LOG_LEVEL listen 128e6 2.533e9 $FS --nf-id -1 --ff-id 0 --duration=0.3 --gain 70 &
+    soapyrx --dir "$(dirname ${TMP_TRACE_PATH})" --loglevel $LOG_LEVEL listen 128e6 2.533e9 $FS --nf-id -1 --ff-id 0 --duration=0.3 --gain 76 &
     sleep 10
 
     # Start collection and plot result.
-    sc-experiment --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
 }
 
 function analyze_only() {
-    sc-experiment --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
 }
 
 # * Script
 
 # Ensure collection directory is created.
 mkdir -p $TARGET_PATH
+
+# Ensure target device is available.
+if [[ -z "$(nrfjprog --com | cut - -d " " -f 5)" ]]; then
+    echo "ERROR: Cannot found device: nrfjprog return empty string"
+    exit 1
+fi
 
 # ** Step 1: Calibratation
 
