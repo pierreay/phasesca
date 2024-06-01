@@ -6,6 +6,12 @@ env="$(realpath $(dirname $0))/env.sh"
 echo "INFO: Source file: $env"
 source "$env"
 
+# Safety-guard.
+if [[ -z $ENV_FLAG ]]; then
+    echo "ERROR: Environment can't been sourced!"
+    exit 1
+fi
+
 # * Variables
 
 # ** Configuration
@@ -20,11 +26,6 @@ NUM_TRACES=16000
 # MODE="train"
 MODE="attack"
 
-# Dataset path.
-if [[ -z $DATASET_PATH ]]; then
-    echo "ERROR: DATASET_PATH is unset!"
-    exit 1
-fi
 
 # Temporary collection path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
