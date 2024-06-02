@@ -56,11 +56,10 @@ function flash_firmware_once() {
         return 0
     fi
     
-    echo "INFO: Checkout master -> $PATH_PHASEFW"
-    cd ${PATH_PHASEFW}/nrf52832/sc-poc
-
+    git_checkout_logged "${PATH_PHASEFW}" "${GIT_CHECKOUT_PHASEFW}"
+    
     echo "INFO: Flash custom firmware..."
-    git checkout master
+    cd ${PATH_PHASEFW}/nrf52832/sc-poc
     direnv exec . make -C pca10040/blank/armgcc flash
     echo "INFO: Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
@@ -143,6 +142,9 @@ function experiment() {
     sleep 2
     #sudo ykushcmd -u a # power on all ykush device
     #sleep 4
+
+    # Ensure SDR tool version.
+    git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
 
     # Start SDR server.
     # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.

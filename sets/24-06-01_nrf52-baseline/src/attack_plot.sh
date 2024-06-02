@@ -105,6 +105,9 @@ function attack() {
 
 # * Script
 
+# Ensure SCAFF version.
+checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+
 # ** CSV
 
 for comp in "${COMP_LIST[@]}"; do
