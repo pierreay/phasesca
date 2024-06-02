@@ -1,383 +1,44 @@
 :PROPERTIES:
-:ID:       98437a5b-5d86-4097-96b1-9a069fd30a79
+:ID:       d970296f-b605-4544-aed6-f6b0b1a56703
 :END:
 #+TITLE: Datasets
 #+SETUPFILE: https://raw.githubusercontent.com/pierreay/orgcss/master/orgcss.setup
 
 * About
 
-List and manage datasets.
+List, describe and manage datasets.
 
-* PoC
+* List
+
+** [2024-06-01 sam.] Baseline using nRF52832
 :PROPERTIES:
-:DIR:      poc
-:END:
-
-- [[file:poc/240222_custom_firmware_phase_eval]] ::
-  - ~11k * 300 (rep) profile traces (amplitude + phase rotation, no IQ).
-  - ~16k * 300 (rep) attack traces. (amplitude + phase rotation, no IQ).
-  - Anechoic box, no LNA, small Wi-Fi antenna.
-  - 2.512 GHz of center frequency, 8 MHz of bandwidth.
-  - Custom firmware from Giovanni, only carrier (without modulation) and AES software.
-  - Correlation of about ~0.9 for amplitude profile and about ~1 for phase profile.
-  - Both attacks are very effective, lowering the key rank to 2^30 using 30 to
-    300 attack traces.
-- [[file:poc/240305_custom_firmware_phase_eval_iq]] ::
-  - Same configuration as previous dataset but:
-    - Keep I and Q.
-    - Compute I and Q augmented (new concept).
-  - Good profiles of ~3k traces with r = 1 for correlation.
-  - Attacks up to 200 traces.
-  - Attacks successful with amp, phr, i_augmented, q_augmented.
-  - Attacks failed with i and q.
-- [[file:poc/240306_custom_firmware_phase_eval_iq_norep]] ::
-  - 16k traces for training set.
-  - 4k traces for attack set.
-  - Same configuration as previous dataset but:
-    - Disable repetitions.
-  - Profiles used several correlations algorithms (=r=, =t=, =snr=, =corr=). Because =r=
-    is not working in this case (find correlations but doesn't find POI for
-    unknown reasons), =snr= gives best results.
-  - See that no repetitions has a high influence on the attack results even if
-    the traces looks good.
-  - =phr= is not better than =amp=.
-  - =i_augmented= is nearly as powerful than =amp= but not better.
-- [[file:poc/240308_custom_firmware_phase_eval_iq_norep_2sr]] ::
-  - Same configuration as previous dataset but with double sampling rate (from
-    8e6 to 16e6).
-  - Results are that it leads to worse key rank for all profiles.
-
-** [2023-03-09 jeu.] Phase leakage evaluation storing IQ without repetitions and using GFSK
-:PROPERTIES:
-:DIR:      poc/240309_custom_firmware_phase_eval_iq_norep_modgfsk
-:ID:       73a81721-2fb4-42df-a572-19646c29ca81
-:END:
-
-- Summary ::
-  - 16k profile traces.
-  - 16k attack traces.
-  - Same configuration as previous (x2) dataset but with GFSK modulation ON.
-  - This collect with GFSK modulation clearly impact performances. Notes:
-    - It is unclear how it affects performance, since all profiles are affected
-      (even amplitude).
-    - More factor are present than the GFSK modulation, like the deep fades
-      between packets boundaries.
-    - The less impacted attack is the phase rotation (only 2^3 of difference of
-      keyrank) compared to the others.
-  - On this dataset, i_augmented is the better performance attack.
-
-** [2024-04-15 lun.] Custom firmware at high distance
-:PROPERTIES:
-:DIR:      poc/240415_custom_firmware_highdist
-:ID:       e9b9f217-5250-44b6-80f8-4dec77ff381c
-:END:
-
-- Software setup :: Based on [[id:73a81721-2fb4-42df-a572-19646c29ca81][[2023-03-09 jeu.] Phase leakage evaluation storing
-  IQ without repetitions and using GFSK]].
-- Hardware setup :: Based on [[id:59710f64-44d0-472a-899f-7ec999241f0b][[2024-04-12 ven.] ... fix RF setup]].
-- Expectation ::
-  - 1. Reproduce the phenomenon observed in [[id:59710f64-44d0-472a-899f-7ec999241f0b][[2024-04-12 ven.] ... fix
-   RF setup]] where we cannot compute profile on phase rotation.
-  - 2. Evaluate the hardware setup performance before to record a new dataset
-    using Nimble.
-
-** [2024-04-17 mer.] Custom firmware at high distance using 2 LNAs and repetitions
-:PROPERTIES:
-:DIR:      poc/240417_custom_firmware_highdist_2lna_lowgain
-:ID:       db7ed3e7-db7f-42c0-bf7d-ee1151448f74
-:END:
-
-- Software setup ::
-  - Radio configuration ::
-    - Center frequency = 2.533 GHz
-    - Sampling rate = 8e6 Msps
-    - Gain = ~50 dB to maximize the measured SNR between signal and noise.
-  - Sets ::
-    - Training set = 16k traces using ~200 repetitions
-    - Attack set = XXX traces using ~XXX repetitions
-- Hardware setup ::
-  - Based on: [[id:e9b9f217-5250-44b6-80f8-4dec77ff381c][[2024-04-15 lun.] Custom firmware at high distance]]
-  - Add another LNA, ending up with: antenna -> [[https://www.minicircuits.com/pdfs/TAMP-272LN+.pdf][Mini-Circuits TAMP-272LN+]] ->
-    [[https://www.minicircuits.com/pdfs/ZX60-272LN-S+.pdf][MiniCircuits ZX60-272LN-S+]]
-
-** [2024-04-22 lun.] Custom firmware at high distance using 2 LNAs and repetitions with increased gain
-:PROPERTIES:
-:DIR:      poc/240422_custom_firmware_highdist_2lna_highgain
-:ID:       db7ed3e7-db7f-42c0-bf7d-ee1151448f74
-:END:
-
-- Software setup ::
-  - Radio configuration ::
-    - Center frequency = 2.533 GHz
-    - Sampling rate = 8e6 Msps
-    - Gain = 70 dB to maximize range between signal minimum and signal maximum.
-  - Sets ::
-    - Training set = 16k traces using ~200 repetitions
-    - Attack set = 4k traces using ~200 repetitions
-- Hardware setup ::
-  - Based on: [[id:e9b9f217-5250-44b6-80f8-4dec77ff381c][[2024-04-15 lun.] Custom firmware at high distance]]
-  - Add another LNA, ending up with: antenna -> [[https://www.minicircuits.com/pdfs/TAMP-272LN+.pdf][Mini-Circuits TAMP-272LN+]] ->
-    [[https://www.minicircuits.com/pdfs/ZX60-272LN-S+.pdf][MiniCircuits ZX60-272LN-S+]]
-- Results ::
-  - Good profiles for amplitude and phase rotation.
-  - Key rank of ~2^30 (key found) for both amplitude and phase rotation.
-
-** [2024-04-23 mar.] Custom firmware at high distance using 2 LNAs without repetitions with increased gain
-:PROPERTIES:
-:ID:       c2b4dc98-bf62-4225-8dfe-da6e02967282
-:DIR:      poc/240423_custom_firmware_highdist_2lna_highgain_norep
-:END:
-
-- Setup ::
-  - Based on [[id:db7ed3e7-db7f-42c0-bf7d-ee1151448f74][[2024-04-22 lun.] Custom firmware at high distance using 2 LNAs and repetitions with increased gain]]
-  - Attack set = 10k traces using 0 repetitions
-- Results ::
-  - Use the profiles of [[id:db7ed3e7-db7f-42c0-bf7d-ee1151448f74][[2024-04-22 lun.] Custom firmware at high distance using 2 LNAs and repetitions with increased gain]].
-  - Key rank of ~2^30 (key found) for amplitude.
-  - Key rank of ~2^90 for phase rotation.
-
-* BLE
-:PROPERTIES:
-:DIR:      ble
-:END:
-
-- =ble/231213_single-cable_raw= :: The firmware is close as stock -- only using
-  AES software and increased TX power. We use a pairing to generate keys, with
-  Butterfly and WHAD on the attacker side. We attacked the amplitude of the
-  signal received at 2.548 GHz during the legitimate BLE transmission emitted
-  when a connection is started. We do not used any averaging or instrumeted AES
-  repetitions -- only offline triggering and trace alignment. We were able to
-  retrieve 5 bytes of the key with a very low median/mean PGE, but the maximum
-  PGE of only 1 byte don't allow an efficient bruteforce.
-- =ble/231220_single-1m-rand_raw= :: This dataset contains 16k FF traces for the
-  attack subset. Just like =231213_single-cable_raw=, but with an antenna and
-  with 1m of theoretical distance (40 dB of attenuation = real distance of 30
-  cm + 10 dB of insertion loss of the attenuator).
-- 2ble/31222_single-cable-balanced_raw ::
-  - 64k of training/profiling traces and 16k of attack traces
-  - Balanced generator of Google/Karel
-  - RF coax. cable
-  - Custom input mechanism
-  - No repetitions
-- =ble/231223_single-1m-pair_raw= :: This dataset contains 32k FF traces for the
-  attack subset. Recording used an antenna with 1m of theoretical distance like
-  the =231220_single-1m-rand_raw= dataset. The inputs were generated using a
-  pairing. There were no instrumentation of the AES nor repetitions.
-- [[file:ble/240110_single-leak-pairing-1m-lna_raw/][ble/240110_single-leak-pairing-1m-lna_raw]] ::
-  - 16k FF traces for attack.
-  - Antenna at 1m of real distance with LNA.
-  - Input generated using pairing from light/non-instrumented firmware.
-  - No repetitions.
-  - Attacked using profile from =231222_single-cable-balanced_raw=, no better
-    than key rank of 2^123.
-- [[file:ble/240112_multi-leak-insub-1m-lna_raw/][ble/240112_multi-leak-insub-1m-lna_raw]] ::
-  - 64k FF traces for train/profile with 100 AES repetitions.
-  - 16k FF traces for attack with 300 AES repetitions.
-  - Simple Wi-Fi antenna at 1m of real distance with 1 LNA.
-  - Input generated using random from serial port using instrumented firmware.
-- [[file:ble/240112_multi-leak-insub-1m-lna_avg/][ble/240112_multi-leak-insub-1m-lna_avg]] ::
-  - Average of its RAW dataset (=train= and =attack=).
-  - Contains 3 profiles with correlation around 0.25 using different number of POIs.
-  - Attacked using different number of traces, different number of POIS, different
-    algo (PCC & PDF).
-  - Best attack using 6000 traces, 1 POI, PCC, leading to 2^59 key rank.
-    Profile is =64k * 100= and Attack is =6k * 300=.
-- [[file:ble/240124_1-leak-pairing-10cm-lna_raw][ble/240124_1-leak-pairing-10cm-lna_raw]] ::
-  - 16k FF traces for attack with no repetitions.
-  - Wi-Fi antenna at 10 cm of distance with LNA.
-  - Input generated using pairing from light and non-instrumented firmware.
-  - Best attack using 12k traces leading to key rank of 2^114 using the 64k *
-    100 at 1m profile.
-  - Tried to attack using the profile of =240126_300-leak-insub-10cm-lna_avg=,
-    but no better than 2^114.
-- [[file:ble/240126_300-leak-insub-10cm-lna_raw][ble/240126_300-leak-insub-10cm-lna_raw]] ::
-  - 64k FF traces for train/profile with 300 AES repetitions.
-  - 8k FF traces for attack with 300 AES repetitions (configured for 16k but
-    not terminated because of lack of space).
-  - Wi-Fi antenna at 10 cm of distance with LNA.
-  - Input generated using random from serial port using instrumented firmware.
-- [[file:ble/240126_300-leak-insub-10cm-lna_avg/][ble/240126_300-leak-insub-10cm-lna_avg]] ::
-  - Average of its corresponding RAW dataset.
-  - Profiles with 1, 2, 3 POIs.
-  - Best attack and bruteforce with key rank = 2^27 and PGE median = 1 for 2k
-    traces.
-- [[file:ble/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw][ble/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw]] ::
-  - 32k profile traces.
-  - 4k attack traces.
-  - Anechoic box, no LNA, small Wi-Fi antenna.
-  - 2.533 GHz of center frequency, 8 MHz of bandwidth.
-  - Input generated using pairing from stock firmware.
-  - No repetitions nor for profile or attack.
-  - Profiled using amplitude, correct profile with clear correlation around 0.1
-    to 0.2.
-  - Profiled using phase, unusable profile but with a half of the subkeys
-    having a correlation peak.
-  - Attack using =AMPLITUDE_16384= profile and 16k attack traces succeed with 2^34 key rank.
-  - Attack using =AMPLITUDE_32768= profile and 16k attack traces succeed with 2^31 key rank.
-  - Attack using =AMPLITUDE_65536= profile and 16k attack traces succeed with 2^30 key rank.
-  - Attack using =PHASE_ROT_65536= profile and 16k attack traces lowered the key rank to 2^93.
-
-** [2024-04-03 mer.] Unique leakage using pairing at high distance using 2.534e9 SR and 16e6 FC
-:PROPERTIES:
-:DIR:      ble/240403_1-leak-pairing-highdist-2.534e9-16e6_raw
-:ID:       951929f6-7c55-47e8-8c21-79a660d90f48
-:END:
-
-- Summary ::
-  - 30k profile traces.
-  - 20k attack traces.
-  - Profiles on amplitude and phase rotation.
-  - Office environment, 120 cm.
-  - [[https://www.minicircuits.com/pdfs/ZX60-272LN-S+.pdf][MiniCircuits ZX60-272LN-S+]] LNA + USRP B210 mini + [[https://www.tp-link.com/fr/home-networking/antenna/tl-ant2424b/][TP-Link TL-ANT2424B]] antenna.
-  - 2.534 GHz of center frequency, 16 MHz of bandwidth.
-  - Input generated using pairing from stock firmware.
-  - No repetitions nor for profile or attack.
-
-** [2024-04-12 ven.] ... fix RF setup
-:PROPERTIES:
-:DIR:      ble/240412_1-leak-pairing-highdist-fix-2.534e9-16e6_raw
-:ID:       59710f64-44d0-472a-899f-7ec999241f0b
-:END:
-
-- Initiation ::
-  - Same base as [[id:951929f6-7c55-47e8-8c21-79a660d90f48][[2024-04-03 mer.] BLE -- Unique leakage using pairing at high distance using 2.534e9 SR and 16e6 FC]].
-  - By wanting to add one more LNA ([[https://www.minicircuits.com/pdfs/TAMP-272LN+.pdf][Mini-Circuits TAMP-272LN+]]) in the RX chain,
-    I fixed a RP-SMA male connected to a SMA female (no conduction !). SNR is
-    far better now!
-- Collection ::
-  - 5k train.
-  - 1.5k attack.
-- Results ::
-  - No better than 2^60 just like [[id:951929f6-7c55-47e8-8c21-79a660d90f48][[2024-04-03 mer.] BLE -- Unique leakage using
-    pairing at high distance using 2.534e9 SR and 16e6 FC]].
-  - From this dataset with this setup, impossible to compute profiles from
-    phase rotation.
-
-** [2024-04-13 sam.] ... change sampling rate
-:PROPERTIES:
-:ID:       241be11a-adeb-414a-8d1b-5fd9a050d5b8
-:DIR:      ble/240413_1-leak-pairing-highdist-fix-2.534e9-8e6_raw
-:END:
-
-- Initiation ::
-  - Same base as [[id:59710f64-44d0-472a-899f-7ec999241f0b][[2024-04-12 ven.] BLE -- Fix RF setup]].
-  - But change sampling rate from 16e6 to 8e6.
-- Results ::
-  - No better than 2^67, worse than [[id:59710f64-44d0-472a-899f-7ec999241f0b][[2024-04-12 ven.] BLE -- Fix RF setup]].
-  - From this dataset with this setup, impossible to compute profiles from
-    phase rotation.
-
-** [2024-04-14 dim.] ... change center frequency
-:PROPERTIES:
-:ID:       f37e9745-5019-4e65-b078-49fed825b2a4
-:DIR:      ble/240414_1-leak-pairing-highdist-fix-2.533e9-8e6_raw
-:END:
-
-- Initiation ::
-  - Same base as [[id:241be11a-adeb-414a-8d1b-5fd9a050d5b8][[2024-04-13 sam.] BLE -- Change sampling rate]]
-  - But change center frequency from 2.534e9 to 2.533e9.
-
-** [2024-04-23 mar.] Nimble at high distance using 2 LNAs and repetitions with increased gain
-:PROPERTIES:
-:ID:       0936568c-d3f9-4c18-841f-5dadecf0118a
-:DIR:      ble/240423_highdist_2lna_highgain
+:DIR:      24-06-01_nrf52-baseline
 :END:
 
 #+CAPTION: Hardware setup
-| SDR              | USRP B200mini               |
-| Target           | nRF52832 (PCA10040)         |
-| Distance         | 120 cm                      |
-| Antenna          | [[https://www.tp-link.com/fr/home-networking/antenna/tl-ant2424b/][TP-Link TL-ANT2424B]]         |
-| LNA 1            | [[https://www.minicircuits.com/pdfs/ZX60-272LN-S+.pdf][Mini-Circuits ZX60-272LN-S+]] |
-| LNA 2            | [[https://www.minicircuits.com/pdfs/TAMP-272LN+.pdf][Mini-Circuits TAMP-272LN+]]   |
-| LNA power supply | 5 V / 0.1 A                 |
+| SDR         | USRP B200mini       |
+| Target      | nRF52832 (PCA10040) |
+| Environment | Office              |
+| Distance    | 10 cm               |
+| Antenna     | Small omni 2.4 GHz  |
+| LNA 1       | No                  |
 
 #+CAPTION: Software setup
-| AES implementation      | Software TinyCrypt  |
-| Firmware                | Instrumented Nimble |
-| Center frequency        | 2.533 GHz           |
-| Sample rate / Bandwidth | 8 Msps / 8 MHz      |
-| SDR gain                | 70 dB               |
+| AES implementation      | Software TinyAES |
+| Firmware                | =sc-poc=           |
+| Center frequency        | 2.533 GHz        |
+| Sample rate / Bandwidth | 8 Msps / 8 MHz   |
+| SDR gain                | 76 dB            |
 
 #+CAPTION: Profiles
-| Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number | \rho |     \sigma |
-|------+----------------+----------------------+---------------+------------+------+------------|
-| P0   | Amplitude      | 16000 * 300          | r             |          1 |  0.5 |       0.15 |
-| P1   | Amplitude      | 16000 * 300          | r             |          2 |  0.5 | 0.15 ; 0.2 |
-| P2   | Phase rotation | 16000 * 300          | r             |          1 |  XXX |        XXX |
-| P3   | Amplitude      | 16000 * 1            | r             |          1 | 0.05 |        1.5 |
-| P4   | Phase rotation | 16000 * 1            | r             |          1 |  0.2 |        0.4 |
+| Name | Component | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
+|------+-----------+----------------------+---------------+------------+------+--------|
+| P0   | Amplitude | XXX * 1              | r             |          1 | XXX  | XXX    |
 
 #+CAPTION: Attacks
-| Name | Profile | Nb. traces * Nb. AES | Key rank | Median(PGE) | Hamming dist. |
-|------+---------+----------------------+----------+-------------+---------------|
-| A0   | P0      | 10000 * 300          |     2^33 |           1 |            16 |
-| A1   | P1      | 10000 * 300          |     2^29 |           1 |            17 |
-| A2   | P1      | 4000 * 300           |     2^38 |           2 |            16 |
-| A3   | P0      | 10000 * 1            |     2^37 |           2 |            21 |
-| A4   | P1      | 10000 * 1            |     2^33 |           2 |            17 |
-| A5   | P0      | 16000 * 1            |     2^29 |           0 |            12 |
-| A6   | P1      | 16000 * 1            |     2^27 |           1 |            13 |
-| A7   | P3      | 10000 * 300          |     2^54 |           2 |            28 |
-| A8   | P3      | 16000 * 300          |     2^55 |           3 |            32 |
-| A9   | P3      | 16000 * 1            |     2^76 |           4 |            28 |
+| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. |
+|------+---------+----------------------+------------------------+-------------+---------------|
+| A0   | P0      | XXX * 1              | 2^XXX / 2^XXX          | XXX         | XXX           |
 
-- Based :: On [[id:c2b4dc98-bf62-4225-8dfe-da6e02967282][[2024-04-23 mar.]​]].
 - Comments ::
-  - Attack summary plot can be found in [[attachment:plots/attack_all.pdf]].
-  - For profile =P2=, no correlations were found.
-
-** [2024-04-29 lun.] Nimble at high distance using 2 LNAs without repetitions with increased gain
-:PROPERTIES:
-:DIR:      ble/240429_highdist_2lna_highgain_norep
-:ID:       8892d212-8c59-45a4-86e3-f87822f13264
-:END:
-
-#+CAPTION: Hardware setup
-| SDR              | USRP B200mini               |
-| Target           | nRF52832 (PCA10040)         |
-| Distance         | 120 cm                      |
-| Antenna          | [[https://www.tp-link.com/fr/home-networking/antenna/tl-ant2424b/][TP-Link TL-ANT2424B]]         |
-| LNA 1            | [[https://www.minicircuits.com/pdfs/ZX60-272LN-S+.pdf][Mini-Circuits ZX60-272LN-S+]] |
-| LNA 2            | [[https://www.minicircuits.com/pdfs/TAMP-272LN+.pdf][Mini-Circuits TAMP-272LN+]]   |
-| LNA power supply | 5 V / 0.1 A                 |
-
-#+CAPTION: Software setup
-| AES implementation      | Software TinyCrypt |
-| Firmware                | Unmodified Nimble  |
-| Center frequency        | 2.533 GHz          |
-| Sample rate / Bandwidth | 8 Msps / 8 MHz     |
-| SDR gain                | 70 dB              |
-
-#+CAPTION: Profiles
-| Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number |  \rho |     \sigma |
-|------+----------------+----------------------+---------------+------------+-------+------------|
-| P0   | Amplitude      | 8000 * 1             | r             |          1 |   0.2 |          1 |
-| P2   | Amplitude      | 65000 * 1            | r             |          1 | 0.275 |        0.8 |
-| P4   | Amplitude      | 65000 * 1            | r             |          2 | 0.275 | 0.8 ; 1.25 |
-| P1   | Phase rotation | 8000 * 1             | r             |          1 | 0.075 |        1.5 |
-| P3   | Phase rotation | 65000 * 1            | r             |          1 | 0.075 |          1 |
-
-#+CAPTION: Attacks
-| Name | Profile  | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. |
-|------+----------+----------------------+------------------------+-------------+---------------|
-| A0   | External | 40000 * 1            | 2^127                  |         128 |            64 |
-| A1   | P0       | 32000 * 1            | 2^57 / 2^60            |           7 |            27 |
-| A2   | P2       | 40000 * 1            | 2^57 / 2^60            |           7 |            27 |
-| A3   | P4       | 40000 * 1            | 2^56 / 2^62            |           5 |            26 |
-| A4   | P3       | 40000 * 1            | 2^62 / 2^62            |           6 |            32 |
-| A5   | P4 + P3  | 40000 * 1            | 2^59 / 2^62            |           7 |            27 |
-
-- Based :: On [[id:c2b4dc98-bf62-4225-8dfe-da6e02967282][[2024-04-23 mar.]​]] for hardware and [[id:0936568c-d3f9-4c18-841f-5dadecf0118a][[2024-04-23 mar.]​]] for
-  software.
-- Comments ::
-  1. Attack =A0= is the attempt of profile re-usage from instrumented Nimble to
-     non-instrumented Nimble (=AMPLITUDE_16000_r_1= /a.k.a./ =P0= from
-     [[id:0936568c-d3f9-4c18-841f-5dadecf0118a][[2024-04-23 mar.]​]]). However, the profile is statistically slightly
-     different than actual attacked traces making the re-usage impossible.
-
-* Bibliography
-
-#+print_bibliography:
-
-* Footnotes
+  - Quick and dirty to confirm the new software tooling is working.
