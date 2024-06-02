@@ -1,0 +1,38 @@
+INFO: Number of empty traces: 0
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   3f   21   01   8e   e3   8a   c7   f9   41   7c   b2   e4   bf   a6   5f   df  
+Known Key:        fb   2c   07   2c   e8   7f   3c   fc   bd   04   ba   ee   8c   fa   58   43  
+PGE:             009  002  079  077  003  079  093  013  028  155  034  017  200  140  009  031  
+HD:              003  003  002  003  003  006  007  002  006  004  001  002  004  004  003  004  
+SUCCESS:           0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 0
+HD SUM:                  57
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^106.2174075
+actual rounded: 2^106.5216272
+max: 2^106.7621954
+time enum: 0.137028 seconds
+
+
+
+Starting key ranking using HEL

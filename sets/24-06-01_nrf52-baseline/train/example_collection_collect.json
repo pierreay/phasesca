@@ -1,0 +1,30 @@
+{
+    "firmware": {
+        "mode": "tinyaes",
+        "fixed_key": false,
+        "modulate": true
+    },
+    "collection": {
+        "channel": 20,
+        "hackrf_gain": 0,
+        "hackrf_gain_if": 35,
+        "hackrf_gain_bb": 39,
+        "plutosdr_gain": 35,
+        "usrp_gain": 40,
+        "target_freq": 2.512e9,
+        "sampling_rate": 8e6,
+        "num_points": 16000,
+        "num_traces_per_point": 300,
+        "num_traces_per_point_keep": 100,
+        "bandpass_lower": 2.0e6,
+        "bandpass_upper": 2.15e6,
+        "lowpass_freq": 3e3,
+        "drop_start": 2e-1,
+        "trigger_rising": true,
+        "trigger_offset": 125e-6,
+        "trigger_threshold": 0e3,
+        "signal_length": 200e-6,
+        "template_name": "/home/drac/pro_storage/phase_data/sets/24-06-01_nrf52-baseline/train/template.npy",
+        "min_correlation": 0.25e0
+    }
+}
