@@ -6,21 +6,21 @@ env="$(realpath $(dirname $0))/env.sh"
 echo "INFO: Source file: $env"
 source "$env"
 
+# Safety-guard.
+if [[ -z $ENV_FLAG ]]; then
+    echo "ERROR: Environment can't been sourced!"
+    exit 1
+fi
+
 # * Variables
 
 # ** Configuration
-
-# Dataset path.
-if [[ -z $DATASET_PATH ]]; then
-    echo "ERROR: DATASET_PATH is unset!"
-    exit 1
-fi
 
 # List of parameters for the created profiles.
 COMP_LIST=(amp phr)
 NUM_TRACES_LIST=(4000 8000 12000 16000)
 POIS_ALGO_LIST=(r snr)
-POIS_NB_LIST=(1 2)
+POIS_NB_LIST=(1)
 
 # Delimiters. Small window greatly increase profile computation speed.
 START_POINT=0
@@ -62,7 +62,7 @@ function profile() {
     # Initialize directories.
     mkdir -p $profile_path
     # Create the profile.
-    sc-attack $plot $save_images --norm --data-path $TRAIN_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces --comp $comp profile $profile_path --pois-algo $pois_algo --num-pois $pois_nb --poi-spacing 2 --variable p_xor_k --align --fs $FS
+    scaff $plot $save_images --norm --data-path $TRAIN_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces --comp $comp profile $profile_path --pois-algo $pois_algo --num-pois $pois_nb --poi-spacing 2 --variable p_xor_k --align --fs $FS
 }
 
 # * Script

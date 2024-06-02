@@ -6,20 +6,20 @@ env="$(realpath $(dirname $0))/env.sh"
 echo "INFO: Source file: $env"
 source "$env"
 
+# Safety-guard.
+if [[ -z $ENV_FLAG ]]; then
+    echo "ERROR: Environment can't been sourced!"
+    exit 1
+fi
+
 # * Variables
 
 # ** Configuration for the used profiles
 
-# Dataset path.
-if [[ -z $DATASET_PATH ]]; then
-    echo "ERROR: DATASET_PATH is unset!"
-    exit 1
-fi
-
 # List of parameters for the used profiles.
 COMP_LIST=(amp phr)
 NUM_TRACES_LIST=(4000 8000 16000)
-POIS_ALGO_LIST=(r)
+POIS_ALGO_LIST=(snr)
 POIS_NB_LIST=(1)
 
 # Delimiters.
@@ -27,7 +27,7 @@ START_POINT=0
 END_POINT=0
 
 # Should we use an external profile?
-PROFILE_EXTERNAL=1
+PROFILE_EXTERNAL=0
 PROFILE_EXTERNAL_PATH_BASE="${REPO_DATASET_PATH}/poc/240422_custom_firmware_highdist_2lna_highgain/profile"
 
 # ** Internals
@@ -89,7 +89,7 @@ function attack() {
         # Attack and extract:
         # 1) The key rank
         # 2) The correct number of bytes.
-        sc-attack --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces_attack --comp $comp \
+        scaff --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces_attack --comp $comp \
                   attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs $FS 2>/dev/null \
             | grep -E 'actual rounded|CORRECT' \
             | cut -f 2 -d ':' \
