@@ -21,6 +21,7 @@ git update-index --index-version 4
 GIT_INDEX_FILE=.git/annex/index git update-index --index-version 4
 git config annex.diskreserve "10 gb"
 git config merge.renamelimit 999999
+git config annex.sshcaching true
 git annex config --set annex.addunlocked true
 git annex config --set annex.dotfiles true
 git annex config --set annex.largefiles $LARGEFILES
