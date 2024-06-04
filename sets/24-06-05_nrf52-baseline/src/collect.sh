@@ -33,16 +33,14 @@ TARGET_PATH="${DATASET_PATH}/${MODE}"
 
 # Reflash the custom firmware.
 REFLASH_FIRMWARE=1
-# Calibration mode ["analyze" | "snr"].
-CALIBRATION_MODE="analyze"
-# CALIBRATION_MODE="snr"
+
+# Restart radio server.
+RESTART_RADIO=1
 
 # ** Internals
 
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
 COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
-
-TMP_TRACE_PATH="/tmp/raw_0_0.npy"
 
 # * Functions
 
@@ -106,7 +104,7 @@ function configure_json_common() {
     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_keep" 100
     configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
     # May be set to 0 for no reject.
-    configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"
+    #configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.5e0"
 }
 
 function configure_json_plot() {
@@ -133,10 +131,12 @@ function experiment() {
     # Get args.
     plot=$1
     saveplot=$2
-    cmd=$3 # ["collect" or "snr"]
+    cmd=$3 # ["collect"]
     
     # Kill previously started radio server.
-    pkill soapyrx
+    if [[ "${RESTART_RADIO}" -eq 1 ]]; then
+        soapyrx server-stop
+    fi
 
     #sudo ykushcmd -d a # power off all ykush device
     sleep 2
@@ -148,15 +148,17 @@ function experiment() {
 
     # Start SDR server.
     # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.
-    soapyrx --dir "$(dirname ${TMP_TRACE_PATH})" --loglevel $LOG_LEVEL listen 128e6 2.533e9 $FS --nf-id -1 --ff-id 0 --duration=0.3 --gain 76 &
-    sleep 10
+    if [[ "${RESTART_RADIO}" -eq 1 ]]; then
+        soapyrx --loglevel $LOG_LEVEL server-start 0 2.533e9 $FS --duration=0.3 --gain 76 &
+        sleep 10
+    fi
 
     # Start collection and plot result.
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
 }
 
 function analyze_only() {
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) -o $TMP_TRACE_PATH extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
 }
 
 # * Script
@@ -180,18 +182,13 @@ if [[ ! -f "$CALIBRATION_FLAG_PATH" ]]; then
     # Set the JSON configuration file for one recording analysis.
     configure_json_plot
 
-    if [[ "$CALIBRATION_MODE" == "snr" ]]; then
-        tmux split-window "watch -n 0.1 'grep SNR /tmp/sc-experiment_snr.log | tail -n 10'"
-        experiment --no-plot --no-saveplot snr | tee "/tmp/sc-experiment_snr.log"
-    elif [[ "$CALIBRATION_MODE" == "analyze" ]]; then
-        # Record a new trace if not already done.
-        if [[ ! -f "${TMP_TRACE_PATH}" ]]; then
-            experiment --plot --saveplot collect
-        # Analyze only.
-        else
-            echo "SKIP: New recording: File exists: ${TMP_TRACE_PATH}"
-            analyze_only
-        fi
+    # Record a new trace if not already done.
+    if [[ ! -f "${TMP_TRACE_PATH}" ]]; then
+        experiment --plot --saveplot collect
+    # Analyze only.
+    else
+        echo "SKIP: New recording: File exists: ${TMP_TRACE_PATH}"
+        analyze_only
     fi
 
     read -p "Press [ENTER] to confirm calibration, otherwise press [CTRL-C]..."
