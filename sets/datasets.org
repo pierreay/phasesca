@@ -42,3 +42,37 @@ List, describe and manage datasets.
 
 - Comments ::
   - Quick and dirty to confirm the new software tooling is working.
+
+** [2024-06-05 mer.] Baseline using nRF52832
+:PROPERTIES:
+:ID:       b6557827-6390-4eb8-bbca-965d3e6c1581
+:DIR:      24-06-05_nrf52-baseline
+:END:
+
+#+CAPTION: Hardware setup
+| SDR         | USRP B200mini       |
+| Target      | nRF52832 (PCA10040) |
+| Environment | Office              |
+| Distance    | 10 cm               |
+| Antenna     | Small omni 2.4 GHz  |
+| LNA 1       | No                  |
+
+#+CAPTION: Software setup
+| AES implementation      | Software TinyAES |
+| Firmware                | =sc-poc=           |
+| Center frequency        | 2.533 GHz        |
+| Sample rate / Bandwidth | 8 Msps / 8 MHz   |
+| SDR gain                | 76 dB            |
+
+#+CAPTION: Profiles
+| Name | Component | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
+|------+-----------+----------------------+---------------+------------+------+--------|
+| P0   | Amplitude | XXX * 1              | r             |          1 | XXX  | XXX    |
+
+#+CAPTION: Attacks
+| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. |
+|------+---------+----------------------+------------------------+-------------+---------------|
+| A0   | P0      | XXX * 1              | 2^XXX / 2^XXX          | XXX         | XXX           |
+
+- Comments ::
+  - Quick and dirty to setup collect after SoapyRX refactoring.
