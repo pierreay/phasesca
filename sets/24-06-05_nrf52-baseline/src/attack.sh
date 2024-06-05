@@ -32,7 +32,7 @@ PROFILE_EXTERNAL_PATH_BASE="${REPO_DATASET_PATH}/poc/240422_custom_firmware_high
 
 # ** Configuration specific to the attack
 
-NUM_TRACES_ATTACK_LIST=(200 700 2500 4000 10000 16000)
+NUM_TRACES_ATTACK_LIST=(200 700 2500 3500 10000 16000)
 
 # ** Internals
 
