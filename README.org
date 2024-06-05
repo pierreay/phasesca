@@ -7,8 +7,9 @@ Repository of the phase data.
 1. Installed version of [[https://github.com/pierreay/soapyrx.git][SoapyRX]] for recording.
 2. Installed version of [[https://github.com/pierreay/scaff.git][SCAFF]] for attacks.
 
-* TODO Files
+* Files
 
 - [[file:expe]] :: Experiments of the project.
-- [[file:scripts]] :: Scripts to work with the repository.
+- [[file:sets]] :: Datasets built during the project.
+- [[file:src]] :: Scripts to work with the repository.
 
