@@ -1,3 +1,5 @@
+# TODO: Use this file as a configuration file for all scripts.
+
 # * Variables
 
 # Current dataset path.
