@@ -10,7 +10,7 @@ List, describe and manage datasets.
 
 * List
 
-** TODO [2024-06-01 sam.] Baseline using nRF52832
+** [2024-06-01 sam.] Baseline using nRF52832
 :PROPERTIES:
 :DIR:      24-06-01_nrf52-baseline
 :END:
@@ -31,19 +31,21 @@ List, describe and manage datasets.
 | SDR gain                | 76 dB            |
 
 #+CAPTION: Profiles
-| Name | Component | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
-|------+-----------+----------------------+---------------+------------+------+--------|
-| P0   | Amplitude | XXX * 1              | r             |          1 | XXX  | XXX    |
+| Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number |  \rho | \sigma |
+|------+----------------+----------------------+---------------+------------+-------+--------|
+| P0   | Amplitude      | 16000 * 100          | snr           |          1 |   0.1 |    0.8 |
+| P1   | Phase rotation | 16000 * 100          | snr           |          1 | 0.025 |      1 |
 
 #+CAPTION: Attacks
-| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. |
-|------+---------+----------------------+------------------------+-------------+---------------|
-| A0   | P0      | XXX * 1              | 2^XXX / 2^XXX          | XXX         | XXX           |
+| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. | Converged |
+|------+---------+----------------------+------------------------+-------------+---------------+-----------|
+| A0   | P0      | 2500 * 100           | 2^71 / 2^72            | XXX         |            31 | Yes       |
+| A1   | P1      | 4000 * 100           | 2^73 / 2^74            | XXX         |            44 | Yes       |
 
 - Comments ::
   - Quick and dirty to confirm the new software tooling is working.
 
-** TODO [2024-06-05 mer.] Baseline using nRF52832
+** [2024-06-05 mer.] Baseline using nRF52832
 :PROPERTIES:
 :ID:       b6557827-6390-4eb8-bbca-965d3e6c1581
 :DIR:      24-06-05_nrf52-baseline
@@ -65,14 +67,16 @@ List, describe and manage datasets.
 | SDR gain                | 76 dB            |
 
 #+CAPTION: Profiles
-| Name | Component | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
-|------+-----------+----------------------+---------------+------------+------+--------|
-| P0   | Amplitude | XXX * 1              | r             |          1 | XXX  | XXX    |
+| Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
+|------+----------------+----------------------+---------------+------------+------+--------|
+| P0   | Amplitude      | 16000 * 100          | r             |          1 |  0.6 |    0.2 |
+| P1   | Phase rotation | 16000 * 100          | r             |          1 |  0.3 |    0.3 |
 
 #+CAPTION: Attacks
-| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. |
-|------+---------+----------------------+------------------------+-------------+---------------|
-| A0   | P0      | XXX * 1              | 2^XXX / 2^XXX          | XXX         | XXX           |
+| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. | Converged |
+|------+---------+----------------------+------------------------+-------------+---------------+-----------|
+| A0   | P0      | 2500 * 100           | 2^0 / 2^44             | XXX         |            13 | Not sure  |
+| A1   | P1      | 3500 * 100           | 2^55 / 2^57            |             |            30 | No        |
 
 - Comments ::
   - Quick and dirty to setup collect after SoapyRX refactoring.
