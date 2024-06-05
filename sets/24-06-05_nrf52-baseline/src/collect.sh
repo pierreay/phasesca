@@ -23,8 +23,8 @@ LOG_LEVEL=INFO
 NUM_TRACES=16000
 
 # If we are collecting a train set or an attack set.
-MODE="train"
-# MODE="attack"
+# MODE="train"
+MODE="attack"
 
 # Temporary collection path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
@@ -104,7 +104,7 @@ function configure_json_common() {
     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_keep" 100
     configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
     # May be set to 0 for no reject.
-    #configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.5e0"
+    configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"
 }
 
 function configure_json_plot() {

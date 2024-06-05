@@ -20,7 +20,7 @@ fi
 COMP_LIST=(amp phr)
 NUM_TRACES_LIST=(4000 8000 12000 16000)
 POIS_ALGO_LIST=(r snr)
-POIS_NB_LIST=(1)
+POIS_NB_LIST=(1 2)
 
 # Delimiters. Small window greatly increase profile computation speed.
 START_POINT=0
@@ -68,7 +68,7 @@ function profile() {
 # * Script
 
 # Ensure SCAFF version.
-checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
 
 for comp in "${COMP_LIST[@]}"; do
     for num_traces in "${NUM_TRACES_LIST[@]}"; do
