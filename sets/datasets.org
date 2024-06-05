@@ -10,7 +10,7 @@ List, describe and manage datasets.
 
 * List
 
-** [2024-06-01 sam.] Baseline using nRF52832
+** TODO [2024-06-01 sam.] Baseline using nRF52832
 :PROPERTIES:
 :DIR:      24-06-01_nrf52-baseline
 :END:
@@ -43,7 +43,7 @@ List, describe and manage datasets.
 - Comments ::
   - Quick and dirty to confirm the new software tooling is working.
 
-** [2024-06-05 mer.] Baseline using nRF52832
+** TODO [2024-06-05 mer.] Baseline using nRF52832
 :PROPERTIES:
 :ID:       b6557827-6390-4eb8-bbca-965d3e6c1581
 :DIR:      24-06-05_nrf52-baseline
