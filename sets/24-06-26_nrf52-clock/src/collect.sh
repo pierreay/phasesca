@@ -3,7 +3,6 @@
 # * Environment
 
 env="$(realpath $(dirname $0))/env.sh"
-echo "INFO: Source file: $env"
 source "$env"
 
 # Safety-guard.
@@ -11,6 +10,8 @@ if [[ -z $ENV_FLAG ]]; then
     echo "ERROR: Environment can't been sourced!"
     exit 1
 fi
+
+log_info "Loaded environment: ${env}"
 
 # * Variables
 
