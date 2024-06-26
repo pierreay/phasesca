@@ -6,13 +6,6 @@
     },
     "collection": {
         "channel": 0,
-        "hackrf_gain": 0,
-        "hackrf_gain_if": 35,
-        "hackrf_gain_bb": 39,
-        "plutosdr_gain": 35,
-        "usrp_gain": 40,
-        "target_freq": 2.528e9,
-        "sampling_rate": 5e6,
         "num_points": 1,
         "num_traces_per_point": 500,
         "bandpass_lower": 1.85e6,
