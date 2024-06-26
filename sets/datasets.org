@@ -80,3 +80,10 @@ List, describe and manage datasets.
 
 - Comments ::
   - Quick and dirty to setup collect after SoapyRX refactoring.
+
+** TODO [2024-06-26 mer.] nRF52832 Clock
+:PROPERTIES:
+:DIR:      24-06-26_nrf52-clock
+:END:
+
+Dataset for the [[id:325fe6fe-8d6a-472a-a955-1b65d9d0d29b][campaign]] using nRF52 around its clock.
