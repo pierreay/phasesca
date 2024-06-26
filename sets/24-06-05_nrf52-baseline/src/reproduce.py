@@ -2,7 +2,6 @@
 
 import click
 import collections
-import enum
 import json
 import os
 from os import path, system
@@ -23,7 +22,6 @@ import soapyrx.core
 logging.basicConfig()
 l = logging.getLogger('reproduce')
 
-Radio = enum.Enum("Radio", "USRP USRP_mini USRP_B210 USRP_B210_MIMO HackRF bladeRF PlutoSDR")
 FirmwareMode = collections.namedtuple(
     "FirmwareMode",
     [
@@ -142,22 +140,8 @@ CollectionConfig = collections.namedtuple(
 # Global settings, for simplicity
 DEVICE = None
 BAUD = None
-RADIO = None
-RADIO_ADDRESS = None
-RADIO_ANTENNA = None
 COMMUNICATE_SLOW = None
 YKUSH_PORT = None
-
-
-class EnumType(click.Choice):
-    """Teach click how to handle enums."""
-    def __init__(self, enumcls):
-        self._enumcls = enumcls
-        click.Choice.__init__(self, enumcls.__members__)
-
-    def convert(self, value, param, ctx):
-        value = click.Choice.convert(self, value, param, ctx)
-        return self._enumcls[value]
 
 
 @click.group()
@@ -170,16 +154,9 @@ class EnumType(click.Choice):
 @click.option("-s", "--slowmode", is_flag=True, show_default=True,
               help=("Enables slow communication mode for targets with a small"
                     "serial rx-buffer"))
-@click.option("-r", "--radio", default="USRP", type=EnumType(Radio), show_default=True,
-              help="The type of SDR to use.")
-@click.option("--radio-address", default="10.0.3.40",
-              help="Address of the radio (X.X.X.X for USRP, ip:X.X.X.X or usb:X.X.X for PlutoSDR).")
-@click.option("--radio-antenna", default="TX/RX",
-              help="Name of the antenna to use (USRP: [TX/RX|RX2])")
 @click.option("-l", "--loglevel", default="INFO", show_default=True,
               help="The loglevel to be used ([DEBUG|INFO|WARNING|ERROR|CRITICAL])")
-def cli(device, baudrate, ykush_port, slowmode, radio, radio_address, radio_antenna,
-        loglevel, **kwargs):
+def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
     """
     Reproduce screaming channel experiments with vulnerable devices.
 
@@ -191,12 +168,9 @@ def cli(device, baudrate, ykush_port, slowmode, radio, radio_address, radio_ante
     Call any experiment with "--help" for details. You most likely want to use
     "collect".
     """
-    global DEVICE, RADIO, RADIO_ADDRESS, RADIO_ANTENNA, BAUD, COMMUNICATE_SLOW, YKUSH_PORT
+    global DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT
     DEVICE = device
     BAUD = baudrate
-    RADIO = radio
-    RADIO_ADDRESS = radio_address
-    RADIO_ANTENNA = radio_antenna
     COMMUNICATE_SLOW = slowmode
     YKUSH_PORT = ykush_port
 
@@ -485,9 +459,7 @@ def collect(config, target_path, name, average_out, plot, plot_out, max_power, r
                 client.record_start()
                 time.sleep(0.03)
 
-                if RADIO == Radio.USRP_B210_MIMO or RADIO == Radio.USRP_B210:
-                    time.sleep(0.08)
-                    # time.sleep(0.04)
+                time.sleep(0.08)
 
                 if firmware_mode.repetition_command:
                     # The test mode supports repeated actions.
