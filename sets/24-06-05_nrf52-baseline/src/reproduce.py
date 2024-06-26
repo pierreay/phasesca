@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 
+# TODO: Delete unused code.
+
 import click
 import collections
+import enum
 import json
 import os
 from os import path, system
@@ -9,6 +12,9 @@ import serial
 import sys
 import time
 import logging
+from Crypto.Cipher import AES
+import zmq
+import subprocess
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -19,6 +25,7 @@ import soapyrx.core
 logging.basicConfig()
 l = logging.getLogger('reproduce')
 
+Radio = enum.Enum("Radio", "USRP USRP_mini USRP_B210 USRP_B210_MIMO HackRF bladeRF PlutoSDR")
 FirmwareMode = collections.namedtuple(
     "FirmwareMode",
     [
@@ -28,18 +35,34 @@ FirmwareMode = collections.namedtuple(
         "have_keys",            # whether the test mode works with keys
     ])
 
+
 # These are the firmware modes we support; they can be selected with the "mode"
 # key in the "firmware" section of the config file.
 TINY_AES_MODE = FirmwareMode(
     have_keys=True, mode_command='n', repetition_command='n', action_command='r')
+HW_CRYPTO_MODE = FirmwareMode(
+    have_keys=True, mode_command='u', repetition_command='n', action_command='r')
+HW_CRYPTO_KEYGEN_MODE = FirmwareMode(
+    have_keys=True, mode_command='u', repetition_command='n', action_command='r')
+HW_CRYPTO_ECB_MODE = FirmwareMode(
+    have_keys=True, mode_command='U', repetition_command='n', action_command='r')
+MASK_AES_MODE = FirmwareMode(
+    have_keys=True, mode_command='w', repetition_command='n', action_command='r')
+MASK_AES_MODE_SLOW = FirmwareMode(
+    have_keys=True, mode_command='w', repetition_command=None, action_command='e')
 TINY_AES_MODE_SLOW = FirmwareMode(
     have_keys=True, mode_command='n', repetition_command=None, action_command='e')
+HW_CRYPTO_MODE_SLOW = FirmwareMode(
+    have_keys=True, mode_command='u', repetition_command=None, action_command='e')
+POWER_ANALYSIS_MODE = FirmwareMode(
+    have_keys=False, mode_command='v', repetition_command=None, action_command='s')
+
 
 # The config file's "firmware" section.
 FirmwareConfig = collections.namedtuple(
     "FirmwareConfig",
     [
-        # Algorithm to attack: tinyaes[_slow], slow
+        # Algorithm to attack: tinyaes[_slow], hwcrypto[_slow], power; slow
         # modes use individual serial commands to trigger.
         "mode",
         # True to use a fixed key or False to vary it for each point.
@@ -57,6 +80,8 @@ FirmwareConfig = collections.namedtuple(
         # True to disable radio (conventional attack mode). Defaults at false
         # for compatibility
         "conventional",
+        # If a masked version of AES is used, this decides which mode
+        "mask_mode",
         # The sleep time between individual encryptions in slow mode collections
         "slow_mode_sleep_time",
     ])
@@ -66,6 +91,10 @@ FirmwareConfig = collections.namedtuple(
 CollectionConfig = collections.namedtuple(
     "CollectionConfig",
     [
+        # Frequency to tune to, in Hz.
+        "target_freq",
+        # Sampling rate, in Hz.
+        "sampling_rate",
         # How many different plaintext/key combinations to record.
         "num_points",
         # How many traces executed by the firmware.
@@ -95,17 +124,43 @@ CollectionConfig = collections.namedtuple(
         "template_name",
         # Traces with a lower correlation will be discarded.
         "min_correlation",
+        # Gain.
+        "hackrf_gain",
+        # Gain BB.
+        "hackrf_gain_bb",
+        # Gain IF.
+        "hackrf_gain_if",
+        # Gain.
+        "plutosdr_gain",
+        # Gain
+        "usrp_gain",
         # Keep all raw
         "keep_all",
         # Channel
         "channel"
     ])
 
+
 # Global settings, for simplicity
 DEVICE = None
 BAUD = None
+RADIO = None
+RADIO_ADDRESS = None
+RADIO_ANTENNA = None
 COMMUNICATE_SLOW = None
 YKUSH_PORT = None
+
+
+class EnumType(click.Choice):
+    """Teach click how to handle enums."""
+    def __init__(self, enumcls):
+        self._enumcls = enumcls
+        click.Choice.__init__(self, enumcls.__members__)
+
+    def convert(self, value, param, ctx):
+        value = click.Choice.convert(self, value, param, ctx)
+        return self._enumcls[value]
+
 
 @click.group()
 @click.option("-d", "--device", default="/dev/ttyACM0", show_default=True,
@@ -117,9 +172,16 @@ YKUSH_PORT = None
 @click.option("-s", "--slowmode", is_flag=True, show_default=True,
               help=("Enables slow communication mode for targets with a small"
                     "serial rx-buffer"))
+@click.option("-r", "--radio", default="USRP", type=EnumType(Radio), show_default=True,
+              help="The type of SDR to use.")
+@click.option("--radio-address", default="10.0.3.40",
+              help="Address of the radio (X.X.X.X for USRP, ip:X.X.X.X or usb:X.X.X for PlutoSDR).")
+@click.option("--radio-antenna", default="TX/RX",
+              help="Name of the antenna to use (USRP: [TX/RX|RX2])")
 @click.option("-l", "--loglevel", default="INFO", show_default=True,
               help="The loglevel to be used ([DEBUG|INFO|WARNING|ERROR|CRITICAL])")
-def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
+def cli(device, baudrate, ykush_port, slowmode, radio, radio_address, radio_antenna,
+        loglevel, **kwargs):
     """
     Reproduce screaming channel experiments with vulnerable devices.
 
@@ -131,17 +193,17 @@ def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
     Call any experiment with "--help" for details. You most likely want to use
     "collect".
     """
-    global DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT
+    global DEVICE, RADIO, RADIO_ADDRESS, RADIO_ANTENNA, BAUD, COMMUNICATE_SLOW, YKUSH_PORT
     DEVICE = device
     BAUD = baudrate
+    RADIO = radio
+    RADIO_ADDRESS = radio_address
+    RADIO_ANTENNA = radio_antenna
     COMMUNICATE_SLOW = slowmode
     YKUSH_PORT = ykush_port
+
     l.setLevel(loglevel)
 
-def _open_serial_port():
-    l.debug("Opening serial port")
-    return serial.Serial(DEVICE, BAUD, timeout=5)
-    
 def _encode_for_device(data):
     """
     Encode the given bytes in our special format.
@@ -180,7 +242,7 @@ def _send_parameter(ser, command, param):
     l.debug ("param: "+param2)
     l.debug ("check: "+x.decode())
     if x.decode().strip() != param2.strip():
-        l.error(("ERROR\n%s\n%s" % (_encode_for_device(param),
+        print(("ERROR\n%s\n%s" % (_encode_for_device(param),
                                  _encode_for_device(x))))
         ser.write(b'q')
         sys.exit(1)
@@ -188,6 +250,7 @@ def _send_parameter(ser, command, param):
 
 def _send_key(ser, key):
     _send_parameter(ser, 'k', key)
+
 
 def _send_plaintext(ser, plaintext):
     _send_parameter(ser, 'p', plaintext)
@@ -200,26 +263,8 @@ def _send_init(ser, init):
 @click.argument("config", type=click.File())
 @click.argument("file", type=click.File())
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
-@click.option("--average-out", type=click.Path(dir_okay=False),
-              help="File to write the average to (i.e. the template candidate).")
-@click.option("--plot/--no-plot", default=False, show_default=True,
-              help="Plot the results of trace collection.")
-@click.option("--plot-out", type=click.Path(dir_okay=False),
-              help="File to write the plot to (instead of showing it dynamically).")
-@click.option("--saveplot/--no-saveplot", default=True, show_default=True,
-              help="Save the plot of the results of trace collection.")
-def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
-    """Analyze previous collect."""
-    cfg_dict = json.load(config)
-    cfg_dict["collection"].setdefault('traces_per_point_multiplier', 1.2)
-    cfg_dict["collection"].setdefault('keep_all', False)
-    cfg_dict["collection"].setdefault('channel', 0)
-    collection_config = CollectionConfig(**cfg_dict["collection"])
-    analyze.extract(np.load(file), collection_config, average_out, plot, target_path, saveplot, index=0)
-
-@cli.command()
-@click.argument("config", type=click.File())
-@click.argument("target-path", type=click.Path(exists=True, file_okay=False))
+@click.option("--name", default="",
+              help="Identifier for the experiment (obsolete; only for compatibility).")
 @click.option("--average-out", type=click.Path(dir_okay=False),
               help="File to write the average to (i.e. the template candidate).")
 @click.option("--plot/--no-plot", default=False, show_default=True,
@@ -234,7 +279,40 @@ def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
               help="Save the plot of the results of trace collection.")
 @click.option("-p", "--set-power", default=0, show_default=True,
               help="If set, sets the device to a specific power level (overrides --max-power)")
-def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power):
+def extract(config, file, target_path, name, average_out, plot, plot_out, max_power, raw, saveplot, set_power):
+    """Analyze previous collect."""
+    cfg_dict = json.load(config)
+    cfg_dict["collection"].setdefault('traces_per_point_multiplier', 1.2)
+    cfg_dict["collection"].setdefault('hackrf_gain', 0)
+    cfg_dict["collection"].setdefault('hackrf_gain_bb', 44)
+    cfg_dict["collection"].setdefault('hackrf_gain_if', 40)
+    cfg_dict["collection"].setdefault('plutosdr_gain', 64)
+    cfg_dict["collection"].setdefault('usrp_gain', 40)
+    cfg_dict["collection"].setdefault('keep_all', False)
+    cfg_dict["collection"].setdefault('channel', 0)
+    collection_config = CollectionConfig(**cfg_dict["collection"])
+    analyze.extract(np.load(file), collection_config, average_out, plot, target_path, saveplot, index=0)
+
+@cli.command()
+@click.argument("config", type=click.File())
+@click.argument("target-path", type=click.Path(exists=True, file_okay=False))
+@click.option("--name", default="",
+              help="Identifier for the experiment (obsolete; only for compatibility).")
+@click.option("--average-out", type=click.Path(dir_okay=False),
+              help="File to write the average to (i.e. the template candidate).")
+@click.option("--plot/--no-plot", default=False, show_default=True,
+              help="Plot the results of trace collection.")
+@click.option("--plot-out", type=click.Path(dir_okay=False),
+              help="File to write the plot to (instead of showing it dynamically).")
+@click.option("--max-power/--no-max-power", default=False, show_default=True,
+              help="Set the output power of the device to its maximum.")
+@click.option("--raw/--no-raw", default=False, show_default=True,
+              help="Save the raw IQ data.")
+@click.option("--saveplot/--no-saveplot", default=True, show_default=True,
+              help="Save the plot of the results of trace collection.")
+@click.option("-p", "--set-power", default=0, show_default=True,
+              help="If set, sets the device to a specific power level (overrides --max-power)")
+def collect(config, target_path, name, average_out, plot, plot_out, max_power, raw, saveplot, set_power):
     """
     Collect traces for an attack.
 
@@ -245,10 +323,16 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     # NO-OP defaults for mode dependent config options for backwards compatibility
     cfg_dict = json.load(config)
     cfg_dict["firmware"].setdefault('conventional', False)
+    cfg_dict["firmware"].setdefault('mask_mode', 0)
     cfg_dict["firmware"].setdefault('slow_mode_sleep_time', 0.001)
     cfg_dict["firmware"].setdefault('fixed_vs_fixed', False)
     cfg_dict["firmware"].setdefault('fixed_plaintext', False)
     cfg_dict["collection"].setdefault('traces_per_point_multiplier', 1.2)
+    cfg_dict["collection"].setdefault('hackrf_gain', 0)
+    cfg_dict["collection"].setdefault('hackrf_gain_bb', 44)
+    cfg_dict["collection"].setdefault('hackrf_gain_if', 40)
+    cfg_dict["collection"].setdefault('plutosdr_gain', 64)
+    cfg_dict["collection"].setdefault('usrp_gain', 40)
     cfg_dict["collection"].setdefault('keep_all', False)
     cfg_dict["collection"].setdefault('channel', 0)
 
@@ -259,8 +343,26 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         firmware_mode = TINY_AES_MODE
     elif firmware_config.mode == "tinyaes_slow":
         firmware_mode = TINY_AES_MODE_SLOW
+    elif firmware_config.mode == "maskaes":
+        firmware_mode = MASK_AES_MODE
+    elif firmware_config.mode == "maskaes_slow":
+        firmware_mode = MASK_AES_MODE_SLOW
+    elif firmware_config.mode == "hwcrypto":
+        firmware_mode = HW_CRYPTO_MODE
+    elif firmware_config.mode == "hwcrypto_keygen":
+        firmware_mode = HW_CRYPTO_KEYGEN_MODE
+    elif firmware_config.mode == "hwcrypto_ecb":
+        firmware_mode = HW_CRYPTO_ECB_MODE
+    elif firmware_config.mode == "hwcrypto_slow":
+        firmware_mode = HW_CRYPTO_MODE_SLOW
+    elif firmware_config.mode == "power":
+        firmware_mode = POWER_ANALYSIS_MODE
     else:
         raise Exception("Unsupported mode %s; this is a bug!" % firmware_config.mode)
+
+    # assert (not plot) or (collection_config.num_traces_per_point <= 500), \
+        # "Plotting a lot of data might lock up the computer! Consider reducing " \
+        # "num_traces_per_point in the configuration file or enforce limits on resource consumption..."
 
     # Signal post-processing will drop some traces when their quality is
     # insufficient, so let's collect more traces than requested to make sure
@@ -300,10 +402,18 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         system("ykushcmd -u %d" % YKUSH_PORT)
         time.sleep(3)
 
+
+
     with _open_serial_port() as ser:
         if YKUSH_PORT != 0:
-            l.info((ser.readline()))
+            print((ser.readline()))
 
+        # tmp increase power
+        #l.debug('POWERPOWER')
+        #ser.write(b'p')
+        #print ser.readline()
+        #ser.write(b'0')
+        #print ser.readline()
         if set_power != 0:
             l.debug('Setting power level to '+str(set_power))
             ser.write(('p'+str(set_power)).encode('UTF-8'))
@@ -320,25 +430,25 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         else:
             l.debug('Selecting channel')
             ser.write(b'a')
-            l.info((ser.readline()))
+            print((ser.readline()))
             ser.write(b'%02d\n'%collection_config.channel)
-            l.info((ser.readline()))
+            print((ser.readline()))
             if firmware_config.modulate:
                 l.debug('Starting modulated wave')
                 ser.write(b'o')     # start modulated wave
-                l.info((ser.readline()))
+                print((ser.readline()))
             else:
                 l.debug('Starting continuous wave')
                 ser.write(b'c')     # start continuous wave
 
         l.debug('Entering test mode')
         ser.write(firmware_mode.mode_command.encode()) # enter test mode
-        l.info((ser.readline()))
+        print((ser.readline()))
 
         if firmware_mode.repetition_command:
             l.debug('Setting trace repitions')
             ser.write(('n%d\r\n' % num_traces_per_point).encode())
-            l.info((ser.readline()))
+            print((ser.readline()))
 
         if firmware_mode.have_keys and firmware_config.fixed_key:
             # The key never changes, so we can just set it once and for all.
@@ -347,6 +457,11 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         if firmware_config.fixed_plaintext:
             # The plaintext never changes, so we can just set it once and for all.
             _send_plaintext(ser, plaintexts[0])
+
+        if firmware_config.mode == 'maskaes' or firmware_config.mode == 'maskaes_slow':
+            l.debug('Setting masking mode to %d', firmware_config.mask_mode)
+            ser.write(('%d\r\n' % firmware_config.mask_mode).encode())
+            print((ser.readline()))
 
         # Initialize the radio client.
         client = soapyrx.core.SoapyClient()
@@ -361,15 +476,20 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     _send_key(ser, keys[index])
 
                 if not firmware_config.fixed_plaintext:
-                    _send_plaintext(ser, plaintexts[index])
+                    if firmware_config.mode == "hwcrypto_keygen":
+                        _send_init(ser, plaintexts[index])
+                    else:
+                        _send_plaintext(ser, plaintexts[index])
 
-                l.info("Start instrumentation #{}...".format(index))
+                print("Start instrumentation #{}...".format(index))
 
                 # Start non-blocking recording for a pre-configured duration.
                 client.record_start()
                 time.sleep(0.03)
 
-                time.sleep(0.08)
+                if RADIO == Radio.USRP_B210_MIMO or RADIO == Radio.USRP_B210:
+                    time.sleep(0.08)
+                    # time.sleep(0.04)
 
                 if firmware_mode.repetition_command:
                     # The test mode supports repeated actions.
@@ -388,15 +508,15 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     # Accept recording.
                     client.accept()
                 except Exception as e:
-                    l.error("ERROR: From radio client: {}".format(e))
-                    l.info("INFO: Restart current recording...")
+                    print("ERROR: From radio client: {}".format(e))
+                    print("INFO: Restart current recording...")
                     continue
 
                 try:
                     trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
-                    l.error("ERROR: From extraction function: {}".format(e))
-                    l.info("INFO: Restart current recording...")
+                    print("ERROR: From extraction function: {}".format(e))
+                    print("INFO: Restart current recording...")
                     client.reinit()
                     continue
 
@@ -418,7 +538,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 client.reinit()
 
         ser.write(b'q')     # quit tiny_aes mode
-        l.info((ser.readline()))
+        print((ser.readline()))
         ser.write(b'e')     # turn off continuous wave
 
         time.sleep(1)
@@ -426,6 +546,10 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
 
         # Quit the server.
         client.stop()
+
+def _open_serial_port():
+    l.debug("Opening serial port")
+    return serial.Serial(DEVICE, BAUD, timeout=5)
 
 if __name__ == "__main__":
     cli()
