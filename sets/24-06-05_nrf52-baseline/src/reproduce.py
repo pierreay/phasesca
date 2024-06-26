@@ -9,9 +9,6 @@ import serial
 import sys
 import time
 import logging
-from Crypto.Cipher import AES
-import zmq
-import subprocess
 
 import numpy as np
 from matplotlib import pyplot as plt
