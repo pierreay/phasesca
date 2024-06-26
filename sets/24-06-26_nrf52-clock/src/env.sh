@@ -56,7 +56,7 @@ function log_error() {
 }
 
 function log_warn() {
-    cecho "[WARN]  " $yellow
+    cecho "[WARN] " $yellow
     echo $1
 }
 
@@ -66,7 +66,7 @@ function log_debug() {
 }
 
 function log_info() {
-    cecho "[INFO]  " $green
+    cecho "[INFO] " $green
     echo $1
 }
 
