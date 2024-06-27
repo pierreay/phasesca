@@ -219,6 +219,11 @@ function experiment() {
 
 # * Script
 
+# Restart subset if desired.
+if [[ "${OPT_RESTART_COLLECT}" -eq 1 ]]; then
+    rm -r "${TARGET_PATH}"
+fi
+
 # Ensure collection directory is created.
 mkdir -p "${TARGET_PATH}"
 
