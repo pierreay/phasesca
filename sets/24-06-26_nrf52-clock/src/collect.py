@@ -234,7 +234,9 @@ def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
               help="Save the plot of the results of trace collection.")
 @click.option("-p", "--set-power", default=0, show_default=True,
               help="If set, sets the device to a specific power level (overrides --max-power)")
-def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power):
+@click.option("--num-points", "num_points_args", default=-1, show_default=True,
+              help="If set, override the num_points JSON configuration variable.")
+def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args):
     """
     Collect traces for an attack.
 
@@ -268,7 +270,10 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     num_traces_per_point = int(collection_config.num_traces_per_point * collection_config.traces_per_point_multiplier)
 
     # number of points
-    num_points = int(collection_config.num_points)
+    if num_points_args != -1:
+        num_points = num_points_args
+    else:
+        num_points = int(collection_config.num_points)
 
     # fixed vs fixed
     fixed_vs_fixed = firmware_config.fixed_vs_fixed
