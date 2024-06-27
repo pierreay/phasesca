@@ -241,7 +241,8 @@ if [[ ! -f "${CALIBRATION_FLAG_PATH}" ]]; then
     flash_firmware_once
 
     # Set the JSON configuration file for one recording analysis.
-    configure_json_plot
+    # TODO: Remove if not used anymore.
+    # configure_json_plot
 
     # Record a new trace if not already done.
     if [[ ! -f "${TMP_TRACE_PATH}" ]]; then

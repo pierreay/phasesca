@@ -17,7 +17,7 @@ from scaff import analyze
 import soapyrx.core
 
 logging.basicConfig()
-l = logging.getLogger('reproduce')
+l = logging.getLogger('collect')
 
 FirmwareMode = collections.namedtuple(
     "FirmwareMode",
