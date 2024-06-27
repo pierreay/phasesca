@@ -17,7 +17,9 @@ log_info "Loaded environment: ${env}"
 
 # Reset getopts.
 OPTIND=1
-# Options described in Program's help.
+# Arguments described in help().
+ARG_SUBSET=""
+# Options described in help().
 OPT_LOGLEVEL="INFO"
 OPT_REFLASH_FW=0
 OPT_RESTART_YKUSH=0
@@ -27,7 +29,9 @@ OPT_RESTART_COLLECT=0
 # Program's help.
 function help() {
     cat << EOF
-Usage: collect.sh [-l LOGLEVEL] [-w] [-y] [-r] [-f]
+Usage: collect.sh [-l LOGLEVEL] [-w] [-y] [-r] [-f] SUBSET
+
+SUBSET is the desired subset collection [attack | train].
 
 Set -l to the desired Python LOGLEVEL [default = INFO].
 Set -w to reflash the firmware before collecting [default = False].
@@ -38,7 +42,7 @@ EOF
     exit 0
 }
 
-# Get the scripts arguments.
+# Get the scripts options.
 while getopts "h?l:wyrf" opt; do
     case "$opt" in
         h|\?)
@@ -57,16 +61,27 @@ while getopts "h?l:wyrf" opt; do
     esac
 done
 
+# Get the scripts arguments, by suppressing all arguments processed by getopts.
+shift $((OPTIND-1))
+ARG_SUBSET="${@}"
+
+# Check arguments.
+if [[ "${ARG_SUBSET}" != "train" && "${ARG_SUBSET}" != "attack" ]]; then
+    log_error "Bad SUBSET value!"
+    exit 0
+fi
+
 # * Variables
 
-# If we are collecting a train set or an attack set.
-# MODE="train"
-# NUM_TRACES=${COLLECT_NUM_TRACES_TRAIN}
-NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
-MODE="attack"
+# Select appropriate number of traces.
+if [[ "${ARG_SUBSET}" == "train" ]]; then
+    NUM_TRACES=${COLLECT_NUM_TRACES_TRAIN}
+elif [[ "${ARG_SUBSET}" == "attack" ]]; then
+    NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
+fi
 
 # Subset path.
-TARGET_PATH="${DATASET_PATH}/${MODE}"
+TARGET_PATH="${DATASET_PATH}/${ARG_SUBSET}"
 
 # Sentinels.
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
@@ -93,7 +108,6 @@ function flash_firmware_once() {
     direnv exec . make -C pca10040/blank/armgcc flash
     log_info "Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
-    log_info "DONE!"
 }
 
 # ** Configuration
@@ -150,9 +164,9 @@ function configure_json_collect() {
     configure_json_common
     configure_param_json $CONFIG_JSON_PATH_DST "num_points" "$NUM_TRACES"
     configure_param_json $CONFIG_JSON_PATH_DST "template_name" "$(configure_param_json_escape_path $TARGET_PATH/template.npy)"
-    if [[ $MODE == "train" ]]; then
+    if [[ "$ARG_SUBSET" == "train" ]]; then
         configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "false"
-    elif [[ $MODE == "attack" ]]; then
+    elif [[ "${ARG_SUBSET}" == "attack" ]]; then
         configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "true"
     fi
 }

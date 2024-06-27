@@ -26,7 +26,7 @@ export GIT_CHECKOUT_SCAFF="master"
 function git_checkout_logged() {
     REPO="${1}"
     COMMIT="${2}"
-    echo "INFO: Checkout ${COMMIT} -> ${REPO}"
+    log_info "Checkout ${COMMIT} -> ${REPO}"
     cd "${REPO}" && git checkout "${COMMIT}"
 }
 
