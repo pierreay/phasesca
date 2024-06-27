@@ -15,22 +15,14 @@ log_info "Loaded environment: ${env}"
 
 # * Variables
 
-# ** Configuration
-
-# Logging level for Python.
-LOG_LEVEL=INFO
-
-# Number of traces.
-NUM_TRACES=16000
-
 # If we are collecting a train set or an attack set.
 # MODE="train"
+# NUM_TRACES=${COLLECT_NUM_TRACES_TRAIN}
+NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
 MODE="attack"
 
 # Temporary collection path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
-
-# ** Actions
 
 # Reflash the custom firmware.
 REFLASH_FIRMWARE=1
@@ -150,16 +142,16 @@ function experiment() {
     # Start SDR server.
     # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.
     if [[ "${RESTART_RADIO}" -eq 1 ]]; then
-        soapyrx --loglevel $LOG_LEVEL server-start 0 2.533e9 $FS --duration=0.3 --gain 76 &
+        soapyrx --loglevel ${PY_LOGLEVEL} server-start 0 2.533e9 ${COLLECT_FS} --duration=0.3 --gain 76 &
         sleep 10
     fi
 
     # Start collection and plot result.
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=${PY_LOGLEVEL} --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
 }
 
 function analyze_only() {
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=$LOG_LEVEL --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/reproduce.py" --loglevel=${PY_LOGLEVEL} --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
 }
 
 # * Script

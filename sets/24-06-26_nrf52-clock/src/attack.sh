@@ -78,7 +78,7 @@ function attack() {
     # Perform the attack.
     scaff $plot --norm --data-path $ATTACK_SET --start-point $START_POINT \
               --end-point $END_POINT --num-traces $num_traces_attack $bruteforce --comp $comp \
-              attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs $FS \
+              attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} \
               | tee $log_path
 }
 

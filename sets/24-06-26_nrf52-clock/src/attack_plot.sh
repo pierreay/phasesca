@@ -90,7 +90,7 @@ function attack() {
         # 1) The key rank
         # 2) The correct number of bytes.
         scaff --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces_attack --comp $comp \
-                  attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs $FS 2>/dev/null \
+                  attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} 2>/dev/null \
             | grep -E 'actual rounded|CORRECT' \
             | cut -f 2 -d ':' \
             | tr -d ' ' \

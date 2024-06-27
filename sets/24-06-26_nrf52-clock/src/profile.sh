@@ -26,9 +26,6 @@ POIS_NB_LIST=(1 2)
 START_POINT=0
 END_POINT=0
 
-# NOTE: Sampling rate is hardcoded in collect_*.sh scripts.
-FS=8e6
-
 # ** Internals
 
 # Path of dataset used to create the profile.
@@ -62,7 +59,7 @@ function profile() {
     # Initialize directories.
     mkdir -p $profile_path
     # Create the profile.
-    scaff $plot $save_images --norm --data-path $TRAIN_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces --comp $comp profile $profile_path --pois-algo $pois_algo --num-pois $pois_nb --poi-spacing 2 --variable p_xor_k --align --fs $FS
+    scaff $plot $save_images --norm --data-path $TRAIN_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces --comp $comp profile $profile_path --pois-algo $pois_algo --num-pois $pois_nb --poi-spacing 2 --variable p_xor_k --align --fs ${COLLECT_FS}
 }
 
 # * Script

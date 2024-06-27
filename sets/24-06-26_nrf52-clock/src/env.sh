@@ -3,8 +3,14 @@
 # Current dataset path.
 export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 
+# Logging level for Python.
+export PY_LOGLEVEL=INFO
+
 # Recording sampling rate.
-export FS="8e6"
+export COLLECT_FS="8e6"
+# Number of traces.
+export COLLECT_NUM_TRACES_TRAIN=16000
+export COLLECT_NUM_TRACES_ATTACK=3000
 
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="master"
