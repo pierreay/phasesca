@@ -33,7 +33,7 @@ Usage: collect.sh [-l LOGLEVEL] [-w] [-y] [-r] [-f] SUBSET
 
 SUBSET is the desired subset collection [attack | train].
 
-Set -l to the desired Python LOGLEVEL [default = INFO].
+Set -l to the desired Python LOGLEVEL for collection script [default = INFO].
 Set -w to reflash the firmware before collecting [default = False].
 Set -y to reset YKush switch before collecting [default = False].
 Set -r to restart radio before collecting [default = False].
@@ -205,13 +205,14 @@ function experiment() {
 
         # Start SDR server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
-            soapyrx --loglevel "${PY_LOGLEVEL}" server-start 0 "${COLLECT_FC}" "${COLLECT_FS}" --duration="${COLLECT_DUR}" --no-agc &
-            sleep 10
+            log_info "Start radio..."
+            soapyrx --loglevel INFO server-start 0 "${COLLECT_FC}" "${COLLECT_FS}" --duration="${COLLECT_DUR}" --no-agc &
+            soapyrx server-wait
         fi
     fi
 
     # Start collection and plot result.
-    "${DATASET_PATH}/src/collect.py" --loglevel="${PY_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) \
+    log_info "Start collection..."
     "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" \
                                      "${cmd}" "${DATASET_PATH}/src/collect.json" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
 }

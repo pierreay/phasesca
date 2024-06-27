@@ -3,9 +3,6 @@
 # Current dataset path.
 export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 
-# Logging level for Python.
-export PY_LOGLEVEL=INFO
-
 # Recording sampling rate [Hz].
 # NOTE: Synchronized with "collect.json" file for "collect.py".
 export COLLECT_FS="10e6"
