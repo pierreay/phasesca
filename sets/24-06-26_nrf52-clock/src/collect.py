@@ -293,7 +293,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         plaintexts = [os.urandom(16)
                     for _trace in range(1 if firmware_config.fixed_plaintext else num_points)]
     
-    with open(path.join(target_path, 'pt_%s.txt' % name), 'w') as f:
+    with open(path.join(target_path, 'pt.txt'), 'w') as f:
         f.write('\n'.join(p.hex() for p in plaintexts))
 
     # Generate the key(s)
@@ -303,7 +303,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         else:
             keys = [os.urandom(16)
                     for _key in range(1 if fixed_key else num_points)]
-        with open(path.join(target_path, 'key_%s.txt' % name), 'w') as f:
+        with open(path.join(target_path, 'key.txt'), 'w') as f:
             f.write('\n'.join(k.hex() for k in keys))
 
     # If requested, reset target
@@ -413,17 +413,17 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     client.reinit()
                     continue
 
-                np.save(os.path.join(target_path,"amp_%s_%d.npy"%(name,index)),trace_amp)
-                np.save(os.path.join(target_path,"phr_%s_%d.npy"%(name,index)),trace_phr)
-                np.save(os.path.join(target_path,"i_%s_%d.npy"%(name,index)),trace_i)
-                np.save(os.path.join(target_path,"q_%s_%d.npy"%(name,index)),trace_q)
+                np.save(os.path.join(target_path,"amp_%d.npy"%(index)),trace_amp)
+                np.save(os.path.join(target_path,"phr_%d.npy"%(index)),trace_phr)
+                np.save(os.path.join(target_path,"i_%d.npy"%(index)),trace_i)
+                np.save(os.path.join(target_path,"q_%d.npy"%(index)),trace_q)
                 if index < 30:
                     plt.plot(trace_amp); figure = plt.gcf(); figure.set_size_inches(32, 18)
-                    plt.savefig(os.path.join(target_path,"amp_%s_%d.png"%(name,index))); plt.clf()
-                # np.save(os.path.join(target_path,"i_augmented_%s_%d.npy"%(name,index)),trace_i_augmented)
-                # np.save(os.path.join(target_path,"q_augmented_%s_%d.npy"%(name,index)),trace_q_augmented)
+                    plt.savefig(os.path.join(target_path,"amp_%d.png"%(index))); plt.clf()
+                # np.save(os.path.join(target_path,"i_augmented_%d.npy"%(index)),trace_i_augmented)
+                # np.save(os.path.join(target_path,"q_augmented_%d.npy"%(index)),trace_q_augmented)
                 # if raw:
-                #     save_raw(OUTFILE, target_path, index, name)
+                #     save_raw(OUTFILE, target_path, index)
 
                 # Update index and click progress bar.
                 index += 1
