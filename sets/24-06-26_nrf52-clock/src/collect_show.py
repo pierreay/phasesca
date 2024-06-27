@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# TODO: Merge inside collect.py/show()
+
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
