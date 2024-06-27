@@ -12,9 +12,13 @@ import logging
 
 import numpy as np
 from matplotlib import pyplot as plt
+from tqdm import tqdm
+from tqdm.contrib.logging import logging_redirect_tqdm
 
-from scaff import analyze
+import scaff.analyze
+import scaff.log
 import soapyrx.core
+import soapyrx.logger
 
 LOGGER = logging.getLogger('collect')
 HANDLER = logging.StreamHandler()
@@ -219,7 +223,7 @@ def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
     cfg_dict["collection"].setdefault('keep_all', False)
     cfg_dict["collection"].setdefault('channel', 0)
     collection_config = CollectionConfig(**cfg_dict["collection"])
-    analyze.extract(np.load(file), collection_config, average_out, plot, target_path, saveplot, index=0)
+    scaff.analyze.extract(np.load(file), collection_config, average_out, plot, target_path, saveplot, index=0)
 
 @cli.command()
 @click.argument("config", type=click.File())
@@ -373,7 +377,10 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         # with click.progressbar(plaintexts) as bar:
             # for index, plaintext in enumerate(bar):
         index = 0
-        with click.progressbar(list(range(num_points)), label="Collecting") as bar:
+        with (logging_redirect_tqdm(loggers=[LOGGER, soapyrx.logger.LOGGER, scaff.log.LOGGER]),
+              tqdm(initial=0, total=num_points, desc="Collecting") as bar,):
+        # TODO: Delete clock.progressbar when tqdm will work!
+        #with click.progressbar(list(range(num_points)), label="Collecting") as bar:
             # for index, plaintext in enumerate(bar):
             while index < num_points:
                 if firmware_mode.have_keys and not fixed_key:
@@ -412,7 +419,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     continue
 
                 try:
-                    trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
+                    trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = scaff.analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
                     LOGGER.error("ERROR: From extraction function: {}".format(e))
                     LOGGER.info("INFO: Restart current recording...")

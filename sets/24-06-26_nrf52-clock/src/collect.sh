@@ -207,6 +207,7 @@ function experiment() {
         fi
 
         # Start SDR server.
+        # TODO: Start in another tmux pane.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
             log_info "Start radio..."
             soapyrx --loglevel INFO server-start 0 "${COLLECT_FC}" "${COLLECT_FS}" --duration="${COLLECT_DUR}" --no-agc &
