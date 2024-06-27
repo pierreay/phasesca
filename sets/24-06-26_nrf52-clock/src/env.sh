@@ -6,8 +6,12 @@ export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 # Logging level for Python.
 export PY_LOGLEVEL=INFO
 
-# Recording sampling rate.
-export COLLECT_FS="8e6"
+# Recording sampling rate [Hz].
+export COLLECT_FS="10e6"
+# Recording center frequency [Hz].
+export COLLECT_FC="63.9992e6"
+# Recording duration [s].
+export COLLECT_DUR="0.3"
 # Number of traces.
 export COLLECT_NUM_TRACES_TRAIN=16000
 export COLLECT_NUM_TRACES_ATTACK=3000
