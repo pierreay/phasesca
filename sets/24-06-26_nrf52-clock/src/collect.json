@@ -2,18 +2,20 @@
     "firmware": {
         "mode": "tinyaes",
         "fixed_key": false,
-        "modulate": true
+        "modulate": false
     },
     "collection": {
         "channel": 0,
-        "num_points": 10000,
+        "num_points": 1,
         "num_traces_per_point": 500,
+        "num_traces_per_point_keep": 300,
         "bandpass_lower": 1.85e6,
         "bandpass_upper": 1.95e6,
         "lowpass_freq": 5e3,
         "drop_start": 50e-3,
         "trigger_rising": true,
         "trigger_offset": 100e-6,
+        "trigger_threshold": 0,
         "signal_length": 300e-6,
         "template_name": null,
         "min_correlation": 0.00
