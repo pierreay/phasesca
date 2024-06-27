@@ -199,8 +199,11 @@ function experiment() {
     if [[ "${cmd}" != "extract" ]]; then
         # Kill previously started radio server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
-            soapyrx server-stop
-        fi
+            log_info "Stop radio..."
+            # Gentle stop.
+            pgrep soapyrx && soapyrx server-stop ; sleep 2
+            # Brutal stop.
+            pgrep soapyrx && pkill -9 soapyrx ; sleep 1
         fi
 
         # Start SDR server.
