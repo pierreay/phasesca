@@ -13,6 +13,65 @@ fi
 
 log_info "Loaded environment: ${env}"
 
+# * Arguments
+
+# Reset getopts.
+OPTIND=1
+
+# Set Python logging level.
+OPT_LOGLEVEL="INFO"
+# If set to 1, instruct to reboot in case of repeated errors.
+OPT_REBOOT=0
+# If set to 1, instruct to switch YKush down and up in case of error.
+OPT_YKUSH=0
+# If set to 1, instruct to restart collection from 0.
+OPT_RESTART=0
+
+# Program's help.
+function help() {
+    cat << EOF
+Usage: collect.sh [-l LOGLEVEL] [-r] [-y] [-f]
+
+Run a full collection and record it inside \$ENVRC_DATASET_RAW_PATH. It will
+record \$ENVRC_WANTED_TRACE_TRAIN and \$ENVRC_WANTED_TRACE_ATTACK number of
+traces.
+
+Concerning the radio, the sampling rate will be set at \$ENVRC_SAMP_RATE and
+frequencies at \$ENVRC_NF_FREQ and \$ENVRC_FF_FREQ. The recording will be of
+duration \$ENVRC_DURATION. You can enable the recordings for NF and FF traces
+using \$ENVRC_NF_ID and \$ENVRC_FF_ID, or set it to -1 to disable this
+recording. The \$ENVRC_RADIO_DIR will be used as a temporary storage for the
+recordings.
+
+Concerning the target, it will be connected using the \$ENVRC_VICTIM_ADDR
+address and the inputs will be configured using the \$ENVRC_VICTIM_PORT dev
+port.
+
+Set -l to the desired Python LOGLEVEL [default = INFO].
+Set -r to reboot computer on repeated errors. Ignored if key is fixed in target device [default = False]
+Set -y to reset YKush switch on repeated errors. Ignored if key is fixed in target device [default = False]
+Set -f to restart collection from trace #0 without reinitializing the dataset [default = False].
+EOF
+    exit 0
+}
+
+# Get the scripts arguments.
+while getopts "h?l:ryf" opt; do
+    case "$opt" in
+        h|\?)
+            help
+            ;;
+        l) OPT_LOGLEVEL=$OPTARG
+           ;;
+        r) OPT_REBOOT=1
+           ;;
+        y) OPT_YKUSH=1
+           ;;
+        f) OPT_RESTART=1
+           ;;
+    esac
+done
+
 # * Variables
 
 # If we are collecting a train set or an attack set.
