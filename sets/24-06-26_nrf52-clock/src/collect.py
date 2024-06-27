@@ -16,8 +16,8 @@ from matplotlib import pyplot as plt
 from scaff import analyze
 import soapyrx.core
 
-logging.basicConfig()
-l = logging.getLogger('collect')
+LOGGER = logging.getLogger('collect')
+HANDLER = logging.StreamHandler()
 
 FirmwareMode = collections.namedtuple(
     "FirmwareMode",
@@ -133,15 +133,17 @@ def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
     Call any experiment with "--help" for details. You most likely want to use
     "collect".
     """
-    global DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT
+    global DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, LOGGER, HANDLER
     DEVICE = device
     BAUD = baudrate
     COMMUNICATE_SLOW = slowmode
     YKUSH_PORT = ykush_port
-    l.setLevel(loglevel)
+    HANDLER.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
+    LOGGER.addHandler(HANDLER)
+    LOGGER.setLevel(loglevel)
 
 def _open_serial_port():
-    l.debug("Opening serial port")
+    LOGGER.debug("Opening serial port")
     return serial.Serial(DEVICE, BAUD, timeout=5)
     
 def _encode_for_device(data):
@@ -158,7 +160,7 @@ def _send_parameter(ser, command, param):
     The function assumes that we've already entered tiny_aes mode.
     """
     command_line = '%s%s\r\n' % (command, _encode_for_device(param))
-    l.debug('Sending command:  %s\n' % command_line)
+    LOGGER.debug('Sending command:  %s\n' % command_line)
     if not COMMUNICATE_SLOW:
         ser.write(command_line.encode())
     else:
@@ -166,11 +168,11 @@ def _send_parameter(ser, command, param):
             ser.write((p+' ').encode())
             time.sleep(.05)
 
-    l.debug('Waiting check\n')
+    LOGGER.debug('Waiting check\n')
     x = ser.readline()
-    l.debug ("received: "+x.decode())
+    LOGGER.debug ("received: "+x.decode())
     if len(x) == 0:
-        l.debug("nothing received on timeout, ignoring error")
+        LOGGER.debug("nothing received on timeout, ignoring error")
         return 
     #check = ''.join(chr(int(word)) for word in x.split(' '))
     # -- create check like this instead for ESP32:
@@ -179,14 +181,14 @@ def _send_parameter(ser, command, param):
     #check = ''.join(chr(int(word)) for word in response)
     param2 = '%s' %  _encode_for_device(param)
     
-    l.debug ("param: "+param2)
-    l.debug ("check: "+x.decode())
+    LOGGER.debug ("param: "+param2)
+    LOGGER.debug ("check: "+x.decode())
     if x.decode().strip() != param2.strip():
-        l.error(("ERROR\n%s\n%s" % (_encode_for_device(param),
+        LOGGER.error(("ERROR\n%s\n%s" % (_encode_for_device(param),
                                  _encode_for_device(x))))
         ser.write(b'q')
         sys.exit(1)
-    l.debug('Check done\n')
+    LOGGER.debug('Check done\n')
 
 def _send_key(ser, key):
     _send_parameter(ser, 'k', key)
@@ -310,7 +312,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
 
     # If requested, reset target
     if YKUSH_PORT != 0:
-        l.debug('Resetting device using ykush port %d' % YKUSH_PORT)
+        LOGGER.debug('Resetting device using ykush port %d' % YKUSH_PORT)
         system("sudo ykushcmd -d %d" % YKUSH_PORT)
         time.sleep(1)
         system("sudo ykushcmd -u %d" % YKUSH_PORT)
@@ -319,43 +321,43 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     with _open_serial_port() as ser:
         # TODO: Is this useful?
         # if YKUSH_PORT != 0:
-        #     l.info((ser.readline()))
+        #     LOGGER.info((ser.readline()))
 
         if set_power != 0:
-            l.debug('Setting power level to '+str(set_power))
+            LOGGER.debug('Setting power level to '+str(set_power))
             ser.write(('p'+str(set_power)).encode('UTF-8'))
             ser.readline()
             ser.readline()
         elif max_power:
-            l.debug('Setting power to the  maximum')
+            LOGGER.debug('Setting power to the  maximum')
             ser.write(b'p0')
             ser.readline()
             ser.readline()
 
         if firmware_config.conventional:
-            l.debug('Starting conventional mode, the radio is off')
+            LOGGER.debug('Starting conventional mode, the radio is off')
         else:
-            l.debug('Selecting channel')
+            LOGGER.debug('Selecting channel')
             ser.write(b'a')
-            l.info((ser.readline()))
+            LOGGER.info((ser.readline()))
             ser.write(b'%02d\n'%collection_config.channel)
-            l.info((ser.readline()))
+            LOGGER.info((ser.readline()))
             if firmware_config.modulate:
-                l.debug('Starting modulated wave')
+                LOGGER.debug('Starting modulated wave')
                 ser.write(b'o')     # start modulated wave
-                l.info((ser.readline()))
+                LOGGER.info((ser.readline()))
             else:
-                l.debug('Starting continuous wave')
+                LOGGER.debug('Starting continuous wave')
                 ser.write(b'c')     # start continuous wave
 
-        l.debug('Entering test mode')
+        LOGGER.debug('Entering test mode')
         ser.write(firmware_mode.mode_command.encode()) # enter test mode
-        l.info((ser.readline()))
+        LOGGER.info((ser.readline()))
 
         if firmware_mode.repetition_command:
-            l.debug('Setting trace repitions')
+            LOGGER.debug('Setting trace repitions')
             ser.write(('n%d\r\n' % num_traces_per_point).encode())
-            l.info((ser.readline()))
+            LOGGER.info((ser.readline()))
 
         if firmware_mode.have_keys and fixed_key:
             # The key never changes, so we can just set it once and for all.
@@ -380,7 +382,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 if not firmware_config.fixed_plaintext:
                     _send_plaintext(ser, plaintexts[index])
 
-                l.info("Start instrumentation #{}...".format(index))
+                LOGGER.info("Start instrumentation #{}...".format(index))
 
                 # Start non-blocking recording for a pre-configured duration.
                 client.record_start()
@@ -390,7 +392,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
 
                 if firmware_mode.repetition_command:
                     # The test mode supports repeated actions.
-                    l.debug('Start repetitions')
+                    LOGGER.debug('Start repetitions')
                     ser.write(firmware_mode.action_command.encode())
                     ser.readline() # wait until done
                 else:
@@ -405,15 +407,15 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     # Accept recording.
                     client.accept()
                 except Exception as e:
-                    l.error("ERROR: From radio client: {}".format(e))
-                    l.info("INFO: Restart current recording...")
+                    LOGGER.error("ERROR: From radio client: {}".format(e))
+                    LOGGER.info("INFO: Restart current recording...")
                     continue
 
                 try:
                     trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
-                    l.error("ERROR: From extraction function: {}".format(e))
-                    l.info("INFO: Restart current recording...")
+                    LOGGER.error("ERROR: From extraction function: {}".format(e))
+                    LOGGER.info("INFO: Restart current recording...")
                     client.reinit()
                     continue
 
@@ -435,7 +437,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 client.reinit()
 
         ser.write(b'q')     # quit tiny_aes mode
-        l.info((ser.readline()))
+        LOGGER.info((ser.readline()))
         ser.write(b'e')     # turn off continuous wave
 
         time.sleep(1)
