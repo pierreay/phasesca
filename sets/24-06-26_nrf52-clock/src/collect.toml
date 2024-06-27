@@ -4,12 +4,12 @@ gain_rfgr = 0   # RF Gain Reduction [-1 = Disabled] [dB]
 
 [PLOTTERS]
 # Lowpass/Highpass filter for amplitude.
-amp_filter_en = false       # Enaling switch.
-amp_filter_type = "high"    # Filter type.
-amp_filter_cutoff = 0e6     # Cutoff frequency.
-amp_filter_order = 1        # Order.
+amp_filter_en = true      # Enaling switch.
+amp_filter_type = "high"  # Filter type.
+amp_filter_cutoff = 500e3 # Cutoff frequency.
+amp_filter_order = 1      # Order.
 # Lowpass/Highpass filter for phase rotation.
-phr_filter_en = false       # Enaling switch.  
-phr_filter_type = "low"     # Filter type.
-phr_filter_cutoff = 0e3     # Cutoff frequency.
-phr_filter_order = 1        # Order.
+phr_filter_en = true      # Enaling switch.  
+phr_filter_type = "low"   # Filter type.
+phr_filter_cutoff = 30e3  # Cutoff frequency.
+phr_filter_order = 1      # Order.
