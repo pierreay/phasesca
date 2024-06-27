@@ -68,12 +68,6 @@ MODE="attack"
 # Temporary collection path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
 
-# Reflash the custom firmware.
-REFLASH_FIRMWARE=1
-
-# Restart radio server.
-RESTART_RADIO=1
-
 # ** Internals
 
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
@@ -87,8 +81,10 @@ function flash_firmware_once() {
     firmware_src="${PATH_PHASEFW}/nrf52832/sc-poc/pca10040/blank/armgcc/_build/nrf52832_xxaa.hex"
     firmware_dst="${DATASET_PATH}/bin/nrf52832_xxaa.hex"
     if [[ -f "${firmware_dst}" ]]; then
-        echo "SKIP: Flash firmware: File exists: ${firmware_dst}"
-        return 0
+        if [[ "${OPT_REFLASH_FW}" -ne 1 ]]; then
+            echo "SKIP: Flash firmware: File exists: ${firmware_dst}"
+            return 0
+        fi
     fi
     
     git_checkout_logged "${PATH_PHASEFW}" "${GIT_CHECKOUT_PHASEFW}"
@@ -171,7 +167,7 @@ function experiment() {
     cmd=$3 # ["collect"]
     
     # Kill previously started radio server.
-    if [[ "${RESTART_RADIO}" -eq 1 ]]; then
+    if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
         soapyrx server-stop
     fi
 
@@ -185,7 +181,7 @@ function experiment() {
 
     # Start SDR server.
     # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.
-    if [[ "${RESTART_RADIO}" -eq 1 ]]; then
+    if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
         soapyrx --loglevel ${PY_LOGLEVEL} server-start 0 2.533e9 ${COLLECT_FS} --duration=0.3 --gain 76 &
         sleep 10
     fi
