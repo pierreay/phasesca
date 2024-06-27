@@ -81,19 +81,19 @@ function flash_firmware_once() {
     firmware_dst="${DATASET_PATH}/bin/nrf52832_xxaa.hex"
     if [[ -f "${firmware_dst}" ]]; then
         if [[ "${OPT_REFLASH_FW}" -ne 1 ]]; then
-            echo "SKIP: Flash firmware: File exists: ${firmware_dst}"
+            log_info "Skip flash firmware: File exists: ${firmware_dst}"
             return 0
         fi
     fi
     
     git_checkout_logged "${PATH_PHASEFW}" "${GIT_CHECKOUT_PHASEFW}"
     
-    echo "INFO: Flash custom firmware..."
+    log_info "Flash custom firmware..."
     cd ${PATH_PHASEFW}/nrf52832/sc-poc
     direnv exec . make -C pca10040/blank/armgcc flash
-    echo "INFO: Save firmware: ${firmware_src} -> ${firmware_dst}"
+    log_info "Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
-    echo "DONE!"
+    log_info "DONE!"
 }
 
 # ** Configuration
@@ -108,7 +108,7 @@ function configure_param_json() {
     config_file="$1"
     param_name="$2"
     param_value="$3"
-    echo "$config_file: $param_name=$param_value"
+    log_info "$config_file: $param_name=$param_value"
     # NOTE: Handle special-case where there is no "," at the end.
     candid=$(cat "$config_file" | grep "$param_name")
     if [[ ${candid:$((${#candid} - 1)):1} == "," ]]; then
@@ -200,7 +200,7 @@ mkdir -p $TARGET_PATH
 
 # Ensure target device is available.
 if [[ -z "$(nrfjprog --com | cut - -d " " -f 5)" ]]; then
-    echo "ERROR: Cannot found device: nrfjprog return empty string"
+    log_error "Cannot found device: nrfjprog return empty string"
     exit 1
 fi
 
@@ -219,20 +219,20 @@ if [[ ! -f "$CALIBRATION_FLAG_PATH" ]]; then
         experiment --plot --saveplot collect
     # Analyze only.
     else
-        echo "SKIP: New recording: File exists: ${TMP_TRACE_PATH}"
+        log_info "Skip new recording: File exists: ${TMP_TRACE_PATH}"
         analyze_only
     fi
 
     read -p "Press [ENTER] to confirm calibration, otherwise press [CTRL-C]..."
     touch $CALIBRATION_FLAG_PATH
 else
-    echo "SKIP: Calibration: File exists: $CALIBRATION_FLAG_PATH"
+    log_info "Skip calibration: File exists: $CALIBRATION_FLAG_PATH"
 fi
 
 # ** Step 2: Collection
 
 if [[ ! -f $TARGET_PATH/template.npy ]]; then
-    echo "Template has not been created! (no file at $TARGET_PATH/template.npy)"
+    log_error "Template has not been created: File not exists: $TARGET_PATH/template.npy"
     exit 1
 fi
 
@@ -242,5 +242,5 @@ if [[ ! -f "$COLLECTION_FLAG_PATH" ]]; then
     configure_json_collect
     experiment --no-plot --no-saveplot collect
 else
-    echo "SKIP: Collection: File exists: $COLLECTION_FLAG_PATH"
+    log_info "Skip collection: File exists: $COLLECTION_FLAG_PATH"
 fi
