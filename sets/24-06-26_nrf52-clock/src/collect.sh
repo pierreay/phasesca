@@ -183,6 +183,10 @@ function experiment() {
     if [[ "${plot}" == "--plot" ]]; then
         num_points=1
     fi
+    local fixed_key="--no-fixed-key"
+    if [[ "${ARG_SUBSET}" == "attack" ]]; then
+        fixed_key="--fixed-key"
+    fi
 
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
@@ -209,7 +213,8 @@ function experiment() {
     fi
 
     # Start collection and plot result.
-    "${DATASET_PATH}/src/collect.py" --loglevel="${PY_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy --num-points="${num_points}"
+    "${DATASET_PATH}/src/collect.py" --loglevel="${PY_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) \
+                                     "${cmd}" "${DATASET_PATH}/src/collect.json" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
 }
 
 # * Script

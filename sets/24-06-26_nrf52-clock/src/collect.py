@@ -236,7 +236,9 @@ def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
               help="If set, sets the device to a specific power level (overrides --max-power)")
 @click.option("--num-points", "num_points_args", default=-1, show_default=True,
               help="If set, override the num_points JSON configuration variable.")
-def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args):
+@click.option("--fixed-key/--no-fixed-key", "fixed_key_args", default=None, type=bool, show_default=True,
+              help="If set, override the fixed_key JSON configuration variable.")
+def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args, fixed_key_args):
     """
     Collect traces for an attack.
 
@@ -275,6 +277,12 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     else:
         num_points = int(collection_config.num_points)
 
+    # fixed_key
+    if fixed_key_args is not None:
+        fixed_key = fixed_key_args
+    else:
+        fixed_key = firmware_config.fixed_key
+
     # fixed vs fixed
     fixed_vs_fixed = firmware_config.fixed_vs_fixed
 
@@ -294,7 +302,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
             keys = ['\x00'*16 if i%2==0 else '\x30'*16 for i in range(num_points)]
         else:
             keys = [os.urandom(16)
-                    for _key in range(1 if firmware_config.fixed_key else num_points)]
+                    for _key in range(1 if fixed_key else num_points)]
         with open(path.join(target_path, 'key_%s.txt' % name), 'w') as f:
             f.write('\n'.join(k.hex() for k in keys))
 
@@ -345,7 +353,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
             ser.write(('n%d\r\n' % num_traces_per_point).encode())
             l.info((ser.readline()))
 
-        if firmware_mode.have_keys and firmware_config.fixed_key:
+        if firmware_mode.have_keys and fixed_key:
             # The key never changes, so we can just set it once and for all.
             _send_key(ser, keys[0])
 
@@ -362,7 +370,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         with click.progressbar(list(range(num_points)), label="Collecting") as bar:
             # for index, plaintext in enumerate(bar):
             while index < num_points:
-                if firmware_mode.have_keys and not firmware_config.fixed_key:
+                if firmware_mode.have_keys and not fixed_key:
                     _send_key(ser, keys[index])
 
                 if not firmware_config.fixed_plaintext:
