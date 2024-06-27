@@ -7,6 +7,7 @@ export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 export PY_LOGLEVEL=INFO
 
 # Recording sampling rate [Hz].
+# NOTE: Synchronized with "collect.json" file for "collect.py".
 export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
 export COLLECT_FC="63.9992e6"
@@ -15,6 +16,8 @@ export COLLECT_DUR="0.3"
 # Number of traces.
 export COLLECT_NUM_TRACES_TRAIN=16000
 export COLLECT_NUM_TRACES_ATTACK=3000
+# YKush configuration (only for YKush reset / power-cycle).
+export COLLECT_YKUSH_PORT=1
 
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="master"

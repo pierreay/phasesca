@@ -187,22 +187,20 @@ function experiment() {
     if [[ "${ARG_SUBSET}" == "attack" ]]; then
         fixed_key="--fixed-key"
     fi
+    local ykush_port=0
+    if [[ "${OPT_RESTART_YKUSH}" -eq 1 ]]; then
+        ykush_port="${COLLECT_YKUSH_PORT}"
+    fi
 
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
 
-    # Handle USB and radio if we are not only extracting previous recording.
+    # Handle radio if we are not only extracting previous recording.
     if [[ "${cmd}" != "extract" ]]; then
         # Kill previously started radio server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
             soapyrx server-stop
         fi
-        # Power cycle all YKush device.
-        if [[ "${OPT_RESTART_YKUSH}" -eq 1 ]]; then
-            sudo ykushcmd -d a
-            sleep 2
-            sudo ykushcmd -u a
-            sleep 4
         fi
 
         # Start SDR server.
@@ -214,6 +212,7 @@ function experiment() {
 
     # Start collection and plot result.
     "${DATASET_PATH}/src/collect.py" --loglevel="${PY_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) \
+    "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" \
                                      "${cmd}" "${DATASET_PATH}/src/collect.json" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
 }
 

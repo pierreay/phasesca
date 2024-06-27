@@ -311,13 +311,15 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     # If requested, reset target
     if YKUSH_PORT != 0:
         l.debug('Resetting device using ykush port %d' % YKUSH_PORT)
-        system("ykushcmd -d %d" % YKUSH_PORT)
-        system("ykushcmd -u %d" % YKUSH_PORT)
+        system("sudo ykushcmd -d %d" % YKUSH_PORT)
+        time.sleep(1)
+        system("sudo ykushcmd -u %d" % YKUSH_PORT)
         time.sleep(3)
 
     with _open_serial_port() as ser:
-        if YKUSH_PORT != 0:
-            l.info((ser.readline()))
+        # TODO: Is this useful?
+        # if YKUSH_PORT != 0:
+        #     l.info((ser.readline()))
 
         if set_power != 0:
             l.debug('Setting power level to '+str(set_power))
