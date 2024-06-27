@@ -66,6 +66,8 @@ FirmwareConfig = collections.namedtuple(
 CollectionConfig = collections.namedtuple(
     "CollectionConfig",
     [
+        # Sampling rate, in Hz.
+        "sampling_rate",
         # How many different plaintext/key combinations to record.
         "num_points",
         # How many traces executed by the firmware.

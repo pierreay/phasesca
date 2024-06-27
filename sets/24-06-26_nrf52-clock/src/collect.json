@@ -5,6 +5,7 @@
         "modulate": false
     },
     "collection": {
+        "sampling_rate": 10e6,
         "channel": 0,
         "num_points": 1,
         "num_traces_per_point": 500,
