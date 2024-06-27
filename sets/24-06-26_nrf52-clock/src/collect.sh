@@ -65,11 +65,10 @@ done
 NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
 MODE="attack"
 
-# Temporary collection path.
+# Subset path.
 TARGET_PATH="${DATASET_PATH}/${MODE}"
 
-# ** Internals
-
+# Sentinels.
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
 COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
 
