@@ -161,42 +161,47 @@ function configure_json_collect() {
 
 function experiment() {
     # Get args.
-    plot=$1
-    saveplot=$2
-    cmd=$3 # ["collect"]
-    
-    # Kill previously started radio server.
-    if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
-        soapyrx server-stop
+    local plot="${1}"
+    local saveplot="${2}"
+    local cmd="${3}"      # ["collect" | "extract"]
+    # Set options based on args.
+    local num_points=-1
+    if [[ "${plot}" == "--plot" ]]; then
+        num_points=1
     fi
-
-    #sudo ykushcmd -d a # power off all ykush device
-    sleep 2
-    #sudo ykushcmd -u a # power on all ykush device
-    #sleep 4
 
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
 
-    # Start SDR server.
-    # NOTE: Make sure the JSON config file is configured accordingly to the SDR server here.
-    if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
-        soapyrx --loglevel ${PY_LOGLEVEL} server-start 0 2.533e9 ${COLLECT_FS} --duration=0.3 --gain 76 &
-        sleep 10
+    # Handle USB and radio if we are not only extracting previous recording.
+    if [[ "${cmd}" != "extract" ]]; then
+        # Kill previously started radio server.
+        if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
+            soapyrx server-stop
+        fi
+        # Power cycle all YKush device.
+        if [[ "${OPT_RESTART_YKUSH}" -eq 1 ]]; then
+            sudo ykushcmd -d a
+            sleep 2
+            sudo ykushcmd -u a
+            sleep 4
+        fi
+
+        # Start SDR server.
+        if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
+            soapyrx --loglevel "${PY_LOGLEVEL}" server-start 0 "${COLLECT_FC}" "${COLLECT_FS}" --duration="${COLLECT_DUR}" --no-agc &
+            sleep 10
+        fi
     fi
 
     # Start collection and plot result.
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=${PY_LOGLEVEL} --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy
-}
-
-function analyze_only() {
-    "${DATASET_PATH}/src/reproduce.py" --loglevel=${PY_LOGLEVEL} --radio=USRP --device=$(nrfjprog --com | cut - -d " " -f 5) extract $CONFIG_JSON_PATH_DST $TARGET_PATH --plot --average-out=$TARGET_PATH/template.npy
+    "${DATASET_PATH}/src/collect.py" --loglevel="${PY_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) $cmd $CONFIG_JSON_PATH_DST $TARGET_PATH $plot $saveplot --average-out=$TARGET_PATH/template.npy --num-points="${num_points}"
 }
 
 # * Script
 
 # Ensure collection directory is created.
-mkdir -p $TARGET_PATH
+mkdir -p "${TARGET_PATH}"
 
 # Ensure target device is available.
 if [[ -z "$(nrfjprog --com | cut - -d " " -f 5)" ]]; then
@@ -207,7 +212,7 @@ fi
 # ** Step 1: Calibratation
 
 # If calibration has not been done.
-if [[ ! -f "$CALIBRATION_FLAG_PATH" ]]; then
+if [[ ! -f "${CALIBRATION_FLAG_PATH}" ]]; then
     # Flash custom firmware.
     flash_firmware_once
 
@@ -220,25 +225,25 @@ if [[ ! -f "$CALIBRATION_FLAG_PATH" ]]; then
     # Analyze only.
     else
         log_info "Skip new recording: File exists: ${TMP_TRACE_PATH}"
-        analyze_only
+        experiment --plot --no-saveplot extract
     fi
 
     read -p "Press [ENTER] to confirm calibration, otherwise press [CTRL-C]..."
-    touch $CALIBRATION_FLAG_PATH
+    touch "${CALIBRATION_FLAG_PATH}"
 else
     log_info "Skip calibration: File exists: $CALIBRATION_FLAG_PATH"
 fi
 
 # ** Step 2: Collection
 
-if [[ ! -f $TARGET_PATH/template.npy ]]; then
+if [[ ! -f "${TARGET_PATH}/template.npy" ]]; then
     log_error "Template has not been created: File not exists: $TARGET_PATH/template.npy"
     exit 1
 fi
 
 # If collection has not been started.
-if [[ ! -f "$COLLECTION_FLAG_PATH" ]]; then
-    touch $COLLECTION_FLAG_PATH
+if [[ ! -f "${COLLECTION_FLAG_PATH}" ]]; then
+    touch "${COLLECTION_FLAG_PATH}"
     configure_json_collect
     experiment --no-plot --no-saveplot collect
 else
