@@ -68,7 +68,7 @@ function attack() {
     if [[ -f "${log_path}" ]]; then
         echo "[!] SKIP: Attack: File exists: ${log_path}"
         return 0
-    elif [[ $(ls -alh ${ATTACK_SET} | grep -E "amp.*.npy" | wc -l) -lt ${num_traces_attack} ]]; then
+    elif [[ $(ls -alh ${ATTACK_SET} | grep -E ".*_amp.npy" | wc -l) -lt ${num_traces_attack} ]]; then
         echo "[!] SKIP: Attack: Not enough traces: < ${num_traces}"
         return 0
     fi

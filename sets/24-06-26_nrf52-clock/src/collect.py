@@ -158,7 +158,7 @@ def _send_init(ser, init):
 
 def show(path, comp, base=0, offset=1, cumulative=False):
     for i in list(range(base, base + offset)):
-        plt.plot(np.load("{}/{}__{}.npy".format(path, comp, i)))
+        plt.plot(np.load("{}/{}_{}.npy".format(path, i, comp)))
         if cumulative is False:
             plt.show()
     if cumulative is True:
@@ -370,7 +370,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         raise e
 
                 try:
-                    trace_raw, trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index, return_zero=False)
+                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
@@ -380,11 +380,9 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     else:
                         raise e
 
-                np.save(os.path.join(target_path, "iq_{}.npy".format(index)), trace_raw)
-                np.save(os.path.join(target_path,"amp_{}.npy".format(index)), trace_amp)
-                np.save(os.path.join(target_path,"phr_{}.npy".format(index)), trace_phr)
-                np.save(os.path.join(target_path,"i_{}.npy".format(index)), trace_i)
-                np.save(os.path.join(target_path,"q_{}.npy".format(index)), trace_q)
+                np.save(os.path.join(target_path, "{}_iq.npy".format(index)), trace_raw)
+                np.save(os.path.join(target_path,"{}_amp.npy".format(index)), trace_amp)
+                np.save(os.path.join(target_path,"{}_phr.npy".format(index)), trace_phr)
 
                 # Update index and tqdm progress bar.
                 index += 1

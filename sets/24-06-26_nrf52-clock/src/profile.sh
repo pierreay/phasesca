@@ -51,7 +51,7 @@ function profile() {
     if [[ -d "${profile_path}" ]]; then
         echo "[!] SKIP: Profile creation: Directory exists: ${profile_path}"
         return 0
-    elif [[ $(ls -alh ${TRAIN_SET} | grep -E "amp.*.npy" | wc -l) -lt ${num_traces} ]]; then
+    elif [[ $(ls -alh ${TRAIN_SET} | grep -E ".*_amp.npy" | wc -l) -lt ${num_traces} ]]; then
         echo "[!] SKIP: Profile creation: Not enough traces: < ${num_traces}"
         return 0
     fi
