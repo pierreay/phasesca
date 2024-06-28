@@ -166,7 +166,7 @@ def show(path, comp, base=0, offset=1, cumulative=False):
 
 # NOTE: Quick and dirty copy and modification of collect().
 @cli.command()
-@click.argument("file", type=click.File())
+@click.argument("file", type=str)
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
 @click.option("--average-out", type=click.Path(dir_okay=False),
               help="File to write the average to (i.e. the template candidate).")

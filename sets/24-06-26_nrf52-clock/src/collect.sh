@@ -82,6 +82,8 @@ fi
 
 # Subset path.
 TARGET_PATH="${DATASET_PATH}/${ARG_SUBSET}"
+# First IQ raw trace path.
+readonly TMP_TRACE_PATH="${TARGET_PATH}/0_iq.npy"
 
 # Sentinels.
 CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
@@ -138,7 +140,7 @@ function experiment() {
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
 
-    # Handle radio if we are not only extracting previous recording.
+    # If we are collecting.
     if [[ "${cmd}" != "extract" ]]; then
         # Kill previously started radio server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
@@ -160,12 +162,19 @@ function experiment() {
             fi
             soapyrx server-wait
         fi
-    fi
 
-    # Start collection and plot result.
-    log_info "Start collection..."
-    "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
-                                     "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
+        # Start collection and plot result.
+        log_info "Start collection..."
+        "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
+                                         "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
+    # If we are analyzing.
+    else
+        log_info "Start analysis..."
+        "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
+                                         "${cmd}" "${TMP_TRACE_PATH}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy"
+    fi
+    
+    
 }
 
 # * Script
