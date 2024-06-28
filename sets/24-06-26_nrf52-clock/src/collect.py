@@ -370,7 +370,12 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         raise e
 
                 try:
-                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index)
+                    # Drop start of the recording (only once at recording time, not further extraction).
+                    data = client.get()[int(CONFIG["scaff"]["drop_start"] * CONFIG["soapyrx"]["sampling_rate"]):]
+                    if len(data) == 0:
+                        raise Exception("Empty data after recording and drop start!")
+                    # Extract traces.
+                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(data, CONFIG, average_out, plot, target_path, saveplot, index)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
