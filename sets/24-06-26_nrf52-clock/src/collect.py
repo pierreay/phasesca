@@ -374,14 +374,9 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         # Initialize the radio client.
         client = soapyrx.core.SoapyClient()
             
-        # with click.progressbar(plaintexts) as bar:
-            # for index, plaintext in enumerate(bar):
         index = 0
         with (logging_redirect_tqdm(loggers=[LOGGER, soapyrx.logger.LOGGER, scaff.log.LOGGER]),
               tqdm(initial=0, total=num_points, desc="Collecting") as bar,):
-        # TODO: Delete clock.progressbar when tqdm will work!
-        #with click.progressbar(list(range(num_points)), label="Collecting") as bar:
-            # for index, plaintext in enumerate(bar):
             while index < num_points:
                 if firmware_mode.have_keys and not fixed_key:
                     _send_key(ser, keys[index])
@@ -443,7 +438,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 # if raw:
                 #     save_raw(OUTFILE, target_path, index)
 
-                # Update index and click progress bar.
+                # Update index and tqdm progress bar.
                 index += 1
                 bar.update(1)
                 client.reinit()
