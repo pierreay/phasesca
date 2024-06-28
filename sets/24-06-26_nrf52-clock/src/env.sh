@@ -21,6 +21,9 @@ export GIT_CHECKOUT_PHASEFW="master"
 export GIT_CHECKOUT_SOAPYRX="master"
 export GIT_CHECKOUT_SCAFF="master"
 
+# If set, use new Tmux pane for background processes.
+export TMUX_PANE=1
+
 # * Functions
 
 function git_checkout_logged() {
