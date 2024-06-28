@@ -24,15 +24,15 @@ slow_mode_sleep_time = 0.001
 # How many different plaintext/key combinations to record.
 num_points = 1
 # How many traces executed by the firmware and to keep at maximum.
-num_traces_per_point = 200
+num_traces_per_point = 50
 # How many traces to keep from the recording.
-num_traces_per_point_min = 100
+num_traces_per_point_min = 25
 
 [scaff]
 # Lower cut-off frequency of the band-pass filter.
-bandpass_lower = 2.0e6
+bandpass_lower = 2.30e6
 # Upper cut-off frequency of the band-pass filter.
-bandpass_upper = 2.15e6
+bandpass_upper = 2.40e6
 # Cut-off frequency of the low-pass filter.
 lowpass_freq = 5e3
 # How much to drop at the start of the trace, in seconds.
