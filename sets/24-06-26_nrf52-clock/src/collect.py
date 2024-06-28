@@ -308,6 +308,8 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
 
         # Initialize the radio client.
         client = soapyrx.core.SoapyClient()
+        # Ensure radio do not contains old recordings.
+        client.reinit()
             
         index = 0
         with (logging_redirect_tqdm(loggers=[LOGGER, soapyrx.logger.LOGGER, scaff.log.LOGGER]),
