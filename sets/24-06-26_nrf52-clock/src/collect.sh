@@ -75,19 +75,19 @@ fi
 
 # Select appropriate number of traces.
 if [[ "${ARG_SUBSET}" == "train" ]]; then
-    NUM_TRACES=${COLLECT_NUM_TRACES_TRAIN}
+    readonly NUM_TRACES=${COLLECT_NUM_TRACES_TRAIN}
 elif [[ "${ARG_SUBSET}" == "attack" ]]; then
-    NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
+    readonly NUM_TRACES=${COLLECT_NUM_TRACES_ATTACK}
 fi
 
 # Subset path.
-TARGET_PATH="${DATASET_PATH}/${ARG_SUBSET}"
+readonly TARGET_PATH="${DATASET_PATH}/${ARG_SUBSET}"
 # First IQ raw trace path.
 readonly TMP_TRACE_PATH="${TARGET_PATH}/0_iq.npy"
 
 # Sentinels.
-CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
-COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
+readonly CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
+readonly COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
 
 # * Functions
 
