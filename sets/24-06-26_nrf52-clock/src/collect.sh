@@ -191,6 +191,10 @@ function experiment() {
     if [[ "${OPT_RESTART_YKUSH}" -eq 1 ]]; then
         ykush_port="${COLLECT_YKUSH_PORT}"
     fi
+    local continue_flag="--continue"
+    if [[ "${plot}" == "--plot" ]]; then
+        continue_flag="--no-continue"
+    fi
 
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
@@ -221,8 +225,8 @@ function experiment() {
 
     # Start collection and plot result.
     log_info "Start collection..."
-    "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" \
-                                     "${cmd}" "${DATASET_PATH}/src/collect.json" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
+    "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
+                                     "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
 }
 
 # * Script

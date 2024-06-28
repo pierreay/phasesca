@@ -115,6 +115,7 @@ DEVICE = None
 BAUD = None
 COMMUNICATE_SLOW = None
 YKUSH_PORT = None
+CONTINUE = None
 
 @click.group()
 @click.option("-d", "--device", default="/dev/ttyACM0", show_default=True,
@@ -128,7 +129,9 @@ YKUSH_PORT = None
                     "serial rx-buffer"))
 @click.option("-l", "--loglevel", default="INFO", show_default=True,
               help="The loglevel to be used ([DEBUG|INFO|WARNING|ERROR|CRITICAL])")
-def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
+@click.option("--continue/--no-continue", "continue_flag", default=False, show_default=True,
+              help="Either to continue the main loop or quit on error.")
+def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag, **kwargs):
     """
     Reproduce screaming channel experiments with vulnerable devices.
 
@@ -140,11 +143,12 @@ def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
     Call any experiment with "--help" for details. You most likely want to use
     "collect".
     """
-    global DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, LOGGER, HANDLER
+    global CONFIG, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, LOGGER, HANDLER
     DEVICE = device
     BAUD = baudrate
     COMMUNICATE_SLOW = slowmode
     YKUSH_PORT = ykush_port
+    CONTINUE = continue_flag
     HANDLER.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(loglevel)
@@ -404,8 +408,11 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     client.record_start()
                 except Exception as e:
                     LOGGER.error("Cannot start recording from the server: {}".format(e))
-                    LOGGER.info("Restart current recording!")
-                    continue
+                    if CONTINUE is True:
+                        LOGGER.info("Restart current recording!")
+                        continue
+                    else:
+                        raise e
 
                 # May need to add sleep if radio is not fast enough.
                 # time.sleep(0.08)
@@ -429,15 +436,22 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 except Exception as e:
                     LOGGER.error("Cannot stop recording from the server: {}".format(e))
                     LOGGER.info("Restart current recording!")
-                    continue
+                    if CONTINUE is true:
+                        LOGGER.info("Restart current recording!")
+                        continue
+                    else:
+                        raise e
 
                 try:
                     trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = scaff.analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
-                    LOGGER.info("Restart current recording!")
-                    client.reinit()
-                    continue
+                    if CONTINUE is True:
+                        LOGGER.info("Restart current recording!")
+                        client.reinit()
+                        continue
+                    else:
+                        raise e
 
                 np.save(os.path.join(target_path,"amp_%d.npy"%(index)),trace_amp)
                 np.save(os.path.join(target_path,"phr_%d.npy"%(index)),trace_phr)
