@@ -1,6 +1,6 @@
 [SDRPLAY]
-gain_ifgr = 20  # IF Gain Reduction [-1 = Disabled] [dB]
-gain_rfgr = 0   # RF Gain Reduction [-1 = Disabled] [dB]
+gain_ifgr = 30  # IF Gain Reduction [-1 = Disabled] [dB]
+gain_rfgr = 2   # RF Gain Reduction [-1 = Disabled] [dB]
 
 [PLOTTERS]
 # Lowpass/Highpass filter for amplitude.
