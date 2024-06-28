@@ -370,7 +370,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         raise e
 
                 try:
-                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index, return_zero=False)
+                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
