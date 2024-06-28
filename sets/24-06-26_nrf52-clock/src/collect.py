@@ -394,8 +394,6 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                 bar.update(1)
                 client.reinit()
 
-        # Quit the server.
-        client.stop()
         # Reset board state before closing serial port.
         _close_serial_port(ser)
 
