@@ -53,5 +53,3 @@ signal_length = 200e-6
 template_name = ""
 # Traces with a lower correlation will be discarded.
 min_correlation = 0.00
-# Keep all raw
-keep_all = false
