@@ -110,67 +110,6 @@ function flash_firmware_once() {
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
 }
 
-# ** Configuration
-
-function configure_param_json_escape_path() {
-    # 1. Substitute "/" to "\/".
-    # 2. Add '"' around string.
-    echo \"${1//\//\\/}\"
-}
-
-function configure_param_json() {
-    config_file="$1"
-    param_name="$2"
-    param_value="$3"
-    log_info "$config_file: $param_name=$param_value"
-    # NOTE: Handle special-case where there is no "," at the end.
-    candid=$(cat "$config_file" | grep "$param_name")
-    if [[ ${candid:$((${#candid} - 1)):1} == "," ]]; then
-        sed -i "s/\"${param_name}\": .*,/\"${param_name}\": ${param_value},/g" "$config_file"
-    else
-        sed -i "s/\"${param_name}\": .*/\"${param_name}\": ${param_value}/g" "$config_file"
-    fi
-}
-
-function configure_json_common() {
-    export CONFIG_JSON_PATH_SRC=$PATH_SCPOC/experiments/config/example_collection_collect_plot.json
-    cp $CONFIG_JSON_PATH_SRC $CONFIG_JSON_PATH_DST
-    configure_param_json $CONFIG_JSON_PATH_DST "channel" "20"
-    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_lower" "2.0e6"
-    configure_param_json $CONFIG_JSON_PATH_DST "bandpass_upper" "2.15e6"
-    configure_param_json $CONFIG_JSON_PATH_DST "drop_start" "2e-1"
-    # May be set to 0 for auto-computation.
-    configure_param_json $CONFIG_JSON_PATH_DST "trigger_threshold" "0e3"
-    # Shift signal left  = Shift window right -> decrease offset.
-    # Shift signal right = Shift window left  -> increase offset.
-    configure_param_json $CONFIG_JSON_PATH_DST "trigger_offset" "125e-6"
-    configure_param_json $CONFIG_JSON_PATH_DST "trigger_rising" "true"
-    configure_param_json $CONFIG_JSON_PATH_DST "signal_length" "200e-6"
-    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point" 300
-    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_min" 100
-    configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
-    # May be set to 0 for no reject.
-    configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"
-}
-
-function configure_json_plot() {
-    export CONFIG_JSON_PATH_DST=$TARGET_PATH/example_collection_collect_plot.json
-    configure_json_common
-    configure_param_json $CONFIG_JSON_PATH_DST "num_points" 1
-}
-
-function configure_json_collect() {
-    export CONFIG_JSON_PATH_DST=$TARGET_PATH/example_collection_collect.json
-    configure_json_common
-    configure_param_json $CONFIG_JSON_PATH_DST "num_points" "$NUM_TRACES"
-    configure_param_json $CONFIG_JSON_PATH_DST "template_name" "$(configure_param_json_escape_path $TARGET_PATH/template.npy)"
-    if [[ "$ARG_SUBSET" == "train" ]]; then
-        configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "false"
-    elif [[ "${ARG_SUBSET}" == "attack" ]]; then
-        configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "true"
-    fi
-}
-
 # ** Instrumentation
 
 function experiment() {
@@ -252,10 +191,6 @@ if [[ ! -f "${CALIBRATION_FLAG_PATH}" ]]; then
     # Flash custom firmware.
     flash_firmware_once
 
-    # Set the JSON configuration file for one recording analysis.
-    # TODO: Remove if not used anymore.
-    # configure_json_plot
-
     # Record a new trace if not already done.
     if [[ ! -f "${TMP_TRACE_PATH}" ]]; then
         experiment --plot --saveplot collect
@@ -281,8 +216,68 @@ fi
 # If collection has not been started.
 if [[ ! -f "${COLLECTION_FLAG_PATH}" ]]; then
     touch "${COLLECTION_FLAG_PATH}"
-    configure_json_collect
     experiment --no-plot --no-saveplot collect
 else
     log_info "Skip collection: File exists: $COLLECTION_FLAG_PATH"
 fi
+
+# * Deprecated
+
+# function configure_param_json_escape_path() {
+#     # 1. Substitute "/" to "\/".
+#     # 2. Add '"' around string.
+#     echo \"${1//\//\\/}\"
+# }
+
+# function configure_param_json() {
+#     config_file="$1"
+#     param_name="$2"
+#     param_value="$3"
+#     log_info "$config_file: $param_name=$param_value"
+#     # NOTE: Handle special-case where there is no "," at the end.
+#     candid=$(cat "$config_file" | grep "$param_name")
+#     if [[ ${candid:$((${#candid} - 1)):1} == "," ]]; then
+#         sed -i "s/\"${param_name}\": .*,/\"${param_name}\": ${param_value},/g" "$config_file"
+#     else
+#         sed -i "s/\"${param_name}\": .*/\"${param_name}\": ${param_value}/g" "$config_file"
+#     fi
+# }
+
+# function configure_json_common() {
+#     export CONFIG_JSON_PATH_SRC=$PATH_SCPOC/experiments/config/example_collection_collect_plot.json
+#     cp $CONFIG_JSON_PATH_SRC $CONFIG_JSON_PATH_DST
+#     configure_param_json $CONFIG_JSON_PATH_DST "channel" "20"
+#     configure_param_json $CONFIG_JSON_PATH_DST "bandpass_lower" "2.0e6"
+#     configure_param_json $CONFIG_JSON_PATH_DST "bandpass_upper" "2.15e6"
+#     configure_param_json $CONFIG_JSON_PATH_DST "drop_start" "2e-1"
+#     # May be set to 0 for auto-computation.
+#     configure_param_json $CONFIG_JSON_PATH_DST "trigger_threshold" "0e3"
+#     # Shift signal left  = Shift window right -> decrease offset.
+#     # Shift signal right = Shift window left  -> increase offset.
+#     configure_param_json $CONFIG_JSON_PATH_DST "trigger_offset" "125e-6"
+#     configure_param_json $CONFIG_JSON_PATH_DST "trigger_rising" "true"
+#     configure_param_json $CONFIG_JSON_PATH_DST "signal_length" "200e-6"
+#     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point" 300
+#     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_min" 100
+#     configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
+#     # May be set to 0 for no reject.
+#     configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"
+# }
+
+# function configure_json_plot() {
+#     export CONFIG_JSON_PATH_DST=$TARGET_PATH/example_collection_collect_plot.json
+#     configure_json_common
+#     configure_param_json $CONFIG_JSON_PATH_DST "num_points" 1
+# }
+
+# function configure_json_collect() {
+#     export CONFIG_JSON_PATH_DST=$TARGET_PATH/example_collection_collect.json
+#     configure_json_common
+#     configure_param_json $CONFIG_JSON_PATH_DST "num_points" "$NUM_TRACES"
+#     configure_param_json $CONFIG_JSON_PATH_DST "template_name" "$(configure_param_json_escape_path $TARGET_PATH/template.npy)"
+#     if [[ "$ARG_SUBSET" == "train" ]]; then
+#         configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "false"
+#     elif [[ "${ARG_SUBSET}" == "attack" ]]; then
+#         configure_param_json $CONFIG_JSON_PATH_DST "fixed_key" "true"
+#     fi
+# }
