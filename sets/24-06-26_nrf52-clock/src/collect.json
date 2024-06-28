@@ -9,7 +9,7 @@
         "channel": 0,
         "num_points": 1,
         "num_traces_per_point": 500,
-        "num_traces_per_point_keep": 300,
+        "num_traces_per_point_min": 300,
         "bandpass_lower": 1.97e6,
         "bandpass_upper": 2.15e6,
         "lowpass_freq": 5e3,

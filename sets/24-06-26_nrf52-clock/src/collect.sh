@@ -147,7 +147,7 @@ function configure_json_common() {
     configure_param_json $CONFIG_JSON_PATH_DST "trigger_rising" "true"
     configure_param_json $CONFIG_JSON_PATH_DST "signal_length" "200e-6"
     configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point" 300
-    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_keep" 100
+    configure_param_json $CONFIG_JSON_PATH_DST "num_traces_per_point_min" 100
     configure_param_json $CONFIG_JSON_PATH_DST "modulate" "true"
     # May be set to 0 for no reject.
     configure_param_json $CONFIG_JSON_PATH_DST "min_correlation" "0.25e0"

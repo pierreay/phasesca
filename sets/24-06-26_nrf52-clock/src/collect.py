@@ -82,9 +82,7 @@ CollectionConfig = collections.namedtuple(
         # How many traces executed by the firmware.
         "num_traces_per_point",
         # How many traces to keep from the recording.
-        "num_traces_per_point_keep",
-        # Multiplier to account for traces dropped due to signal processing
-        "traces_per_point_multiplier",
+        "num_traces_per_point_min",
         # Lower cut-off frequency of the band-pass filter.
         "bandpass_lower",
         # Upper cut-off frequency of the band-pass filter.
@@ -232,7 +230,6 @@ def _send_init(ser, init):
 def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
     """Analyze previous collect."""
     cfg_dict = json.load(config)
-    cfg_dict["collection"].setdefault('traces_per_point_multiplier', 1.2)
     cfg_dict["collection"].setdefault('keep_all', False)
     cfg_dict["collection"].setdefault('channel', 0)
     collection_config = CollectionConfig(**cfg_dict["collection"])
@@ -273,7 +270,6 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     cfg_dict["firmware"].setdefault('slow_mode_sleep_time', 0.001)
     cfg_dict["firmware"].setdefault('fixed_vs_fixed', False)
     cfg_dict["firmware"].setdefault('fixed_plaintext', False)
-    cfg_dict["collection"].setdefault('traces_per_point_multiplier', 1.2)
     cfg_dict["collection"].setdefault('keep_all', False)
     cfg_dict["collection"].setdefault('channel', 0)
 
@@ -290,7 +286,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
     # Signal post-processing will drop some traces when their quality is
     # insufficient, so let's collect more traces than requested to make sure
     # that we have enough in the end.
-    num_traces_per_point = int(collection_config.num_traces_per_point * collection_config.traces_per_point_multiplier)
+    num_traces_per_point = int(collection_config.num_traces_per_point)
 
     # number of points
     if num_points_args != -1:
