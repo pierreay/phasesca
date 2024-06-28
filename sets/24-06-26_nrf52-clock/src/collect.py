@@ -183,7 +183,7 @@ def _send_parameter(ser, command, param):
     else:
         for p in command_line.split(' '):
             ser.write((p+' ').encode())
-            time.sleep(.05)
+            time.sleep(TIME_SLEEP_SER)
 
     LOGGER.debug('Waiting check....')
     x = ser.readline()
@@ -410,9 +410,9 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     LOGGER.error("Cannot start recording from the server: {}".format(e))
                     LOGGER.info("Restart current recording!")
                     continue
-                time.sleep(0.03)
 
-                time.sleep(0.08)
+                # May need to add sleep if radio is not fast enough.
+                # time.sleep(0.08)
 
                 if firmware_mode.repetition_command:
                     # The test mode supports repeated actions.
@@ -424,7 +424,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                         time.sleep(firmware_config.slow_mode_sleep_time)
                         ser.write(firmware_mode.action_command.encode()) # single action
 
-                time.sleep(0.09)
+                # time.sleep(0.09)
                 try:
                     # Wait the end of the recording.
                     client.record_stop()
