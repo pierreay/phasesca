@@ -152,7 +152,7 @@ function experiment() {
         # Start SDR server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
             log_info "Start radio..."
-            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --no-agc"
+            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --agc"
             if [[ "${TMUX_PANE}" -eq 1 ]]; then
                 tmux split-window "tmux set-window-option remain-on-exit on; ${soapyrx_starter}"
             else
