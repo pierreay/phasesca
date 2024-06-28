@@ -293,7 +293,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                 LOGGER.info('Starting continuous wave')
                 ser.write(b'c')     # start continuous wave
 
-        LOGGER.info('Entering test mode')
+        LOGGER.info('Entering {} mode'.format(CONFIG["fw"]["mode"]))
         ser.write(firmware_mode.mode_command.encode()) # enter test mode
         LOGGER.debug((ser.readline()))
 
