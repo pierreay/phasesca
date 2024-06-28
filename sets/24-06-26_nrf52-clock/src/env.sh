@@ -4,7 +4,7 @@
 export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 
 # Recording sampling rate [Hz].
-# NOTE: Synchronized with "collect.json" file for "collect.py".
+# NOTE: Synchronized with "collect.toml" file for "collect.py".
 export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
 export COLLECT_FC="63.9992e6"

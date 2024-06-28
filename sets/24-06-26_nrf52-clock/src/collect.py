@@ -2,7 +2,6 @@
 
 import click
 import collections
-import json
 import os
 from os import path, system
 import serial
@@ -10,6 +9,7 @@ import sys
 import time
 import logging
 import signal
+import tomllib
 from functools import partial
 
 import numpy as np
@@ -24,6 +24,7 @@ import soapyrx.logger
 
 LOGGER = logging.getLogger('collect')
 HANDLER = logging.StreamHandler()
+CONFIG = None
 
 # Time to sleep between two serial communications.
 TIME_SLEEP_SER = 0.05
@@ -44,72 +45,6 @@ TINY_AES_MODE = FirmwareMode(
 TINY_AES_MODE_SLOW = FirmwareMode(
     have_keys=True, mode_command='n', repetition_command=None, action_command='e')
 
-# The config file's "firmware" section.
-FirmwareConfig = collections.namedtuple(
-    "FirmwareConfig",
-    [
-        # Algorithm to attack: tinyaes[_slow], slow
-        # modes use individual serial commands to trigger.
-        "mode",
-        # True to use a fixed key or False to vary it for each point.
-        "fixed_key",
-        # True to use a fixed plaintext or False to vary it for each point.
-        "fixed_plaintext",
-        # Fixed vs Fixed mode: alternate between two fixed p,k pairs
-        # which show large distance according to the leak model
-        "fixed_vs_fixed",
-        # True to modulate data or False to use just the carrier.
-        "modulate",
-
-        # Mode-specific options
-
-        # True to disable radio (conventional attack mode). Defaults at false
-        # for compatibility
-        "conventional",
-        # The sleep time between individual encryptions in slow mode collections
-        "slow_mode_sleep_time",
-    ])
-
-
-# The config file's "collection" section.
-CollectionConfig = collections.namedtuple(
-    "CollectionConfig",
-    [
-        # Sampling rate, in Hz.
-        "sampling_rate",
-        # How many different plaintext/key combinations to record.
-        "num_points",
-        # How many traces executed by the firmware.
-        "num_traces_per_point",
-        # How many traces to keep from the recording.
-        "num_traces_per_point_min",
-        # Lower cut-off frequency of the band-pass filter.
-        "bandpass_lower",
-        # Upper cut-off frequency of the band-pass filter.
-        "bandpass_upper",
-        # Cut-off frequency of the low-pass filter.
-        "lowpass_freq",
-        # How much to drop at the start of the trace, in seconds.
-        "drop_start",
-        # How much to include before the trigger, in seconds.
-        "trigger_offset",
-        # True for triggering on a rising edge, False otherwise.
-        "trigger_rising",
-        # Threshold used for triggering instead of average.
-        "trigger_threshold",
-        # Length of the signal portion to keep, in seconds, starting at
-        # trigger - trigger_offset.
-        "signal_length",
-        # Name of the template to load, or None.
-        "template_name",
-        # Traces with a lower correlation will be discarded.
-        "min_correlation",
-        # Keep all raw
-        "keep_all",
-        # Channel
-        "channel"
-    ])
-
 # Global settings, for simplicity
 DEVICE = None
 BAUD = None
@@ -118,6 +53,7 @@ YKUSH_PORT = None
 CONTINUE = None
 
 @click.group()
+@click.argument("config", type=str)
 @click.option("-d", "--device", default="/dev/ttyACM0", show_default=True,
               help="The serial dev path of device tested for screaming channels")
 @click.option("-b", "--baudrate", default=115200, show_default=True,
@@ -144,6 +80,8 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     "collect".
     """
     global CONFIG, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, LOGGER, HANDLER
+    with open(config, "rb") as f:
+        CONFIG = tomllib.load(f)
     DEVICE = device
     BAUD = baudrate
     COMMUNICATE_SLOW = slowmode
@@ -220,7 +158,6 @@ def _send_init(ser, init):
 
 # NOTE: Quick and dirty copy and modification of collect().
 @cli.command()
-@click.argument("config", type=click.File())
 @click.argument("file", type=click.File())
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
 @click.option("--average-out", type=click.Path(dir_okay=False),
@@ -231,16 +168,11 @@ def _send_init(ser, init):
               help="File to write the plot to (instead of showing it dynamically).")
 @click.option("--saveplot/--no-saveplot", default=True, show_default=True,
               help="Save the plot of the results of trace collection.")
-def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
+def extract(file, target_path, average_out, plot, plot_out, saveplot):
     """Analyze previous collect."""
-    cfg_dict = json.load(config)
-    cfg_dict["collection"].setdefault('keep_all', False)
-    cfg_dict["collection"].setdefault('channel', 0)
-    collection_config = CollectionConfig(**cfg_dict["collection"])
-    scaff.analyze.extract(np.load(file), collection_config, average_out, plot, target_path, saveplot, index=0)
+    scaff.analyze.extract(np.load(file), CONFIG, average_out, plot, target_path, saveplot, index=0)
 
 @cli.command()
-@click.argument("config", type=click.File())
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
 @click.option("--average-out", type=click.Path(dir_okay=False),
               help="File to write the average to (i.e. the template candidate).")
@@ -257,62 +189,48 @@ def extract(config, file, target_path, average_out, plot, plot_out, saveplot):
 @click.option("-p", "--set-power", default=0, show_default=True,
               help="If set, sets the device to a specific power level (overrides --max-power)")
 @click.option("--num-points", "num_points_args", default=-1, show_default=True,
-              help="If set, override the num_points JSON configuration variable.")
+              help="If set, override the num_points TOML configuration variable.")
 @click.option("--fixed-key/--no-fixed-key", "fixed_key_args", default=None, type=bool, show_default=True,
-              help="If set, override the fixed_key JSON configuration variable.")
-def collect(config, target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args, fixed_key_args):
+              help="If set, override the fixed_key TOML configuration variable.")
+def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args, fixed_key_args):
+    """Collect traces for an attack.
+
+    The config is a TOML file containing parameters for trace analysis.
+
     """
-    Collect traces for an attack.
-
-    The config is a JSON file containing parameters for trace analysis; see the
-    definitions of FirmwareConfig and CollectionConfig for descriptions of each
-    parameter.
-    """
-    # NO-OP defaults for mode dependent config options for backwards compatibility
-    cfg_dict = json.load(config)
-    cfg_dict["firmware"].setdefault('conventional', False)
-    cfg_dict["firmware"].setdefault('slow_mode_sleep_time', 0.001)
-    cfg_dict["firmware"].setdefault('fixed_vs_fixed', False)
-    cfg_dict["firmware"].setdefault('fixed_plaintext', False)
-    cfg_dict["collection"].setdefault('keep_all', False)
-    cfg_dict["collection"].setdefault('channel', 0)
-
-    collection_config = CollectionConfig(**cfg_dict["collection"])
-    firmware_config = FirmwareConfig(**cfg_dict["firmware"])
-
-    if firmware_config.mode == "tinyaes":
+    if CONFIG["fw"]["mode"] == "tinyaes":
         firmware_mode = TINY_AES_MODE
-    elif firmware_config.mode == "tinyaes_slow":
+    elif CONFIG["fw"]["mode"] == "tinyaes_slow":
         firmware_mode = TINY_AES_MODE_SLOW
     else:
-        raise Exception("Unsupported mode %s; this is a bug!" % firmware_config.mode)
+        raise Exception("Unsupported mode %s; this is a bug!" % CONFIG["fw"]["mode"])
 
     # Signal post-processing will drop some traces when their quality is
     # insufficient, so let's collect more traces than requested to make sure
     # that we have enough in the end.
-    num_traces_per_point = int(collection_config.num_traces_per_point)
+    num_traces_per_point = int(CONFIG["fw"]["num_traces_per_point"])
 
     # number of points
     if num_points_args != -1:
         num_points = num_points_args
     else:
-        num_points = int(collection_config.num_points)
+        num_points = int(CONFIG["fw"]["num_points"])
 
     # fixed_key
     if fixed_key_args is not None:
         fixed_key = fixed_key_args
     else:
-        fixed_key = firmware_config.fixed_key
+        fixed_key = CONFIG["fw"]["fixed_key"]
 
     # fixed vs fixed
-    fixed_vs_fixed = firmware_config.fixed_vs_fixed
+    fixed_vs_fixed = CONFIG["fw"]["fixed_vs_fixed"]
 
     # Generate the plaintexts
     if fixed_vs_fixed:
         plaintexts = ['\x00'*16 for _trace in range(num_points)]
     else:
         plaintexts = [os.urandom(16)
-                    for _trace in range(1 if firmware_config.fixed_plaintext else num_points)]
+                    for _trace in range(1 if CONFIG["fw"]["fixed_plaintext"] else num_points)]
     
     with open(path.join(target_path, 'pt.txt'), 'w') as f:
         f.write('\n'.join(p.hex() for p in plaintexts))
@@ -351,15 +269,15 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
             ser.readline()
             ser.readline()
 
-        if firmware_config.conventional:
+        if CONFIG["fw"]["conventional"]:
             LOGGER.debug('Starting conventional mode, the radio is off')
         else:
             LOGGER.info('Selecting channel')
             ser.write(b'a')
             LOGGER.debug((ser.readline()))
-            ser.write(b'%02d\n'%collection_config.channel)
+            ser.write(b'%02d\n' % CONFIG["fw"]["channel"])
             LOGGER.debug((ser.readline()))
-            if firmware_config.modulate:
+            if CONFIG["fw"]["modulate"]:
                 LOGGER.info('Starting modulated wave')
                 ser.write(b'o')     # start modulated wave
                 LOGGER.debug((ser.readline()))
@@ -384,7 +302,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
             # The key never changes, so we can just set it once and for all.
             _send_key(ser, keys[0])
 
-        if firmware_config.fixed_plaintext:
+        if CONFIG["fw"]["fixed_plaintext"]:
             # The plaintext never changes, so we can just set it once and for all.
             _send_plaintext(ser, plaintexts[0])
 
@@ -398,7 +316,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 if firmware_mode.have_keys and not fixed_key:
                     _send_key(ser, keys[index])
 
-                if not firmware_config.fixed_plaintext:
+                if not CONFIG["fw"]["fixed_plaintext"]:
                     _send_plaintext(ser, plaintexts[index])
 
                 LOGGER.info("Start instrumentation #{}".format(index))
@@ -424,7 +342,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     ser.readline() # wait until done
                 else:
                     for _iteration in range(num_traces_per_point):
-                        time.sleep(firmware_config.slow_mode_sleep_time)
+                        time.sleep(CONFIG["fw"]["slow_mode_sleep_time"])
                         ser.write(firmware_mode.action_command.encode()) # single action
 
                 # time.sleep(0.09)
@@ -435,7 +353,6 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                     client.accept()
                 except Exception as e:
                     LOGGER.error("Cannot stop recording from the server: {}".format(e))
-                    LOGGER.info("Restart current recording!")
                     if CONTINUE is true:
                         LOGGER.info("Restart current recording!")
                         continue
@@ -443,7 +360,7 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                         raise e
 
                 try:
-                    trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = scaff.analyze.extract(client.get(), collection_config, average_out, plot, target_path, saveplot, index, return_zero=False)
+                    trace_amp, trace_phr, trace_i, trace_q, trace_i_augmented, trace_q_augmented = scaff.analyze.extract(client.get(), CONFIG, average_out, plot, target_path, saveplot, index, return_zero=False)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
