@@ -376,9 +376,6 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                 np.save(os.path.join(target_path,"phr_%d.npy"%(index)),trace_phr)
                 np.save(os.path.join(target_path,"i_%d.npy"%(index)),trace_i)
                 np.save(os.path.join(target_path,"q_%d.npy"%(index)),trace_q)
-                if index < 30:
-                    plt.plot(trace_amp); figure = plt.gcf(); figure.set_size_inches(32, 18)
-                    plt.savefig(os.path.join(target_path,"amp_%d.png"%(index))); plt.clf()
                 # np.save(os.path.join(target_path,"i_augmented_%d.npy"%(index)),trace_i_augmented)
                 # np.save(os.path.join(target_path,"q_augmented_%d.npy"%(index)),trace_q_augmented)
                 # if raw:
