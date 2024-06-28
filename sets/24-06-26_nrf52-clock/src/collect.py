@@ -151,7 +151,16 @@ def _send_plaintext(ser, plaintext):
 def _send_init(ser, init):
     _send_parameter(ser, 'i', init)
 
-def show(path, comp, base=0, offset=1, cumulative=False):
+@cli.command()
+@click.argument("path", type=str)
+@click.argument("comp", type=str)
+@click.option("--base", type=int, default=0, show_default=True,
+              help="Base start index.")
+@click.option("--offset", type=int, default=0, show_default=True,
+              help="Added to base index to obtain end index.")
+@click.option("--cumulative/--no-cumulative", type=bool, default=False, show_default=True,
+              help="Show a cumulative plot or a single plot per traces.")
+def show(path, comp, base, offset, cumulative):
     for i in list(range(base, base + offset)):
         plt.plot(np.load("{}/{}_{}.npy".format(path, i, comp)))
         if cumulative is False:
