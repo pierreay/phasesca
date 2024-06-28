@@ -329,7 +329,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                 if not CONFIG["fw"]["fixed_plaintext"]:
                     _send_plaintext(ser, plaintexts[index])
 
-                LOGGER.info("Start instrumentation #{}".format(index))
+                LOGGER.debug("Start instrumentation #{}".format(index))
 
                 # Start non-blocking recording for a pre-configured duration.
                 try:
@@ -347,7 +347,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
 
                 if firmware_mode.repetition_command:
                     # The test mode supports repeated actions.
-                    LOGGER.info('Start repetitions...')
+                    LOGGER.debug('Start repetitions...')
                     ser.write(firmware_mode.action_command.encode())
                     ser.readline() # wait until done
                 else:
