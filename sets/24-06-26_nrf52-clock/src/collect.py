@@ -156,6 +156,14 @@ def _send_plaintext(ser, plaintext):
 def _send_init(ser, init):
     _send_parameter(ser, 'i', init)
 
+def show(path, comp, base=0, offset=1, cumulative=False):
+    for i in list(range(base, base + offset)):
+        plt.plot(np.load("{}/{}__{}.npy".format(path, comp, i)))
+        if cumulative is False:
+            plt.show()
+    if cumulative is True:
+        plt.show()    
+
 # NOTE: Quick and dirty copy and modification of collect().
 @cli.command()
 @click.argument("file", type=click.File())
