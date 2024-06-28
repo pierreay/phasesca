@@ -353,7 +353,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     client.accept()
                 except Exception as e:
                     LOGGER.error("Cannot stop recording from the server: {}".format(e))
-                    if CONTINUE is true:
+                    if CONTINUE is True:
                         LOGGER.info("Restart current recording!")
                         continue
                     else:
