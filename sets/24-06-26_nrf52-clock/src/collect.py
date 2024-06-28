@@ -164,7 +164,7 @@ def _send_parameter(ser, command, param):
     The function assumes that we've already entered tiny_aes mode.
     """
     command_line = '%s%s\r\n' % (command, _encode_for_device(param))
-    LOGGER.debug('Sending command:  %s\n' % command_line)
+    LOGGER.debug('Sending command: %s' % command_line[:-1])
     if not COMMUNICATE_SLOW:
         ser.write(command_line.encode())
     else:
@@ -172,11 +172,11 @@ def _send_parameter(ser, command, param):
             ser.write((p+' ').encode())
             time.sleep(.05)
 
-    LOGGER.debug('Waiting check\n')
+    LOGGER.debug('Waiting check....')
     x = ser.readline()
-    LOGGER.debug ("received: "+x.decode())
+    LOGGER.debug ("Received: "+x.decode()[:-1])
     if len(x) == 0:
-        LOGGER.debug("nothing received on timeout, ignoring error")
+        LOGGER.debug("Nothing received on timeout, ignoring error")
         return 
     #check = ''.join(chr(int(word)) for word in x.split(' '))
     # -- create check like this instead for ESP32:
@@ -185,14 +185,14 @@ def _send_parameter(ser, command, param):
     #check = ''.join(chr(int(word)) for word in response)
     param2 = '%s' %  _encode_for_device(param)
     
-    LOGGER.debug ("param: "+param2)
-    LOGGER.debug ("check: "+x.decode())
+    LOGGER.debug("Param: "+param2)
+    LOGGER.debug("Check: "+x.decode()[:-1])
     if x.decode().strip() != param2.strip():
         LOGGER.error(("ERROR\n%s\n%s" % (_encode_for_device(param),
                                  _encode_for_device(x))))
         ser.write(b'q')
         sys.exit(1)
-    LOGGER.debug('Check done\n')
+    LOGGER.debug('Check done!')
 
 def _send_key(ser, key):
     _send_parameter(ser, 'k', key)
