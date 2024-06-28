@@ -9,6 +9,8 @@ import serial
 import sys
 import time
 import logging
+import signal
+from functools import partial
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -22,6 +24,9 @@ import soapyrx.logger
 
 LOGGER = logging.getLogger('collect')
 HANDLER = logging.StreamHandler()
+
+# Time to sleep between two serial communications.
+TIME_SLEEP_SER = 0.05
 
 FirmwareMode = collections.namedtuple(
     "FirmwareMode",
@@ -149,6 +154,14 @@ def cli(device, baudrate, ykush_port, slowmode, loglevel, **kwargs):
 def _open_serial_port():
     LOGGER.info("Opening serial port")
     return serial.Serial(DEVICE, BAUD, timeout=5)
+
+def _close_serial_port(ser, signum = None, frame = None):
+    LOGGER.info("Close serial port")
+    ser.write(b'q')     # quit tiny_aes mode
+    LOGGER.debug((ser.readline()))
+    ser.write(b'e')     # turn off continuous wave (nop if not enabled)
+    time.sleep(TIME_SLEEP_SER)
+    ser.close()
     
 def _encode_for_device(data):
     """
@@ -358,6 +371,10 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
         ser.write(firmware_mode.mode_command.encode()) # enter test mode
         LOGGER.debug((ser.readline()))
 
+        # Quit just entered mode on CTRL+C.
+        signal.signal(signal.SIGINT, partial(_close_serial_port, ser))
+        signal.signal(signal.SIGTERM, partial(_close_serial_port, ser))
+
         if firmware_mode.repetition_command:
             LOGGER.info('Setting trace repetitions')
             ser.write(('n%d\r\n' % num_traces_per_point).encode())
@@ -443,15 +460,10 @@ def collect(config, target_path, average_out, plot, plot_out, max_power, raw, sa
                 bar.update(1)
                 client.reinit()
 
-        ser.write(b'q')     # quit tiny_aes mode
-        LOGGER.debug((ser.readline()))
-        ser.write(b'e')     # turn off continuous wave
-
-        time.sleep(1)
-        ser.close()
-
         # Quit the server.
         client.stop()
+        # Reset board state before closing serial port.
+        _close_serial_port(ser)
 
 if __name__ == "__main__":
     cli()
