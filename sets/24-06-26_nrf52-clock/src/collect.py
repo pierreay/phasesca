@@ -83,6 +83,8 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     HANDLER.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(loglevel)
+    soapyrx.logger.configure(enable=True, level=loglevel)
+    scaff.log.configure(enable=True, level=loglevel)
 
 def _open_serial_port():
     LOGGER.info("Opening serial port")
@@ -193,11 +195,6 @@ def extract(file, target_path, average_out, plot, plot_out, saveplot):
 @click.option("--fixed-key/--no-fixed-key", "fixed_key_args", default=None, type=bool, show_default=True,
               help="If set, override the fixed_key TOML configuration variable.")
 def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args, fixed_key_args):
-    """Collect traces for an attack.
-
-    The config is a TOML file containing parameters for trace analysis.
-
-    """
     if CONFIG["fw"]["mode"] == "tinyaes":
         firmware_mode = TINY_AES_MODE
     elif CONFIG["fw"]["mode"] == "tinyaes_slow":
