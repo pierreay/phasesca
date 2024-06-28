@@ -123,6 +123,10 @@ function experiment() {
     local num_points=-1
     if [[ "${plot}" == "--plot" ]]; then
         num_points=1
+    elif [[ "${ARG_SUBSET}" == "train" ]]; then
+         num_points="${COLLECT_NUM_TRACES_TRAIN}"
+    elif [[ "${ARG_SUBSET}" == "attack" ]]; then
+         num_points="${COLLECT_NUM_TRACES_ATTACK}"
     fi
     local fixed_key="--no-fixed-key"
     if [[ "${ARG_SUBSET}" == "attack" ]]; then
