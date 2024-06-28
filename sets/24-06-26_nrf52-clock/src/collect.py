@@ -51,6 +51,7 @@ BAUD = None
 COMMUNICATE_SLOW = None
 YKUSH_PORT = None
 CONTINUE = None
+TEMPLATE = None
 
 @click.group()
 @click.argument("config", type=str)
@@ -67,19 +68,10 @@ CONTINUE = None
               help="The loglevel to be used ([DEBUG|INFO|WARNING|ERROR|CRITICAL])")
 @click.option("--continue/--no-continue", "continue_flag", default=False, show_default=True,
               help="Either to continue the main loop or quit on error.")
-def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag, **kwargs):
-    """
-    Reproduce screaming channel experiments with vulnerable devices.
-
-    This script assumes that the device has just been plugged in (or is in an
-    equivalent state), that it is running our modified firmware, and that an SDR
-    is available. It will carry out the chosen experiment, producing a trace and
-    possibly other artifacts. 
-
-    Call any experiment with "--help" for details. You most likely want to use
-    "collect".
-    """
-    global CONFIG, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, LOGGER, HANDLER
+@click.option("--template", "template_path", default="", show_default=True, type=str,
+              help="If set, use the specified Numpy file as the template when analyzing.")
+def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag, template_path, **kwargs):
+    global CONFIG, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, TEMPLATE, LOGGER, HANDLER
     with open(config, "rb") as f:
         CONFIG = tomllib.load(f)
     DEVICE = device
@@ -87,6 +79,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     COMMUNICATE_SLOW = slowmode
     YKUSH_PORT = ykush_port
     CONTINUE = continue_flag
+    TEMPLATE = TEMPLATE if template_path == "" else np.load(template_path)
     HANDLER.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(loglevel)
@@ -177,8 +170,7 @@ def show(path, comp, base=0, offset=1, cumulative=False):
 @click.option("--saveplot/--no-saveplot", default=True, show_default=True,
               help="Save the plot of the results of trace collection.")
 def extract(file, target_path, average_out, plot, plot_out, saveplot):
-    """Analyze previous collect."""
-    scaff.analyze.extract(np.load(file), CONFIG, average_out, plot, target_path, saveplot, index=0)
+    scaff.analyze.extract(np.load(file), TEMPLATE, CONFIG, average_out, plot, target_path, saveplot, index=0)
 
 @cli.command()
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
@@ -375,7 +367,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     if len(data) == 0:
                         raise Exception("Empty data after recording and drop start!")
                     # Extract traces.
-                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(data, CONFIG, average_out, plot, target_path, saveplot, index)
+                    trace_raw, trace_amp, trace_phr = scaff.analyze.extract(data, TEMPLATE, CONFIG, average_out, plot, target_path, saveplot, index)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:

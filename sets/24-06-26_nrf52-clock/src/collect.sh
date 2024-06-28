@@ -84,6 +84,8 @@ fi
 readonly TARGET_PATH="${DATASET_PATH}/${ARG_SUBSET}"
 # First IQ raw trace path.
 readonly TMP_TRACE_PATH="${TARGET_PATH}/0_iq.npy"
+# Template path.
+readonly TEMPLATE_PATH="${TARGET_PATH}/template.npy"
 
 # Sentinels.
 readonly CALIBRATION_FLAG_PATH="${TARGET_PATH}/.calibration_done"
@@ -140,6 +142,14 @@ function experiment() {
     if [[ "${plot}" == "--plot" ]]; then
         continue_flag="--no-continue"
     fi
+    local average_out="--average-out=${TEMPLATE_PATH}"
+    if [[ "${plot}" == "--no-plot" ]]; then
+         average_out=""
+    fi
+    local template_path=""
+    if [[ "${plot}" == "--no-plot" ]]; then
+        template_path="--template=${TEMPLATE_PATH}"
+    fi
 
     # Ensure SDR tool version.
     git_checkout_logged "${PATH_SOAPYRX}" "${GIT_CHECKOUT_SOAPYRX}"
@@ -169,16 +179,14 @@ function experiment() {
 
         # Start collection and plot result.
         log_info "Start collection..."
-        "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
-                                         "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy" --num-points="${num_points}" "${fixed_key}"
+        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+                                         "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else
         log_info "Start analysis..."
-        "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" "${continue_flag}" "${DATASET_PATH}/src/collect.toml" \
-                                         "${cmd}" "${TMP_TRACE_PATH}" "${TARGET_PATH}" "${plot}" "${saveplot}" --average-out="${TARGET_PATH}/template.npy"
-    fi
-    
-    
+        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+                                         "${cmd}" "${TMP_TRACE_PATH}" "${TARGET_PATH}" "${plot}" "${saveplot}" "${average_out}"
+    fi    
 }
 
 # * Script
