@@ -338,6 +338,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         LOGGER.info("Restart current recording!")
                         continue
                     else:
+                        _close_serial_port(ser)
                         raise e
 
                 # May need to add sleep if radio is not fast enough.
@@ -365,6 +366,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         LOGGER.info("Restart current recording!")
                         continue
                     else:
+                        _close_serial_port(ser)
                         raise e
 
                 try:
@@ -381,6 +383,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         client.reinit()
                         continue
                     else:
+                        _close_serial_port(ser)
                         raise e
 
                 np.save(os.path.join(target_path, "{}_iq.npy".format(index)), trace_raw)
