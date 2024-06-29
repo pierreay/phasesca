@@ -26,12 +26,17 @@ export TMUX_PANE=1
 
 # List of parameters for the created profiles.
 export PROFILE_COMP_LIST=(amp phr)
-export PROFILE_NUM_TRACES_LIST=(3000 4000)
-export PROFILE_POIS_ALGO_LIST=(r)
-export PROFILE_POIS_NB_LIST=(1 2)
+export PROFILE_NUM_TRACES_LIST=(4000)
+export PROFILE_POIS_ALGO_LIST=(r snr)
+export PROFILE_POIS_NB_LIST=(1)
 # Delimiters. Small window greatly increase profile computation speed.
 export PROFILE_START_POINT=0
 export PROFILE_END_POINT=0
+# Base path used to store the created profile.
+export PROFILE_PATH_BASE="${DATASET_PATH}/profile"
+
+# Number of traces to attack.
+export ATTACK_NUM_TRACES_LIST=(200 500 1000 2000)
 
 # * Functions
 

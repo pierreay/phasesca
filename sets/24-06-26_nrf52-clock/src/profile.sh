@@ -18,9 +18,6 @@ log_info "Loaded environment: ${env}"
 # Path of dataset used to create the profile.
 TRAIN_SET="${DATASET_PATH}/train"
 
-# Base path used to store the created profile.
-PROFILE_PATH_BASE="${DATASET_PATH}/profile"
-
 # * Functions
 
 function profile() {
@@ -36,10 +33,10 @@ function profile() {
 
     # Safety-guard.
     if [[ -d "${profile_path}" ]]; then
-        echo "[!] SKIP: Profile creation: Directory exists: ${profile_path}"
+        log_info "Skip profile creation: Directory exists: ${profile_path}"
         return 0
     elif [[ $(ls -alh ${TRAIN_SET} | grep -E ".*_amp.npy" | wc -l) -lt "${num_traces}" ]]; then
-        echo "[!] SKIP: Profile creation: Not enough traces: < ${num_traces}"
+        log_warn "Skip profile creation: Not enough traces: < ${num_traces}"
         return 0
     fi
     
