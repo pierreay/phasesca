@@ -43,7 +43,7 @@ function profile() {
     # Initialize directories.
     mkdir -p "${profile_path}"
     # Create the profile.
-    scaff "${plot}" "${save_images}" --norm --data-path "${TRAIN_SET}" --start-point "${PROFILE_START_POINT}" --end-point "${PROFILE_END_POINT}" --num-traces "${num_traces}" --comp "${comp}" profile "${profile_path}" --pois-algo "${pois_algo}" --num-pois "${pois_nb}" --poi-spacing 2 --variable p_xor_k --align --fs "${COLLECT_FS}"
+    scaff profile "${plot}" "${save_images}" --norm --data-path "${TRAIN_SET}" --start-point "${PROFILE_START_POINT}" --end-point "${PROFILE_END_POINT}" --num-traces "${num_traces}" --comp "${comp}" "${profile_path}" --pois-algo "${pois_algo}" --num-pois "${pois_nb}" --poi-spacing 2 --variable p_xor_k --align --fs "${COLLECT_FS}"
 }
 
 # * Script

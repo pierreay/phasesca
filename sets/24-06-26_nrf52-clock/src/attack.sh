@@ -56,10 +56,7 @@ function attack() {
     # Initialize directories.
     mkdir -p "${LOG_PATH_BASE}"
     # Perform the attack.
-    scaff "${plot}" --norm --data-path "${ATTACK_SET}" --start-point "${PROFILE_START_POINT}" \
-              --end-point "${PROFILE_END_POINT}" --num-traces "${num_traces_attack}" "${bruteforce}" --comp "${comp}" \
-              attack "${profile_path}" --attack-algo pcc --variable p_xor_k --align --fs "${COLLECT_FS}" \
-              | tee "${log_path}"
+    scaff attack "${plot}" --norm --data-path "${ATTACK_SET}" --start-point "${PROFILE_START_POINT}" --end-point "${PROFILE_END_POINT}" --num-traces "${num_traces_attack}" "${bruteforce}" --comp "${comp}" "${profile_path}" --attack-algo pcc --variable p_xor_k --align --fs "${COLLECT_FS}" | tee "${log_path}"
 }
 
 # * Script
