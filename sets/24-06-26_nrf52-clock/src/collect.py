@@ -18,7 +18,7 @@ from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 import scaff.analyze
-import scaff.log
+import scaff.logger
 import soapyrx.core
 import soapyrx.logger
 
@@ -318,7 +318,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
         client.reinit()
             
         index = 0
-        with (logging_redirect_tqdm(loggers=[LOGGER, soapyrx.logger.LOGGER, scaff.log.LOGGER]),
+        with (logging_redirect_tqdm(loggers=[LOGGER, soapyrx.logger.LOGGER, scaff.logger.LOGGER]),
               tqdm(initial=0, total=num_points, desc="Collecting") as bar,):
             while index < num_points:
                 if firmware_mode.have_keys and not fixed_key:
