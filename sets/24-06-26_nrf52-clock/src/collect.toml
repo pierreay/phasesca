@@ -29,10 +29,11 @@ num_traces_per_point = 125
 num_traces_per_point_min = 100
 
 [scaff]
-# Lower cut-off frequency of the band-pass filter.
-bandpass_lower = 2.30e6
-# Upper cut-off frequency of the band-pass filter.
-bandpass_upper = 2.40e6
+# Lower and upper cut-off frequencies of the band-pass filter.
+# bandpass_lower = 2.30e6
+# bandpass_upper = 2.40e6
+bandpass_lower = 2.0e6
+bandpass_upper = 2.2e6
 # Cut-off frequency of the low-pass filter.
 lowpass_freq = 5e3
 # How much to drop at the start of the trace, in seconds.
@@ -45,9 +46,10 @@ trigger_offset = 50e-6
 trigger_rising = true
 # Threshold used for triggering instead of average.
 # May be set to 0 for auto-computation.
-trigger_threshold = 0.20
+# trigger_threshold = 0.20
+trigger_threshold = 0
 # Length of the signal portion to keep, in seconds, starting at
 # trigger - trigger_offset.
 signal_length = 200e-6
 # Traces with a lower correlation will be discarded.
-min_correlation = 1.18e-3
+min_correlation = 5.5e-3
