@@ -28,12 +28,9 @@ slow_mode_sleep_time = 0.001
 [scaff.legacy]
 sampling_rate = 10e6
 num_traces_per_point = 125
-num_traces_per_point_min = 100
 trigger_offset = 50e-6
 trigger_rising = true
-trigger_threshold = 0
 signal_length = 200e-6
-min_correlation = 5.5e-3
 lowpass_freq = 5e3
 # Without "processing_extract" filters:
 # bandpass_lower = 2.0e6
@@ -41,6 +38,15 @@ lowpass_freq = 5e3
 # With "processing_extract" filters:
 bandpass_lower = 0.8e6
 bandpass_upper = 1e6
+
+# For train set:
+trigger_threshold = 0.39
+min_correlation = 8.6e-4
+num_traces_per_point_min = 50
+# For attack set:
+# trigger_threshold = 0
+# min_correlation = 5.5e-3
+# num_traces_per_point_min = 100
 
 [scaff.io]
 data_path = ""
