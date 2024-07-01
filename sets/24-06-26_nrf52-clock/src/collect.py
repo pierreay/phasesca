@@ -377,6 +377,8 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     data = client.get()[int(CONFIG["drop_start"] * CONFIG["scaff"]["legacy"]["sampling_rate"]):]
                     if len(data) == 0:
                         raise Exception("Empty data after recording and drop start!")
+                    # Discard average out if index is superior to 0 to only write template once.
+                    average_out = average_out if index == 0 else None
                     # Extract traces.
                     data_amp = np.abs(data)
                     data_phr = scaff.dsp.phase_rot(data)
