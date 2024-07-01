@@ -39,3 +39,7 @@ trigger_rising = true
 trigger_threshold = 0
 signal_length = 200e-6
 min_correlation = 5.5e-3
+
+[scaff.io]
+data_path = ""
+data_pattern = "{}_iq.npy"
