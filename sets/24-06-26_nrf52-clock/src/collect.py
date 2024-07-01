@@ -214,13 +214,13 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
     # Signal post-processing will drop some traces when their quality is
     # insufficient, so let's collect more traces than requested to make sure
     # that we have enough in the end.
-    num_traces_per_point = int(CONFIG["fw"]["num_traces_per_point"])
+    num_traces_per_point = int(CONFIG["scaff"]["legacy"]["num_traces_per_point"])
 
     # number of points
     if num_points_args != -1:
         num_points = num_points_args
     else:
-        num_points = int(CONFIG["fw"]["num_points"])
+        num_points = int(CONFIG["num_points"])
 
     # fixed_key
     if fixed_key_args is not None:
@@ -371,7 +371,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
 
                 try:
                     # Drop start of the recording (only once at recording time, not further extraction).
-                    data = client.get()[int(CONFIG["scaff"]["drop_start"] * CONFIG["soapyrx"]["sampling_rate"]):]
+                    data = client.get()[int(CONFIG["drop_start"] * CONFIG["scaff"]["legacy"]["sampling_rate"]):]
                     if len(data) == 0:
                         raise Exception("Empty data after recording and drop start!")
                     # Extract traces.

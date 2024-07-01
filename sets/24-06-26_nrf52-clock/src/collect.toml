@@ -1,7 +1,9 @@
-[soapyrx]
-# Sampling rate, in Hz.
-sampling_rate = 10e6
+# How much to drop at the start of the signal after recording [s].
+drop_start = 11e-2
+# How many different plaintext/key combinations to record.
+num_points = 1
 
+# Firmware configuration.
 [fw]
 # Channel.
 channel = 20
@@ -21,14 +23,15 @@ modulate = false
 conventional = true
 # The sleep time between individual encryptions in slow mode collections.
 slow_mode_sleep_time = 0.001
-# How many different plaintext/key combinations to record.
-num_points = 1
+
+# SCAFF configuration.
+[scaff.legacy]
+# Sampling rate, in Hz.
+sampling_rate = 10e6
 # How many traces executed by the firmware and to keep at maximum.
 num_traces_per_point = 125
 # How many traces to keep from the recording.
 num_traces_per_point_min = 100
-
-[scaff]
 # Lower and upper cut-off frequencies of the band-pass filter.
 # bandpass_lower = 2.30e6
 # bandpass_upper = 2.40e6
@@ -36,8 +39,6 @@ bandpass_lower = 2.0e6
 bandpass_upper = 2.2e6
 # Cut-off frequency of the low-pass filter.
 lowpass_freq = 5e3
-# How much to drop at the start of the trace, in seconds.
-drop_start = 11e-2
 # How much to include before the trigger, in seconds.
 # Shift signal left  = Shift window right -> decrease offset.
 # Shift signal right = Shift window left  -> increase offset.
