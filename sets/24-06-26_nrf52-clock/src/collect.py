@@ -19,6 +19,7 @@ from tqdm.contrib.logging import logging_redirect_tqdm
 
 import scaff.legacy
 import scaff.logger
+import scaff.dsp
 import soapyrx.core
 import soapyrx.logger
 
@@ -377,7 +378,16 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     if len(data) == 0:
                         raise Exception("Empty data after recording and drop start!")
                     # Extract traces.
-                    trace_raw, trace_amp, trace_phr = scaff.legacy.extract(data, TEMPLATE, CONFIG_EXTRACT, average_out, plot, target_path, saveplot, index)
+                    data_amp = np.abs(data)
+                    data_phr = scaff.dsp.phase_rot(data)
+                    trace_amp, _, res_amp = scaff.legacy.extract(
+                        data_amp, TEMPLATE, CONFIG_EXTRACT,
+                        average_file_name=average_out, plot=plot, target_path=target_path, savePlot=plot_flag
+                    )
+                    trace_phr, _, res_phr = scaff.legacy.extract(
+                        data_phr, TEMPLATE, CONFIG_EXTRACT,
+                        average_file_name=None, plot=False, target_path=None, savePlot=False, results_old=res_amp
+                    )
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
@@ -388,7 +398,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         _close_serial_port(ser)
                         raise e
 
-                np.save(os.path.join(target_path, "{}_iq.npy".format(index)), trace_raw)
+                np.save(os.path.join(target_path, "{}_iq.npy".format(index)), data)
                 np.save(os.path.join(target_path,"{}_amp.npy".format(index)), trace_amp)
                 np.save(os.path.join(target_path,"{}_phr.npy".format(index)), trace_phr)
 
