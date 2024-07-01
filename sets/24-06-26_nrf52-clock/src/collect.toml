@@ -29,17 +29,31 @@ slow_mode_sleep_time = 0.001
 sampling_rate = 10e6
 num_traces_per_point = 125
 num_traces_per_point_min = 100
-# bandpass_lower = 2.30e6
-# bandpass_upper = 2.40e6
-bandpass_lower = 2.0e6
-bandpass_upper = 2.2e6
-lowpass_freq = 5e3
 trigger_offset = 50e-6
 trigger_rising = true
 trigger_threshold = 0
 signal_length = 200e-6
 min_correlation = 5.5e-3
+lowpass_freq = 5e3
+# Without "processing_extract" filters:
+# bandpass_lower = 2.0e6
+# bandpass_upper = 2.2e6
+# With "processing_extract" filters:
+bandpass_lower = 0.8e6
+bandpass_upper = 1e6
 
 [scaff.io]
 data_path = ""
 data_pattern = "{}_iq.npy"
+
+[scaff.processing_extract.filter_amp]
+en = true
+type = "high"
+cutoff = 500e3
+order = 1
+
+[scaff.processing_extract.filter_phr]
+en = true
+type = "low"
+cutoff = 30e3
+order = 1
