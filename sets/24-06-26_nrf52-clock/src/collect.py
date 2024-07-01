@@ -25,6 +25,7 @@ import soapyrx.logger
 LOGGER = logging.getLogger('collect')
 HANDLER = logging.StreamHandler()
 CONFIG = None
+CONFIG_EXTRACT = None
 
 # Time to sleep between two serial communications.
 TIME_SLEEP_SER = 0.05
@@ -71,9 +72,10 @@ TEMPLATE = None
 @click.option("--template", "template_path", default="", show_default=True, type=str,
               help="If set, use the specified Numpy file as the template when analyzing.")
 def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag, template_path, **kwargs):
-    global CONFIG, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, TEMPLATE, LOGGER, HANDLER
+    global CONFIG, CONFIG_EXTRACT, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, TEMPLATE, LOGGER, HANDLER
     with open(config, "rb") as f:
         CONFIG = tomllib.load(f)
+    CONFIG_EXTRACT = scaff.legacy.ExtractConf().load(CONFIG)
     DEVICE = device
     BAUD = baudrate
     COMMUNICATE_SLOW = slowmode
@@ -181,7 +183,7 @@ def show(path, comp, base, offset, cumulative):
 @click.option("--saveplot/--no-saveplot", default=True, show_default=True,
               help="Save the plot of the results of trace collection.")
 def extract(file, target_path, average_out, plot, plot_out, saveplot):
-    scaff.legacy.extract(np.load(file), TEMPLATE, CONFIG, average_out, plot, target_path, saveplot, index=0)
+    scaff.legacy.extract(np.load(file), TEMPLATE, CONFIG_EXTRACT, average_out, plot, target_path, saveplot, index=0)
 
 @cli.command()
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
@@ -375,7 +377,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     if len(data) == 0:
                         raise Exception("Empty data after recording and drop start!")
                     # Extract traces.
-                    trace_raw, trace_amp, trace_phr = scaff.legacy.extract(data, TEMPLATE, CONFIG, average_out, plot, target_path, saveplot, index)
+                    trace_raw, trace_amp, trace_phr = scaff.legacy.extract(data, TEMPLATE, CONFIG_EXTRACT, average_out, plot, target_path, saveplot, index)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
