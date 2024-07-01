@@ -383,13 +383,15 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                     data_amp = np.abs(data)
                     data_phr = scaff.dsp.phase_rot(data)
                     trace_amp, _, res_amp = scaff.legacy.extract(
-                        data_amp, TEMPLATE, CONFIG_EXTRACT,
-                        average_file_name=average_out, plot=plot, target_path=target_path, savePlot=plot_flag
+                        data_amp, TEMPLATE, CONFIG_EXTRACT, average_file_name=average_out
                     )
                     trace_phr, _, res_phr = scaff.legacy.extract(
-                        data_phr, TEMPLATE, CONFIG_EXTRACT,
-                        average_file_name=None, plot=False, target_path=None, savePlot=False, results_old=res_amp
+                        data_phr, TEMPLATE, CONFIG_EXTRACT, average_file_name=None, results_old=res_amp
                     )
+                    scaff.legacy.plot_results(CONFIG_EXTRACT, data_amp, res_amp.trigger, res_amp.trigger_avg, res_amp.trace_starts, res_amp.traces,
+                                target_path=None, plot=False, savePlot=False, title="amp", final=False)
+                    scaff.legacy.plot_results(CONFIG_EXTRACT, data_phr, res_phr.trigger, res_phr.trigger_avg, res_phr.trace_starts, res_phr.traces,
+                                target_path=target_path, plot=plot, savePlot=plot, title="phr", final=True)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
