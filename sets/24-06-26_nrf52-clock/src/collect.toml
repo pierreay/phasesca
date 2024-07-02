@@ -39,14 +39,14 @@ lowpass_freq = 5e3
 bandpass_lower = 0.8e6
 bandpass_upper = 1e6
 
-# For train set:
-trigger_threshold = 0.39
-min_correlation = 8.6e-4
-num_traces_per_point_min = 50
-# For attack set:
-# trigger_threshold = 0
-# min_correlation = 5.5e-3
-# num_traces_per_point_min = 100
+# NOTE: For train set:
+# trigger_threshold = 0.39
+# min_correlation = 8.6e-4
+# num_traces_per_point_min = 50
+# NOTE: For attack set:
+trigger_threshold = 0
+min_correlation = 5.5e-3
+num_traces_per_point_min = 100
 
 [scaff.io]
 data_path = ""
@@ -58,8 +58,16 @@ type = "high"
 cutoff = 500e3
 order = 1
 
+# NOTE: For "extract_filtered_low":
 [scaff.processing_extract.filter_phr]
 en = true
 type = "low"
 cutoff = 30e3
+order = 1
+
+# NOTE: For "extract_filtered_high":
+[scaff.processing_extract.filter_phr]
+en = true
+type = "high"
+cutoff = 500
 order = 1

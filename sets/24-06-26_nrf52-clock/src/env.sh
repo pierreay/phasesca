@@ -27,7 +27,7 @@ export TMUX_PANE=1
 # List of parameters for the created profiles.
 export PROFILE_COMP_LIST=(amp phr)
 export PROFILE_NUM_TRACES_LIST=(4000)
-export PROFILE_POIS_ALGO_LIST=(r snr)
+export PROFILE_POIS_ALGO_LIST=(r)
 export PROFILE_POIS_NB_LIST=(1)
 # Delimiters. Small window greatly increase profile computation speed.
 export PROFILE_START_POINT=0
@@ -35,18 +35,18 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX="_filtered"
+export PROCESSING_SUFFIX="_extract_filtered_high"
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.
-export TRAIN_SET="${DATASET_PATH}/train_extract${PROCESSING_SUFFIX}"
+export TRAIN_SET="${DATASET_PATH}/train${PROCESSING_SUFFIX}"
 # Path of dataset used for the attack.
-export ATTACK_SET="${DATASET_PATH}/attack_extract${PROCESSING_SUFFIX}"
+export ATTACK_SET="${DATASET_PATH}/attack${PROCESSING_SUFFIX}"
 # Base path used to store the attack log.
 export LOG_PATH_BASE="${DATASET_PATH}/logs${PROCESSING_SUFFIX}"
 
 # Number of traces to attack.
-export ATTACK_NUM_TRACES_LIST=(200 500 1000 2000)
+export ATTACK_NUM_TRACES_LIST=(300 1000 2000)
 
 # * Functions
 
