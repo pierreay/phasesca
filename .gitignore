@@ -1,5 +1,5 @@
 # Exclude the large number of traces.
 **/train*/*.npy
 **/attack*/*.npy
-**/key_.txt
-**/pt_.txt
+**/key*.txt
+**/pt*.txt
