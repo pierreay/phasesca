@@ -13,8 +13,12 @@ function check_datasets_under() {
         if [[ $VERBOSE == 1 ]]; then
             echo "INFO: Check: ${dataset}"
         fi
-        # NOTE: List from .gitignore.
-        for directory in train train_extract_filtered attack attack_extract_filtered; do
+        # Find train and attack subsets directories under current dataset.
+        directories=$(cd "${dataset}" && find . -maxdepth 1 -type d -regex "./train.*\|./attack.*")
+        for directory in ${directories}; do
+            # Remove first "./" component.
+            directory=$(basename ${directory})
+            # Create archive filename.
             archive="$(path_directory_to_archive "${directory}")"
             if [[ -d "${dataset}/${directory}" ]]; then
                 size_run=$(stat -c "%s" "${dataset}/${directory}")
