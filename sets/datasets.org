@@ -81,7 +81,8 @@ List, describe and manage datasets.
 - Comments ::
   - Quick and dirty to setup collect after SoapyRX refactoring.
 
-** PROG [2024-06-26 mer.] nRF52832 Clock
+** DONE [2024-06-26 mer.] nRF52832 Clock Test
+CLOSED: [2024-07-02 mar. 17:18]
 :PROPERTIES:
 :DIR:      24-06-26_nrf52-clock
 :END:
@@ -91,9 +92,12 @@ collected using mobile setup with NewAE probe to test software during
 development.
 
 List of processings:
-- =_extract_filtered= :: Apply a highpass filter on amplitude signal and lowpass
-  filter on phase rotation. Results on amplitude is surprisingly good, with
-  guessing the entire key with one bit of error (keyrank of 2^2). Results on
-  phase rotation are better (2^100) but not good when using filtered profile
+- =_extract_filtered_low= :: Apply a highpass filter on amplitude signal and
+  lowpass filter on phase rotation. Results on amplitude is surprisingly good,
+  with guessing the entire key with one bit of error (keyrank of 2^2). Results
+  on phase rotation are better (2^100) but not good when using filtered profile
   against non-filtered traces. Otherwise, the results are random for both
   non-filtered and filtered only profile and traces.
+- =_extract_filtered_high= :: Apply a highpass filter on both amplitude and phase
+  rotation signal (on IQ before components computations). Results are very good
+  for amplitude (FKR) and better for phase rotation (~2^50).
