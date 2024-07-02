@@ -13,11 +13,6 @@ fi
 
 log_info "Loaded environment: ${env}"
 
-# * Variables
-
-# Path of dataset used to create the profile.
-TRAIN_SET="${DATASET_PATH}/train"
-
 # * Functions
 
 function profile() {

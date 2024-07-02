@@ -32,8 +32,18 @@ export PROFILE_POIS_NB_LIST=(1)
 # Delimiters. Small window greatly increase profile computation speed.
 export PROFILE_START_POINT=0
 export PROFILE_END_POINT=0
+
+# Suffix for the following paths (e.g., "_filtered") corresponding to a
+# post-processing. May be empty.
+export PROCESSING_SUFFIX="_filtered"
 # Base path used to store the created profile.
-export PROFILE_PATH_BASE="${DATASET_PATH}/profile"
+export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
+# Path of dataset used to create the profile.
+export TRAIN_SET="${DATASET_PATH}/train_extract${PROCESSING_SUFFIX}"
+# Path of dataset used for the attack.
+export ATTACK_SET="${DATASET_PATH}/attack_extract${PROCESSING_SUFFIX}"
+# Base path used to store the attack log.
+export LOG_PATH_BASE="${DATASET_PATH}/logs${PROCESSING_SUFFIX}"
 
 # Number of traces to attack.
 export ATTACK_NUM_TRACES_LIST=(200 500 1000 2000)

@@ -18,12 +18,6 @@ log_info "Loaded environment: ${env}"
 # Should we use an external profile?
 PROFILE_EXTERNAL=0
 
-# Path of dataset used for the attack.
-ATTACK_SET="${DATASET_PATH}/attack"
-
-# Base path used to store the attack log.
-LOG_PATH_BASE="${DATASET_PATH}/logs"
-
 # * Functions
 
 function attack() {
