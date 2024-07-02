@@ -14,7 +14,7 @@ function check_datasets_under() {
             echo "INFO: Check: ${dataset}"
         fi
         # NOTE: List from .gitignore.
-        for directory in train attack; do
+        for directory in train train_extract_filtered attack attack_extract_filtered; do
             archive="$(path_directory_to_archive "${directory}")"
             if [[ -d "${dataset}/${directory}" ]]; then
                 size_run=$(stat -c "%s" "${dataset}/${directory}")
