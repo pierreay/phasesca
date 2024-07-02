@@ -81,9 +81,19 @@ List, describe and manage datasets.
 - Comments ::
   - Quick and dirty to setup collect after SoapyRX refactoring.
 
-** TODO [2024-06-26 mer.] nRF52832 Clock
+** PROG [2024-06-26 mer.] nRF52832 Clock
 :PROPERTIES:
 :DIR:      24-06-26_nrf52-clock
 :END:
 
-Dataset for the [[id:325fe6fe-8d6a-472a-a955-1b65d9d0d29b][campaign]] using nRF52 around its clock.
+Dataset for the [[id:325fe6fe-8d6a-472a-a955-1b65d9d0d29b][campaign]] using nRF52 around its clock. This is a toy dataset
+collected using mobile setup with NewAE probe to test software during
+development.
+
+List of processings:
+- =_extract_filtered= :: Apply a highpass filter on amplitude signal and lowpass
+  filter on phase rotation. Results on amplitude is surprisingly good, with
+  guessing the entire key with one bit of error (keyrank of 2^2). Results on
+  phase rotation are better (2^100) but not good when using filtered profile
+  against non-filtered traces. Otherwise, the results are random for both
+  non-filtered and filtered only profile and traces.
