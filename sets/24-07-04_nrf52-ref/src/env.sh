@@ -9,24 +9,24 @@ export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
 export COLLECT_FC="63.9992e6"
 # Recording duration [s].
-export COLLECT_DUR="0.25"
+export COLLECT_DUR="0.16"
 # Number of traces.
-export COLLECT_NUM_TRACES_TRAIN=16000
-export COLLECT_NUM_TRACES_ATTACK=3000
+export COLLECT_NUM_TRACES_TRAIN=8000
+export COLLECT_NUM_TRACES_ATTACK=2000
 # YKush configuration (only for YKush reset / power-cycle).
 export COLLECT_YKUSH_PORT=1
 
 # Git commits checked out before operating corresponding repository.
-export GIT_CHECKOUT_PHASEFW="fb9b060"
-export GIT_CHECKOUT_SOAPYRX="6edb808"
-export GIT_CHECKOUT_SCAFF="c76c7ef"
+export GIT_CHECKOUT_PHASEFW="master"
+export GIT_CHECKOUT_SOAPYRX="master"
+export GIT_CHECKOUT_SCAFF="master"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
 
 # List of parameters for the created profiles.
 export PROFILE_COMP_LIST=(amp phr)
-export PROFILE_NUM_TRACES_LIST=(4000)
+export PROFILE_NUM_TRACES_LIST=(4000 8000)
 export PROFILE_POIS_ALGO_LIST=(r)
 export PROFILE_POIS_NB_LIST=(1)
 # Delimiters. Small window greatly increase profile computation speed.
@@ -35,7 +35,7 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX="_extract_filtered_high"
+export PROCESSING_SUFFIX="_extract"
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.
@@ -46,7 +46,7 @@ export ATTACK_SET="${DATASET_PATH}/attack${PROCESSING_SUFFIX}"
 export LOG_PATH_BASE="${DATASET_PATH}/logs${PROCESSING_SUFFIX}"
 
 # Number of traces to attack.
-export ATTACK_NUM_TRACES_LIST=(300 1000 2000)
+export ATTACK_NUM_TRACES_LIST=(250 500 1000 2000)
 
 # * Functions
 
