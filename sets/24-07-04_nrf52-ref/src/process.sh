@@ -26,3 +26,7 @@ scaff --config src/collect.toml extract attack attack_1 --avg-min=1 --avg-max=1 
 mkdir -p train_filt
 cp -t train_filt train/pt.txt train/key.txt
 "$(realpath $(dirname $0))/process_filt.py" train train_filt src/collect.toml
+
+mkdir -p attack_filt
+cp -t attack_filt attack/pt.txt attack/key.txt
+"$(realpath $(dirname $0))/process_filt.py" attack attack_filt src/collect.toml
