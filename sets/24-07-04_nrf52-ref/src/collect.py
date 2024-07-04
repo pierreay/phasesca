@@ -76,7 +76,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     global CONFIG, CONFIG_EXTRACT, DEVICE, BAUD, COMMUNICATE_SLOW, YKUSH_PORT, CONTINUE, TEMPLATE, LOGGER, HANDLER
     with open(config, "rb") as f:
         CONFIG = tomllib.load(f)
-    CONFIG_EXTRACT = scaff.legacy.ExtractConf().load(CONFIG)
+    CONFIG_EXTRACT = scaff.legacy.ExtractConf().load(scaff.config.AppConf(config))
     DEVICE = device
     BAUD = baudrate
     COMMUNICATE_SLOW = slowmode
@@ -87,7 +87,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(loglevel)
     soapyrx.logger.configure(enable=True, level=loglevel)
-    scaff.log.configure(enable=True, level=loglevel)
+    scaff.logger.configure(enable=True, level=loglevel)
 
 def _open_serial_port():
     LOGGER.info("Opening serial port")
@@ -161,13 +161,29 @@ def _send_init(ser, init):
 @click.option("--average-out", type=click.Path(dir_okay=False),
               help="File to write the average to (i.e. the template candidate).")
 @click.option("--plot/--no-plot", default=False, show_default=True,
-              help="Plot the results of trace collection.")
-@click.option("--plot-out", type=click.Path(dir_okay=False),
-              help="File to write the plot to (instead of showing it dynamically).")
-@click.option("--saveplot/--no-saveplot", default=True, show_default=True,
-              help="Save the plot of the results of trace collection.")
-def extract(file, target_path, average_out, plot, plot_out, saveplot):
-    scaff.legacy.extract(np.load(file), TEMPLATE, CONFIG_EXTRACT, average_out, plot, target_path, saveplot, index=0)
+              help="Plot the results of trace collection and save plot in TARGET-PATH.")
+def extract(file, target_path, average_out, plot):
+    analyze(np.load(file), average_out, target_path, plot)
+
+def analyze(data, average_out, target_path, plot):
+    global TEMPLATE, CONFIG_EXTRACT
+    # Extract raw traces.
+    data_amp = np.abs(data)
+    data_phr = scaff.dsp.phase_rot(data)
+    # Extract averaged and aligned traces.
+    trace_amp, _, res_amp = scaff.legacy.extract(
+        data_amp, TEMPLATE, CONFIG_EXTRACT, average_file_name=average_out
+    )
+    trace_phr, _, res_phr = scaff.legacy.extract(
+        data_phr, TEMPLATE, CONFIG_EXTRACT, average_file_name=None, results_old=res_amp
+    )
+    # Plot results.
+    scaff.legacy.plot_results(CONFIG_EXTRACT, data_amp, res_amp.trigger, res_amp.trigger_avg, res_amp.trace_starts, res_amp.traces,
+                target_path=None, plot=False, savePlot=False, title="amp", final=False)
+    scaff.legacy.plot_results(CONFIG_EXTRACT, data_phr, res_phr.trigger, res_phr.trigger_avg, res_phr.trace_starts, res_phr.traces,
+                target_path=target_path, plot=plot, savePlot=plot, title="phr", final=True)
+    # Returns.
+    return trace_amp, trace_phr
 
 @cli.command()
 @click.argument("target-path", type=click.Path(exists=True, file_okay=False))
@@ -181,15 +197,13 @@ def extract(file, target_path, average_out, plot, plot_out, saveplot):
               help="Set the output power of the device to its maximum.")
 @click.option("--raw/--no-raw", default=False, show_default=True,
               help="Save the raw IQ data.")
-@click.option("--saveplot/--no-saveplot", default=True, show_default=True,
-              help="Save the plot of the results of trace collection.")
 @click.option("-p", "--set-power", default=0, show_default=True,
               help="If set, sets the device to a specific power level (overrides --max-power)")
 @click.option("--num-points", "num_points_args", default=-1, show_default=True,
               help="If set, override the num_points TOML configuration variable.")
 @click.option("--fixed-key/--no-fixed-key", "fixed_key_args", default=None, type=bool, show_default=True,
               help="If set, override the fixed_key TOML configuration variable.")
-def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, set_power, num_points_args, fixed_key_args):
+def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power, num_points_args, fixed_key_args):
     if CONFIG["fw"]["mode"] == "tinyaes":
         firmware_mode = TINY_AES_MODE
     elif CONFIG["fw"]["mode"] == "tinyaes_slow":
@@ -241,12 +255,12 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
     if YKUSH_PORT != 0:
         LOGGER.debug('Resetting device using ykush port %d' % YKUSH_PORT)
         system("sudo ykushcmd -d %d" % YKUSH_PORT)
-        time.sleep(1)
+        time.sleep(2)
         system("sudo ykushcmd -u %d" % YKUSH_PORT)
-        time.sleep(3)
+        time.sleep(5)
 
     with _open_serial_port() as ser:
-        # TODO: Is this useful?
+        # # TODO: Is this useful?
         # if YKUSH_PORT != 0:
         #     LOGGER.info((ser.readline()))
 
@@ -362,19 +376,8 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, saveplot, 
                         raise Exception("Empty data after recording and drop start!")
                     # Discard average out if index is superior to 0 to only write template once.
                     average_out = average_out if index == 0 else None
-                    # Extract traces.
-                    data_amp = np.abs(data)
-                    data_phr = scaff.dsp.phase_rot(data)
-                    trace_amp, _, res_amp = scaff.legacy.extract(
-                        data_amp, TEMPLATE, CONFIG_EXTRACT, average_file_name=average_out
-                    )
-                    trace_phr, _, res_phr = scaff.legacy.extract(
-                        data_phr, TEMPLATE, CONFIG_EXTRACT, average_file_name=None, results_old=res_amp
-                    )
-                    scaff.legacy.plot_results(CONFIG_EXTRACT, data_amp, res_amp.trigger, res_amp.trigger_avg, res_amp.trace_starts, res_amp.traces,
-                                target_path=None, plot=False, savePlot=False, title="amp", final=False)
-                    scaff.legacy.plot_results(CONFIG_EXTRACT, data_phr, res_phr.trigger, res_phr.trigger_avg, res_phr.trace_starts, res_phr.traces,
-                                target_path=target_path, plot=plot, savePlot=plot, title="phr", final=True)
+                    # Process to analysis.
+                    trace_amp, trace_phr = analyze(data, average_out, target_path, plot)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
                     if CONTINUE is True:
