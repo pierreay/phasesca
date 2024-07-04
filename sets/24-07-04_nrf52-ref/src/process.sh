@@ -27,6 +27,10 @@ mkdir -p train_filt
 cp -t train_filt train/pt.txt train/key.txt
 "$(realpath $(dirname $0))/process_filt.py" train train_filt src/collect.toml
 
-mkdir -p attack_filt
-cp -t attack_filt attack/pt.txt attack/key.txt
-"$(realpath $(dirname $0))/process_filt.py" attack attack_filt src/collect.toml
+mkdir -p attack_filt_lh1e6
+cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
+"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_lh1e6 src/collect.toml lh1e6
+
+mkdir -p attack_filt_lh500e3
+cp -t attack_filt_lh500e3 attack/pt.txt attack/key.txt
+"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_lh500e3 src/collect.toml lh500e3

@@ -30,8 +30,14 @@ if __name__ == "__main__":
     processing.config.num_traces_per_point = 25
     processing.config.min_correlation = 0
     # Filter configuration.
-    processing.filter_amp = dsp.LHPFilter("high", 1e6, order=6, enabled=True)
-    processing.filter_phr = dsp.LHPFilter("low",  1e6, order=6, enabled=True)
+    if sys.argv[4] == "lh1e6":
+        processing.filter_amp = dsp.LHPFilter("high", 1e6, order=6, enabled=True)
+        processing.filter_phr = dsp.LHPFilter("low",  1e6, order=6, enabled=True)
+    elif sys.argv[4] == "lh500e3":
+        processing.filter_amp = dsp.LHPFilter("high", 500e3, order=6, enabled=True)
+        processing.filter_phr = dsp.LHPFilter("low",  500e3, order=6, enabled=True)
+    else:
+        assert False, "Bad filter!"
     # Processing execution.
     try:
         processor = processors.Processor(processing, helpers.ExecOnce(), stop=partial(loader.count), ncpu=0).start()
