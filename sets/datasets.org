@@ -101,3 +101,36 @@ List of processings:
 - =_extract_filtered_high= :: Apply a highpass filter on both amplitude and phase
   rotation signal (on IQ before components computations). Results are very good
   for amplitude (FKR) and better for phase rotation (~2^50).
+
+** PROG [2024-07-04 jeu.] nRF52832 Reference
+:PROPERTIES:
+:ID:       6873fa30-cc05-4059-839d-bdcad394907e
+:DIR:      24-07-04_nrf52-ref
+:END:
+
+#+CAPTION: Hardware setup
+| SDR         | SDRPlay RSPdx       |
+| Target      | nRF52832 (PCA10040) |
+| Environment | Anechoic box        |
+| Distance    | 1 mm                |
+| Antenna     | TekBox H Probe      |
+| LNA 1       | No                  |
+
+#+CAPTION: Software setup
+| AES implementation      | Software TinyAES |
+| Firmware                | =sc-poc=           |
+| Center frequency        | 64 MHz           |
+| Sample rate / Bandwidth | 10 Msps / 10 MHz |
+| SDR gain                | Fix              |
+
+#+CAPTION: Profiles
+| Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
+|------+----------------+----------------------+---------------+------------+------+--------|
+| P0   | Amplitude      | XXX * XXX            | r             |          1 | XXX  | XXX    |
+| P1   | Phase rotation | XXX * XXX            | r             |          1 | XXX  | XXX    |
+
+#+CAPTION: Attacks
+| Name | Profile | Nb. traces * Nb. AES | Key rank (min / round) | Median(PGE) | Hamming dist. | Converged |
+|------+---------+----------------------+------------------------+-------------+---------------+-----------|
+| A0   | P0      | XXX * XXX            | 2^XXX / 2^XXX          | XXX         | XXX           | XXX       |
+| A1   | P1      | XXX * XXX            | 2^XXX / 2^XXX          | XXX         | XXX           | XXX       |
