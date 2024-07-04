@@ -119,8 +119,7 @@ function flash_firmware_once() {
 function experiment() {
     # Get args.
     local plot="${1}"
-    local saveplot="${2}"
-    local cmd="${3}"      # ["collect" | "extract"]
+    local cmd="${2}"      # ["collect" | "extract"]
     # Set options based on args.
     local num_points=-1
     if [[ "${plot}" == "--plot" ]]; then
@@ -170,7 +169,8 @@ function experiment() {
             log_info "Start radio..."
             local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --no-agc"
             if [[ "${TMUX_PANE}" -eq 1 ]]; then
-                tmux split-window "tmux set-window-option remain-on-exit on; ${soapyrx_starter}"
+                tmux_remains="off" # [on | off]
+                tmux split-window "tmux set-window-option remain-on-exit ${tmux_remains}; ${soapyrx_starter}"
             else
                 eval "${soapyrx_starter} &"
             fi
@@ -180,12 +180,12 @@ function experiment() {
         # Start collection and plot result.
         log_info "Start collection..."
         eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
-                                         "${cmd}" "${TARGET_PATH}" "${plot}" "${saveplot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
+                                         "${cmd}" "${TARGET_PATH}" "${plot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else
         log_info "Start analysis..."
         eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
-                                         "${cmd}" "${TMP_TRACE_PATH}" "${TARGET_PATH}" "${plot}" "${saveplot}" "${average_out}"
+                                         "${cmd}" "${TMP_TRACE_PATH}" "${TARGET_PATH}" "${plot}" "${average_out}"
     fi    
 }
 
@@ -214,11 +214,11 @@ if [[ ! -f "${CALIBRATION_FLAG_PATH}" ]]; then
 
     # Record a new trace if not already done.
     if [[ ! -f "${TMP_TRACE_PATH}" ]]; then
-        experiment --plot --saveplot collect
+        experiment --plot collect
     # Analyze only.
     else
         log_info "Skip new recording: File exists: ${TMP_TRACE_PATH}"
-        experiment --plot --no-saveplot extract
+        experiment --plot extract
     fi
 
     read -p "Press [ENTER] to confirm calibration, otherwise press [CTRL-C]..."
@@ -237,7 +237,7 @@ fi
 # If collection has not been started.
 if [[ ! -f "${COLLECTION_FLAG_PATH}" ]]; then
     touch "${COLLECTION_FLAG_PATH}"
-    experiment --no-plot --no-saveplot collect
+    experiment --no-plot collect
 else
     log_info "Skip collection: File exists: $COLLECTION_FLAG_PATH"
 fi
