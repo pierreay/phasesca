@@ -41,15 +41,3 @@ num_traces_per_point_min = 10
 [scaff.io]
 data_path = ""
 data_pattern = "{}_iq.npy"
-
-[scaff.processing_extract.filter_amp]
-en = false
-type = "high"
-cutoff = 500e3
-order = 1
-
-[scaff.processing_extract.filter_phr]
-en = false
-type = "low"
-cutoff = 30e3
-order = 1
