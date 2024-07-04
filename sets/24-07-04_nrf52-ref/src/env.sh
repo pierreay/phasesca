@@ -35,7 +35,7 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX="_extract"
+export PROCESSING_SUFFIX=""
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.

@@ -35,7 +35,7 @@ lowpass_freq = 5e3
 bandpass_lower = 2.00e6
 bandpass_upper = 2.15e6
 trigger_threshold = 0
-min_correlation = 6.3e01
+min_correlation = 2.8e01
 num_traces_per_point_min = 10
 
 [scaff.io]
@@ -43,13 +43,13 @@ data_path = ""
 data_pattern = "{}_iq.npy"
 
 [scaff.processing_extract.filter_amp]
-en = true
+en = false
 type = "high"
 cutoff = 500e3
 order = 1
 
 [scaff.processing_extract.filter_phr]
-en = true
+en = false
 type = "low"
 cutoff = 30e3
 order = 1

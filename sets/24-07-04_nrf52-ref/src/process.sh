@@ -15,17 +15,10 @@ log_info "Loaded environment: ${env}"
 
 # ** Step 3: Extraction & Filtering
 
-for indir in train attack; do
-    if [[ "${ARG_SUBSET}" == "train" ]]; then
-        outdir="${TRAIN_SET}"
-    elif [[ "${ARG_SUBSET}" == "attack"]]; then
-        outdir="${ATTACK_SET}"
-    fi
-    if [[ ! -d "${outdir}" ]]; then
-        mkdir -p "${outdir}"
-        cp -t "${outdir}" "${indir}/pt.txt" "${indir}/key.txt"
-        scaff --config "${DATASET_PATH}/src/collect.toml" extract "${indir}" "${outdir}"
-    else
-        log_info "Skip extraction: Directory exists: ${outdir}"
-    fi
-done
+mkdir -p train_1
+cp -t train_1 train/pt.txt train/key.txt
+scaff --config src/collect.toml extract train train_1 --avg-min=1 --avg-max=1 --cpu=-1 --corr-min=8.5e-1
+
+mkdir -p attack_1
+cp -t attack_1 attack/pt.txt attack/key.txt
+scaff --config src/collect.toml extract attack attack_1 --avg-min=1 --avg-max=1 --cpu=-1 --corr-min=8.5e-1
