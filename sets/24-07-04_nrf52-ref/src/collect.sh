@@ -241,21 +241,3 @@ if [[ ! -f "${COLLECTION_FLAG_PATH}" ]]; then
 else
     log_info "Skip collection: File exists: $COLLECTION_FLAG_PATH"
 fi
-
-# ** Step 3: Extraction & Filtering
-
-local target=""
-if [[ "${ARG_SUBSET}" == "train" ]]; then
-    target="${TRAIN_SET}"
-elif [[ "${ARG_SUBSET}" == "attack"]]; then
-    target="${ATTACK_SET}"
-fi
-# Extract.
-if [[ ! -d "${target}" ]]; then
-    mkdir -p "${target}"
-    cp -t "${target}" "${ARG_SUBSET}/pt.txt" "${ARG_SUBSET}/key.txt"
-    scaff --config "${DATASET_PATH}/src/collect.toml" extract "${ARG_SUBSET}" "${target}"
-else
-    log_info "Skip extraction: Directory exists: ${target}"
-fi
-
