@@ -39,6 +39,9 @@ if __name__ == "__main__":
     elif sys.argv[4] == "lh50e3":
         processing.filter_amp = dsp.LHPFilter("high", 50e3, order=6, enabled=True)
         processing.filter_phr = dsp.LHPFilter("low",  50e3, order=6, enabled=True)
+    elif sys.argv[4] == "hl50e3":
+        processing.filter_amp = dsp.LHPFilter("low",  50e3, order=6, enabled=True)
+        processing.filter_phr = dsp.LHPFilter("high", 50e3, order=6, enabled=True)
     else:
         assert False, "Bad filter!"
     # Processing execution.
