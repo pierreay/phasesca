@@ -17,9 +17,9 @@ export COLLECT_NUM_TRACES_ATTACK=2000
 export COLLECT_YKUSH_PORT=1
 
 # Git commits checked out before operating corresponding repository.
-export GIT_CHECKOUT_PHASEFW="master"
-export GIT_CHECKOUT_SOAPYRX="master"
-export GIT_CHECKOUT_SCAFF="master"
+export GIT_CHECKOUT_PHASEFW="fb9b060"
+export GIT_CHECKOUT_SOAPYRX="d5db344"
+export GIT_CHECKOUT_SCAFF="8f75735"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
