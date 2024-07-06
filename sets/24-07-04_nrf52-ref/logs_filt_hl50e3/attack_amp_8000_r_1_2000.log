@@ -1,0 +1,37 @@
+
+Subkey  0
+Subkey  1
+Subkey  2
+Subkey  3
+Subkey  4
+Subkey  5
+Subkey  6
+Subkey  7
+Subkey  8
+Subkey  9
+Subkey 10
+Subkey 11
+Subkey 12
+Subkey 13
+Subkey 14
+Subkey 15
+Best Key Guess:   2c   46   d9   6d   6f   85   73   4d   8e   c4   29   4f   3e   f9   96   1f  
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a  
+PGE:             000  130  083  005  007  000  003  002  007  003  006  000  037  208  004  027  
+HD:              000  003  001  001  001  000  002  004  002  002  003  000  006  005  001  005  
+SUCCESS:           1    0    0    0    0    1    0    0    0    0    0    1    0    0    0    0  
+NUMBER OF CORRECT BYTES: 3
+HD SUM:                  36
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^84.34151009
+actual rounded: 2^84.71026946
+max: 2^85.00373084
+time enum: 0.207474 seconds
+
+
+
+Starting key ranking using HEL
