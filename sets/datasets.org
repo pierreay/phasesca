@@ -102,7 +102,7 @@ List of processings:
   rotation signal (on IQ before components computations). Results are very good
   for amplitude (FKR) and better for phase rotation (~2^50).
 
-** PROG [2024-07-04 jeu.] nRF52832 Reference
+** [2024-07-04 jeu.] nRF52832 Reference
 :PROPERTIES:
 :ID:       6873fa30-cc05-4059-839d-bdcad394907e
 :DIR:      24-07-04_nrf52-ref
@@ -123,6 +123,9 @@ List of processings:
 | Sample rate / Bandwidth | 10 Msps / 10 MHz |
 | SDR gain                | Fix              |
 
+The following tables are not filled because I think I will plot the results
+since they are many.
+
 #+CAPTION: Profiles
 | Name | Component      | Nb. traces * Nb. AES | POI algorithm | POI number | \rho | \sigma |
 |------+----------------+----------------------+---------------+------------+------+--------|
@@ -134,3 +137,15 @@ List of processings:
 |------+---------+----------------------+------------------------+-------------+---------------+-----------|
 | A0   | P0      | XXX * XXX            | 2^XXX / 2^XXX          | XXX         | XXX           | XXX       |
 | A1   | P1      | XXX * XXX            | 2^XXX / 2^XXX          | XXX         | XXX           | XXX       |
+
+- Comments ::
+  - Amplitude attacks are very good (2^15), phase rotation attacks are perfect
+    (2^0).
+  - Experiments with filters shows that we can improve amplitude results using
+    high pass.
+  - Experiments with filters shows that most of the information into the
+    amplitude trace is contained into high frequencies components around the
+    carrier.
+  - Experiments with filters shows that most of the information into the phase
+    rotation trace is contained into low frequencies components around the
+    carrier.
