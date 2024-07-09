@@ -176,3 +176,24 @@ CLOSED: [2024-07-09 mar. 14:30]
 - Comments ::
   - Canceled because firmware is not ready for the UART part (/e.g./, settings
     number of repetitions).
+
+** PROG [2024-07-09 mar.] STM32L1 Reference
+:PROPERTIES:
+:DIR:      24-07-09_stm32l1-ref
+:ID:       0319a07f-19c0-42c1-ac51-b37940e2b29e
+:END:
+
+#+CAPTION: Hardware setup
+| SDR         | SDRPlay RSPdx       |
+| Target      | nRF52832 (PCA10040) |
+| Environment | Anechoic box        |
+| Distance    | 1 mm                |
+| Antenna     | TekBox H Probe      |
+| LNA 1       | No                  |
+
+#+CAPTION: Software setup
+| AES implementation      | Software TinyAES |
+| Firmware                | =TODO=           |
+| Center frequency        | TODO MHz         |
+| Sample rate / Bandwidth | 10 Msps / 10 MHz |
+| SDR gain                | Fix              |
