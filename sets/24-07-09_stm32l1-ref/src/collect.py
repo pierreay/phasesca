@@ -90,7 +90,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     scaff.logger.configure(enable=True, level=loglevel)
 
 def _open_serial_port():
-    LOGGER.info("Opening serial port")
+    LOGGER.info("Opening serial port: {} at {} bps".format(DEVICE, BAUD))
     return serial.Serial(DEVICE, BAUD, timeout=5)
 
 def _close_serial_port(ser, signum = None, frame = None):
@@ -299,10 +299,11 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power,
         signal.signal(signal.SIGINT, partial(_close_serial_port, ser))
         signal.signal(signal.SIGTERM, partial(_close_serial_port, ser))
 
-        if firmware_mode.repetition_command:
-            LOGGER.info('Setting trace repetitions')
-            ser.write(('n%d\r\n' % num_traces_per_point).encode())
-            LOGGER.debug((ser.readline()))
+        # TODO: To uncomment once firmware will be fixed.
+        # if firmware_mode.repetition_command:
+        #     LOGGER.info('Setting trace repetitions')
+        #     ser.write(('n%d\r\n' % num_traces_per_point).encode())
+        #     LOGGER.debug((ser.readline()))
 
         if firmware_mode.have_keys and fixed_key:
             # The key never changes, so we can just set it once and for all.
