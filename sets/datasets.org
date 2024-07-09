@@ -102,7 +102,8 @@ List of processings:
   rotation signal (on IQ before components computations). Results are very good
   for amplitude (FKR) and better for phase rotation (~2^50).
 
-** [2024-07-04 jeu.] nRF52832 Reference
+** DONE [2024-07-04 jeu.] nRF52832 Reference
+CLOSED: [2024-07-09 mar. 11:48]
 :PROPERTIES:
 :ID:       6873fa30-cc05-4059-839d-bdcad394907e
 :DIR:      24-07-04_nrf52-ref
@@ -149,3 +150,24 @@ since they are many.
   - Experiments with filters shows that most of the information into the phase
     rotation trace is contained into low frequencies components around the
     carrier.
+
+** PROG [2024-07-09 mar.] Arduino Nano Reference
+:PROPERTIES:
+:DIR:      24-07-09_arduino-ref
+:ID:       46f091f2-14a5-4e79-a572-57e7c3208827
+:END:
+
+#+CAPTION: Hardware setup
+| SDR         | SDRPlay RSPdx            |
+| Target      | Arduino Nano (ATmega328) |
+| Environment | Anechoic box             |
+| Distance    | 1 mm                     |
+| Antenna     | TekBox H Probe           |
+| LNA 1       | No                       |
+
+#+CAPTION: Software setup
+| AES implementation      | Software TinyAES  |
+| Firmware                | =aesonly-poc=     |
+| Center frequency        | 16 MHz (15.987e6) |
+| Sample rate / Bandwidth | 10 Msps / 10 MHz  |
+| SDR gain                | Fix               |
