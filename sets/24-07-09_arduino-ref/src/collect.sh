@@ -96,8 +96,8 @@ readonly COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
 # ** Firmware
 
 function flash_firmware_once() {
-    firmware_src="${PATH_PHASEFW}/nrf52832/sc-poc/pca10040/blank/armgcc/_build/nrf52832_xxaa.hex"
-    firmware_dst="${DATASET_PATH}/bin/nrf52832_xxaa.hex"
+    firmware_src="${PATH_PHASEFW}/arduino_nano/aesonly-poc/debug/obj/aesonly-poc.hex"
+    firmware_dst="${DATASET_PATH}/bin/aesonly-poc.hex"
     if [[ -f "${firmware_dst}" ]]; then
         if [[ "${OPT_REFLASH_FW}" -ne 1 ]]; then
             log_info "Skip flash firmware: File exists: ${firmware_dst}"
@@ -108,8 +108,9 @@ function flash_firmware_once() {
     git_checkout_logged "${PATH_PHASEFW}" "${GIT_CHECKOUT_PHASEFW}"
     
     log_info "Flash custom firmware..."
-    cd ${PATH_PHASEFW}/nrf52832/sc-poc
-    direnv exec . make -C pca10040/blank/armgcc flash
+    cd ${PATH_PHASEFW}/arduino_nano/aesonly-poc
+    direnv exec . make all_dbg
+    direnv exec . make load_dbg PORT="${TARGET_PORT}"
     log_info "Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
 }
@@ -167,7 +168,8 @@ function experiment() {
         # Start SDR server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
             log_info "Start radio..."
-            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --no-agc"
+            # TODO: Change for --no-agc when gain will be configured.
+            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --agc"
             if [[ "${TMUX_PANE}" -eq 1 ]]; then
                 tmux_remains="off" # [on | off]
                 tmux split-window "tmux set-window-option remain-on-exit ${tmux_remains}; ${soapyrx_starter}"
@@ -179,7 +181,7 @@ function experiment() {
 
         # Start collection and plot result.
         log_info "Start collection..."
-        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device="${TARGET_PORT}" --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
                                          "${cmd}" "${TARGET_PATH}" "${plot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else
@@ -198,12 +200,6 @@ fi
 
 # Ensure collection directory is created.
 mkdir -p "${TARGET_PATH}"
-
-# Ensure target device is available.
-if [[ -z "$(nrfjprog --com | cut - -d " " -f 5)" ]]; then
-    log_error "Cannot found device: nrfjprog return empty string"
-    exit 1
-fi
 
 # ** Step 1: Calibratation
 

@@ -151,7 +151,8 @@ since they are many.
     rotation trace is contained into low frequencies components around the
     carrier.
 
-** PROG [2024-07-09 mar.] Arduino Nano Reference
+** CANCELED [2024-07-09 mar.] Arduino Nano Reference
+CLOSED: [2024-07-09 mar. 14:30]
 :PROPERTIES:
 :DIR:      24-07-09_arduino-ref
 :ID:       46f091f2-14a5-4e79-a572-57e7c3208827
@@ -166,8 +167,12 @@ since they are many.
 | LNA 1       | No                       |
 
 #+CAPTION: Software setup
-| AES implementation      | Software TinyAES  |
-| Firmware                | =aesonly-poc=     |
-| Center frequency        | 16 MHz (15.987e6) |
-| Sample rate / Bandwidth | 10 Msps / 10 MHz  |
-| SDR gain                | Fix               |
+| AES implementation      | Software TinyAES |
+| Firmware                | =aesonly-poc=    |
+| Center frequency        | 16 MHz           |
+| Sample rate / Bandwidth | 10 Msps / 10 MHz |
+| SDR gain                | Fix              |
+
+- Comments ::
+  - Canceled because firmware is not ready for the UART part (/e.g./, settings
+    number of repetitions).

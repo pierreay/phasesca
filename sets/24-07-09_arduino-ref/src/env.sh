@@ -7,19 +7,22 @@ export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 # NOTE: Synchronized with "collect.toml" file for "collect.py".
 export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
-export COLLECT_FC="63.9992e6"
+export COLLECT_FC="15.987e6"
 # Recording duration [s].
-export COLLECT_DUR="0.16"
+# TODO: Change for lower when configured.
+export COLLECT_DUR="0.5"
 # Number of traces.
 export COLLECT_NUM_TRACES_TRAIN=8000
 export COLLECT_NUM_TRACES_ATTACK=2000
 # YKush configuration (only for YKush reset / power-cycle).
 export COLLECT_YKUSH_PORT=1
+# Target configuration.
+export TARGET_PORT="/dev/ttyUSB0"
 
 # Git commits checked out before operating corresponding repository.
-export GIT_CHECKOUT_PHASEFW="fb9b060"
-export GIT_CHECKOUT_SOAPYRX="d5db344"
-export GIT_CHECKOUT_SCAFF="8f75735"
+export GIT_CHECKOUT_PHASEFW="master"
+export GIT_CHECKOUT_SOAPYRX="master"
+export GIT_CHECKOUT_SCAFF="master"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
@@ -35,7 +38,7 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX="_filt_hl50e3"
+export PROCESSING_SUFFIX=""
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.
