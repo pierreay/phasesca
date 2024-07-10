@@ -97,6 +97,48 @@
   (look at logs files in [[attachment:logs/]]) but not better than no POI
   combination in our setup.
 
+** [2024-07-10 mer.] Observation of jitter translated to phase rotation :data:plot:setup:
+:PROPERTIES:
+:ID:       9702fa0e-c8a6-4728-b50c-7dda867291c5
+:DIR:      24-07-10_jitter-to-phr
+:END:
+
+*First experiment*
+
+We use an STM32 glitched on digital domain by a ChipWhisperer every 50 ms.
+
+#+CAPTION: STM32F1 probed and puting the system clock on a GPIO
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174349489.jpg]]
+
+#+CAPTION: AirSpy measuring the NF probe (amplitude & phase rotation) + Oscilloscope measuring the clock jitter
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174358146.jpg]]
+
+#+CAPTION: Oscilloscope describing clock frequency, period, and jitter value
+[[file:24-07-10_jitter-to-phr/expe1/PXL_20240710_174453755.jpg]]
+
+On the oscilloscope, we can see the effect of the glitch translated to an amplitude noise and jitter.
+
+On the radio, running:
+
+#+begin_src bash :eval never
+soapyrx --loglevel INFO --config ~/git/soapyrx/examples/example.toml record --duration=0.5 --no-agc --gain 33 64e6 10e6 --cut --plot --no-live --save-sig=/home/drac/pro_tmp/expe_sig.npy --save-plot=/home/drac/pro_tmp/expe_plot.png
+#+end_src
+
+We got, for both amplitude and phase rotation, the observation of the glitch every 50 ms.
+
+#+CAPTION: Amplitude (left) and phase rotation (right) using AirSpy
+[[file:24-07-10_jitter-to-phr/expe1/expe_plot.png]]
+
+*Second experiment*
+
+By using the period value measured using the oscilloscope and the precise
+jitter value (around 250 ps) for one precise glitch, we computed that it should
+be translated to a 0.15 radian phase rotation. It corresponds to what we
+measured.
+
+#+CAPTION: 0.15 radian phase rotation due to glitch
+[[file:24-07-10_jitter-to-phr/expe2/expe_plot.png]]
+
 * Bibliography
 
 #+print_bibliography:
