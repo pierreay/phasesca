@@ -109,6 +109,7 @@ function flash_firmware_once() {
     
     log_info "Flash custom firmware..."
     cd ${PATH_PHASEFW}/STM32L1
+    direnv exec . sudo make clean
     direnv exec . sudo make program
     log_info "Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"

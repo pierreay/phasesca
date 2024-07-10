@@ -1,7 +1,5 @@
 # How much to drop at the start of the signal after recording [s].
-# TODO: To configure
-# drop_start = 1.2e-1
-drop_start = 0
+drop_start = 1.15e-1
 # How many different plaintext/key combinations to record.
 num_points = 1
 
@@ -29,22 +27,17 @@ slow_mode_sleep_time = 0.001
 # SCAFF configuration.
 [scaff.legacy]
 sampling_rate = 10e6
-# TODO: To configure
-# num_traces_per_point = 25
-num_traces_per_point = 300
-trigger_offset = 50e-6
+# NOTE: Fixed in firmware.
+num_traces_per_point = 100
+trigger_offset = -200e-6
 trigger_rising = true
-signal_length = 200e-6
-lowpass_freq = 5e3
-bandpass_lower = 2.00e6
-bandpass_upper = 2.15e6
+signal_length = 400e-6
+lowpass_freq = 6e3
+bandpass_lower = 2.5e6
+bandpass_upper = 2.8e6
 trigger_threshold = 0
-# TODO: To configure
-# min_correlation = 2.8e01
-min_correlation = 0
-# TODO: To configure
-# num_traces_per_point_min = 10
-num_traces_per_point_min = 0
+min_correlation = 1.8e2
+num_traces_per_point_min = 50
 
 [scaff.io]
 data_path = ""

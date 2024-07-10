@@ -7,12 +7,12 @@ export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 # NOTE: Synchronized with "collect.toml" file for "collect.py".
 export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
-export COLLECT_FC="32.04e6"
+export COLLECT_FC="32e6"
 # Recording duration [s].
-export COLLECT_DUR="0.7"
+export COLLECT_DUR="0.3"
 # Number of traces.
-export COLLECT_NUM_TRACES_TRAIN=8000
-export COLLECT_NUM_TRACES_ATTACK=2000
+export COLLECT_NUM_TRACES_TRAIN=12000
+export COLLECT_NUM_TRACES_ATTACK=4000
 # YKush configuration (only for YKush reset / power-cycle).
 export COLLECT_YKUSH_PORT=1
 # Target configuration.
