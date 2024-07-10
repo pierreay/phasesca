@@ -119,7 +119,10 @@ def _send_parameter(ser, command, param):
     if not COMMUNICATE_SLOW:
         ser.write(command_line.encode())
     else:
-        for p in command_line.split(' '):
+        # Send command.
+        ser.write((command_line[:1]).encode())
+        # Send parameter.
+        for p in command_line[1:-2].split(' '):
             ser.write((p+' ').encode())
             time.sleep(TIME_SLEEP_SER)
 

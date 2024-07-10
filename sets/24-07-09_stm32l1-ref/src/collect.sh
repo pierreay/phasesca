@@ -179,7 +179,7 @@ function experiment() {
 
         # Start collection and plot result.
         log_info "Start collection..."
-        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device="${TARGET_PORT}" --baudrate="${TARGET_BAUDRATE}" --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+        eval "${DATASET_PATH}/src/collect.py" --slowmode --loglevel="${OPT_LOGLEVEL}" --device="${TARGET_PORT}" --baudrate="${TARGET_BAUDRATE}" --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
                                          "${cmd}" "${TARGET_PATH}" "${plot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else
