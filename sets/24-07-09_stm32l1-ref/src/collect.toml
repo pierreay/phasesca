@@ -36,7 +36,7 @@ lowpass_freq = 6e3
 bandpass_lower = 2.5e6
 bandpass_upper = 2.8e6
 trigger_threshold = 0
-min_correlation = 1.8e2
+min_correlation = 1.6e2
 num_traces_per_point_min = 50
 
 [scaff.io]

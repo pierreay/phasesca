@@ -24,28 +24,28 @@ scaff --config src/collect.toml extract attack attack_1 --avg-min=1 --avg-max=1 
 
 mkdir -p train_filt_lh1e6
 cp -t train_filt_lh1e6 train/pt.txt train/key.txt
-"$(realpath $(dirname $0))/process_filt.py" train train_filt_lh1e6 src/collect.toml
+./src/process_filt.py train train_filt_lh1e6 src/collect.toml lh1e6
 mkdir -p attack_filt_lh1e6
 cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
-"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_lh1e6 src/collect.toml lh1e6
+./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
 
 mkdir -p train_filt_lh500e3
 cp -t train_filt_lh500e3 train/pt.txt train/key.txt
-"$(realpath $(dirname $0))/process_filt.py" train train_filt_lh500e3 src/collect.toml lh500e3
+./src/process_filt.py train train_filt_lh500e3 src/collect.toml lh500e3
 mkdir -p attack_filt_lh500e3
 cp -t attack_filt_lh500e3 attack/pt.txt attack/key.txt
-"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_lh500e3 src/collect.toml lh500e3
+./src/process_filt.py attack attack_filt_lh500e3 src/collect.toml lh500e3
 
 mkdir -p train_filt_lh50e3
 cp -t train_filt_lh50e3 train/pt.txt train/key.txt
-"$(realpath $(dirname $0))/process_filt.py" train train_filt_lh50e3 src/collect.toml lh50e3
+./src/process_filt.py train train_filt_lh50e3 src/collect.toml lh50e3
 mkdir -p attack_filt_lh50e3
 cp -t attack_filt_lh50e3 attack/pt.txt attack/key.txt
-"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_lh50e3 src/collect.toml lh50e3
+./src/process_filt.py attack attack_filt_lh50e3 src/collect.toml lh50e3
 
 mkdir -p train_filt_hl50e3
 cp -t train_filt_hl50e3 train/pt.txt train/key.txt
-"$(realpath $(dirname $0))/process_filt.py" train train_filt_hl50e3 src/collect.toml hl50e3
+./src/process_filt.py train train_filt_hl50e3 src/collect.toml hl50e3
 mkdir -p attack_filt_hl50e3
 cp -t attack_filt_hl50e3 attack/pt.txt attack/key.txt
-"$(realpath $(dirname $0))/process_filt.py" attack attack_filt_hl50e3 src/collect.toml hl50e3
+./src/process_filt.py attack attack_filt_hl50e3 src/collect.toml hl50e3

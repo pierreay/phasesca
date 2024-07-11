@@ -177,7 +177,8 @@ CLOSED: [2024-07-09 mar. 14:30]
   - Canceled because firmware is not ready for the UART part (/e.g./, settings
     number of repetitions).
 
-** PROG [2024-07-09 mar.] STM32L1 Reference
+** DONE [2024-07-09 mar.] STM32L1 Reference
+CLOSED: [2024-07-11 jeu. 22:49]
 :PROPERTIES:
 :DIR:      24-07-09_stm32l1-ref
 :ID:       0319a07f-19c0-42c1-ac51-b37940e2b29e
@@ -193,7 +194,7 @@ CLOSED: [2024-07-09 mar. 14:30]
 
 #+CAPTION: Software setup
 | AES implementation      | Software TinyAES |
-| Firmware                | =TODO=           |
-| Center frequency        | TODO MHz         |
+| Firmware                | Default          |
+| Center frequency        | 32 MHz           |
 | Sample rate / Bandwidth | 10 Msps / 10 MHz |
 | SDR gain                | Fix              |

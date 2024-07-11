@@ -20,9 +20,9 @@ export TARGET_PORT="/dev/ttyACM0"
 export TARGET_BAUDRATE="9600"
 
 # Git commits checked out before operating corresponding repository.
-export GIT_CHECKOUT_PHASEFW="master"
-export GIT_CHECKOUT_SOAPYRX="master"
-export GIT_CHECKOUT_SCAFF="master"
+export GIT_CHECKOUT_PHASEFW="75775c5"
+export GIT_CHECKOUT_SOAPYRX="d5db344"
+export GIT_CHECKOUT_SCAFF="dbc369d"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
@@ -38,7 +38,7 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX=""
+export PROCESSING_SUFFIX="_filt_lh50e3"
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.
