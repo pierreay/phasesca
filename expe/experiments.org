@@ -139,6 +139,9 @@ measured.
 #+CAPTION: 0.15 radian phase rotation due to glitch
 [[file:24-07-10_jitter-to-phr/expe2/expe_plot.png]]
 
+#+CAPTION: A glitch which first (falling edge) decrease period will increase the phase rotation, and vice-versa.
+[[file:24-07-10_jitter-to-phr/expe2/expe_plot_zoom.png]]
+
 * Bibliography
 
 #+print_bibliography:
