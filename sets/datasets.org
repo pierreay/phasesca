@@ -185,16 +185,16 @@ CLOSED: [2024-07-11 jeu. 22:49]
 :END:
 
 #+CAPTION: Hardware setup
-| SDR         | SDRPlay RSPdx       |
-| Target      | nRF52832 (PCA10040) |
-| Environment | Anechoic box        |
-| Distance    | 1 mm                |
-| Antenna     | TekBox H Probe      |
-| LNA 1       | No                  |
+| SDR         | SDRPlay RSPdx           |
+| Target      | STM32L1 ([[https://www.st.com/en/evaluation-tools/nucleo-l152re.html][NUCLEO-L152RE]]) |
+| Environment | Anechoic box            |
+| Distance    | 1 mm                    |
+| Antenna     | TekBox H Probe          |
+| LNA 1       | [[https://www.tekbox.com/product/tbwa2-wideband-rf-amplifiers/][TekBox TBWA2]]            |
 
 #+CAPTION: Software setup
 | AES implementation      | Software TinyAES |
-| Firmware                | Default          |
+| Firmware                | STM32L1          |
 | Center frequency        | 32 MHz           |
 | Sample rate / Bandwidth | 10 Msps / 10 MHz |
 | SDR gain                | Fix              |
