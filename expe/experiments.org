@@ -142,6 +142,14 @@ measured.
 #+CAPTION: A glitch which first (falling edge) decrease period will increase the phase rotation, and vice-versa.
 [[file:24-07-10_jitter-to-phr/expe2/expe_plot_zoom.png]]
 
+** [2024-07-14 dim.] Plot of all phase functions (Wrapped, Unwrapped, Shift) :data:plot:
+:PROPERTIES:
+:DIR:      24-07-14_phase-plot
+:ID:       b0028aa5-7c13-4d40-bd9d-20e14b766f94
+:END:
+
+- Result :: [[attachment:plot.pdf]]
+
 * Bibliography
 
 #+print_bibliography:
