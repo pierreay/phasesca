@@ -16,36 +16,21 @@ fi
 
 # ** Configuration for the used profiles
 
-# List of parameters for the used profiles.
-COMP_LIST=(amp phr)
-NUM_TRACES_LIST=(4000 8000 16000)
-POIS_ALGO_LIST=(snr)
-POIS_NB_LIST=(1)
-
-# Delimiters.
-START_POINT=0
-END_POINT=0
-
 # Should we use an external profile?
 PROFILE_EXTERNAL=0
 PROFILE_EXTERNAL_PATH_BASE="${REPO_DATASET_PATH}/poc/240422_custom_firmware_highdist_2lna_highgain/profile"
 
 # ** Internals
 
-# Path of dataset used for the attack.
-ATTACK_SET="${DATASET_PATH}/attack"
-
-# Base path used to fetch the created profile.
-PROFILE_PATH_BASE="${DATASET_PATH}/profile"
-
 # Base path used to store the attack csv.
-CSV_PATH_BASE="${DATASET_PATH}/csv"
+CSV_PATH_BASE="${DATASET_PATH}/csv${PROCESSING_SUFFIX}"
 
 # Base path used to store the attack plots.
-PLOT_PATH_BASE="${DATASET_PATH}/plots"
+PLOT_PATH_BASE="${DATASET_PATH}/plots${PROCESSING_SUFFIX}"
 
 # Path of script directory.
 SCRIPT_WD="$(dirname $(realpath $0))"
+SCRIPT_NAME="$(basename $(realpath $0))"
 
 # * Functions for CSV building
 
@@ -89,8 +74,7 @@ function attack() {
         # Attack and extract:
         # 1) The key rank
         # 2) The correct number of bytes.
-        scaff --no-plot --norm --data-path $ATTACK_SET --start-point $START_POINT --end-point $END_POINT --num-traces $num_traces_attack --comp $comp \
-                  attack $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} 2>/dev/null \
+        scaff attack --no-plot --norm --data-path $ATTACK_SET --start-point $PROFILE_START_POINT --end-point $PROFILE_END_POINT --num-traces $num_traces_attack --comp $comp $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} 2>/dev/null \
             | grep -E 'actual rounded|CORRECT' \
             | cut -f 2 -d ':' \
             | tr -d ' ' \
@@ -106,19 +90,19 @@ function attack() {
 # * Script
 
 # Ensure SCAFF version.
-checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
 
 # ** CSV
 
-for comp in "${COMP_LIST[@]}"; do
-    for num_traces in "${NUM_TRACES_LIST[@]}"; do
-        for pois_algo in "${POIS_ALGO_LIST[@]}"; do
-            for pois_nb in "${POIS_NB_LIST[@]}"; do
+for comp in "${PROFILE_COMP_LIST[@]}"; do
+    for num_traces in "${PROFILE_NUM_TRACES_LIST[@]}"; do
+        for pois_algo in "${PROFILE_POIS_ALGO_LIST[@]}"; do
+            for pois_nb in "${PROFILE_POIS_NB_LIST[@]}"; do
                 # [START ; STEP ; END ; INIT_MODE]
-                attack $comp $num_traces $pois_algo $pois_nb 10 10 500 1
-                attack $comp $num_traces $pois_algo $pois_nb 500 30 1000 0
-                attack $comp $num_traces $pois_algo $pois_nb 1000 60 2000 0
-                attack $comp $num_traces $pois_algo $pois_nb 2000 200 10000 0
+                attack $comp $num_traces $pois_algo $pois_nb 10 50 250 1
+                # attack $comp $num_traces $pois_algo $pois_nb 500 30 1000 0
+                # attack $comp $num_traces $pois_algo $pois_nb 1000 60 2000 0
+                # attack $comp $num_traces $pois_algo $pois_nb 2000 200 10000 0
             done
         done
     done
@@ -136,4 +120,4 @@ fi
 echo "INFO: Process: ${pdf_path}"
 
 mkdir -p "${PLOT_PATH_BASE}"
-"$(realpath ${0/.sh/.py})" "${CSV_PATH_BASE}" "${pdf_path}"
+"$(realpath ${SCRIPT_WD}/${SCRIPT_NAME/.sh/.py})" "${CSV_PATH_BASE}" "${pdf_path}"

@@ -22,14 +22,15 @@ export TARGET_BAUDRATE="9600"
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="75775c5"
 export GIT_CHECKOUT_SOAPYRX="d5db344"
-export GIT_CHECKOUT_SCAFF="dbc369d"
+export GIT_CHECKOUT_SCAFF="master"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
 
 # List of parameters for the created profiles.
 export PROFILE_COMP_LIST=(amp phr)
-export PROFILE_NUM_TRACES_LIST=(4000 8000)
+# export PROFILE_NUM_TRACES_LIST=(4000 8000)
+export PROFILE_NUM_TRACES_LIST=(4000)
 export PROFILE_POIS_ALGO_LIST=(r)
 export PROFILE_POIS_NB_LIST=(1)
 # Delimiters. Small window greatly increase profile computation speed.
@@ -38,7 +39,7 @@ export PROFILE_END_POINT=0
 
 # Suffix for the following paths (e.g., "_filtered") corresponding to a
 # post-processing. May be empty.
-export PROCESSING_SUFFIX="_filt_lh50e3"
+export PROCESSING_SUFFIX="_filt_lh1e6"
 # Base path used to store the created profile.
 export PROFILE_PATH_BASE="${DATASET_PATH}/profile${PROCESSING_SUFFIX}"
 # Path of dataset used to create the profile.
