@@ -22,7 +22,7 @@ export TARGET_BAUDRATE="9600"
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="75775c5"
 export GIT_CHECKOUT_SOAPYRX="d5db344"
-export GIT_CHECKOUT_SCAFF="master"
+export GIT_CHECKOUT_SCAFF="23aad15"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
