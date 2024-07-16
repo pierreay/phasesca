@@ -46,11 +46,14 @@ function attack() {
     init_mode=$8 # [1 = Initialize CSV ; 0 = Append to CSV]
     # Set parameters.
     if [[ ${PROFILE_EXTERNAL} -eq 0 ]]; then
-        profile_path=${PROFILE_PATH_BASE}/${comp}_${num_traces}_${pois_algo}_${pois_nb}
+        # profile_path=${PROFILE_PATH_BASE}/${comp}_${num_traces}_${pois_algo}_${pois_nb}
+        profile_path=${PROFILE_PATH_BASE}/\{\}_${num_traces}_${pois_algo}_${pois_nb}
     else
-        profile_path=${PROFILE_EXTERNAL_PATH_BASE}/${comp}_${num_traces}_${pois_algo}_${pois_nb}
+        # profile_path=${PROFILE_EXTERNAL_PATH_BASE}/${comp}_${num_traces}_${pois_algo}_${pois_nb}
+        profile_path=${PROFILE_EXTERNAL_PATH_BASE}/\{\}_${num_traces}_${pois_algo}_${pois_nb}
     fi
-    csv_path=${CSV_PATH_BASE}/attack_${comp}_${num_traces}_${pois_algo}_${pois_nb}.csv
+    # csv_path=${CSV_PATH_BASE}/attack_${comp}_${num_traces}_${pois_algo}_${pois_nb}.csv
+    csv_path=${CSV_PATH_BASE}/attack_${num_traces}_${pois_algo}_${pois_nb}.csv
 
     if [[ "$init_mode" == 1 ]]; then
         # Safety-guard.
@@ -63,24 +66,28 @@ function attack() {
         # Initialize directories.
         mkdir -p $CSV_PATH_BASE
         # Write CSV header.
-        echo "trace_nb;correct_bytes;log2(key_rank)" | tee "${csv_path}"
+        echo -n "trace_nb"                                                           | tee "${csv_path}"
+        echo -n ";correct_bytes_amp;hd_sum_amp;log2(key_rank)_amp"                   | tee -a "${csv_path}"
+        echo -n ";correct_bytes_phr;hd_sum_phr;log2(key_rank)_phr"                   | tee -a "${csv_path}"
+        echo ";correct_bytes_recombined;hd_sum_recombined;log2(key_rank)_recombined" | tee -a "${csv_path}"
     fi
     
     # Iteration over number of traces.
     for num_traces_attack in $(seq $i_start $i_step $i_end); do
         # Write number of traces.
         echo -n "${num_traces_attack};" | tee -a "$csv_path"
-
+        
         # Attack and extract:
         # 1) The key rank
         # 2) The correct number of bytes.
-        scaff attack --no-plot --norm --data-path $ATTACK_SET --start-point $PROFILE_START_POINT --end-point $PROFILE_END_POINT --num-traces $num_traces_attack --comp $comp $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} 2>/dev/null \
-            | grep -E 'actual rounded|CORRECT' \
-            | cut -f 2 -d ':' \
-            | tr -d ' ' \
-            | tr '[\n]' '[;]' \
-            | sed 's/2^//' \
-            | sed 's/;$//' \
+        # scaff attack --no-plot --norm --data-path $ATTACK_SET --start-point $PROFILE_START_POINT --end-point $PROFILE_END_POINT --num-traces $num_traces_attack --comp $comp $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} 2>/dev/null \
+        scaff attack-recombined --no-plot --norm --data-path $ATTACK_SET --start-point $PROFILE_START_POINT --end-point $PROFILE_END_POINT --num-traces $num_traces_attack --comp amp $profile_path --attack-algo pcc --variable p_xor_k --align --fs ${COLLECT_FS} --corr-method add \
+            | grep -E 'CORRECT|HD SUM|actual rounded' \
+            | cut -f 2 -d ':'                         \
+            | tr -d ' '                               \
+            | tr '[\n]' '[;]'                         \
+            | sed 's/2^//g'                           \
+            | sed 's/;$//'                            \
             | tee -a "$csv_path"
 
         echo "" | tee -a "$csv_path"
