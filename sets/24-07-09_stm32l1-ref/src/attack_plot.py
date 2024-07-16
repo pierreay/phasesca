@@ -90,7 +90,7 @@ def myplot(x, y, param_dict, smooth=False, label=""):
         idx += 1
 
 plotters.enable_latex_fonts()
-matplotlib.rcParams.update({'font.size': 30})
+matplotlib.rcParams.update({'font.size': 55})
 
 # plt.title('Key rank vs. Trace number')
 plt.xlabel('Traces [\#]')
