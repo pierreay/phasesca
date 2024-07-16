@@ -106,9 +106,9 @@ for num_traces in "${PROFILE_NUM_TRACES_LIST[@]}"; do
     for pois_algo in "${PROFILE_POIS_ALGO_LIST[@]}"; do
         for pois_nb in "${PROFILE_POIS_NB_LIST[@]}"; do
             # [START ; STEP ; END ; INIT_MODE]
-            attack _ $num_traces $pois_algo $pois_nb 10 4 250 1
-            attack _ $num_traces $pois_algo $pois_nb 250 8 500 0
-            attack _ $num_traces $pois_algo $pois_nb 500 15 800 0
+            attack _ $num_traces $pois_algo $pois_nb 2 1 50 1
+            # attack _ $num_traces $pois_algo $pois_nb 250 8 500 0
+            # attack _ $num_traces $pois_algo $pois_nb 500 15 800 0
             # attack _ $num_traces $pois_algo $pois_nb 1000 60 2000 0
             # attack _ $num_traces $pois_algo $pois_nb 2000 200 10000 0
         done
