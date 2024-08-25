@@ -16,7 +16,7 @@ fi
 git init
 git annex init "$1"
 git config annex.thin true
-git config annex.backend WORM
+git config annex.backend BLAKE2BP512E
 git update-index --index-version 4
 GIT_INDEX_FILE=.git/annex/index git update-index --index-version 4
 git config annex.diskreserve "10 gb"
