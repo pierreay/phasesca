@@ -12,6 +12,51 @@ They were taken from the old =screaming_channels_ble= repository:
 - [[file:240131][240131]]
 - [[file:240201][240201]]
 
+** [2024-01-30 mar.] Instantaneous phase visualization
+:PROPERTIES:
+:DIR:      2024-01-30_instant_phase_viz
+:END:
+
+- Based on ::
+  - Recording from Screaming Channels labeled =240130_carrier_or_mod_soft_or_hard=.
+- Goals ::
+  - Compare the instantaneous phase of signals recorded during TX on (carrier only), AES software, AES hardware.
+- Results ::
+  - Significant deviations between signals.
+
+** [2024-02-06 mar.] Instrument a firmware and compare leakage among frequencies in amplitude and phase
+:PROPERTIES:
+:DIR:      2024-02-06_firmware-instrumentation-for-phase-rot-leak
+:END:
+
+- Goals ::
+  1. Compare the leakage in amplitude and phase rotation to see if we can see the signal.
+- Methods ::
+  1. Instrument the firmware with a recognizable pattern (TX Off, TX Carrier,
+     AES Soft ECB, AES Hard ECB without counter, AES Hard ECB with interrupts,
+     AES Hard CCM).
+  2. Record at multiple frequencies and sampling rates. Analyze the received
+     signal in bot amplitude and phase rotation.
+- Results ::
+  1. The leakage in the phase is already present in the baseband signal
+     modulated around the clocks of the CPU. Hence, it may invalidate the
+     theory that the SC phase leakage is produced by voltage variations of the
+     VCO of the carrier.
+- Files ::
+  - FF is collected using an antenna in an anechoic box.
+  - NF is collected using a NF probe out of the anechoic box.
+  - [[attachment:firmware_loop.c]] is an extract of the firmware to see the
+    pattern, see firmware repo and tag for code.
+
+** [2024-02-07 mer.] Comparison between leakage in amplitude and phase
+:PROPERTIES:
+:DIR:      2024-02-07_leakage_comparison_amplitude_phase_rot
+:END:
+
+- Based on a recording with a Screaming Channels firmware.
+- Random plot without scripts of SC leakage in amplitude and in phase rotation
+  at 2.530 GHz during a BLE communication (with GFSK).
+
 ** [2024-03-14 jeu.] Frequency estimation                               :plot:
 :PROPERTIES:
 :DIR:      24-03-14_freq-estimation
