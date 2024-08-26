@@ -8,12 +8,15 @@ if [[ $# -lt 1 ]]; then
     exit 0
 fi
 
-if [[ -d .git ]]; then
+if [[ ! -d .git ]]; then
+    git init
+fi
+
+if [[ -d .git/annex ]]; then
     echo "Repository already initialized!"
     exit 1
 fi
 
-git init
 git annex init "$1"
 git config annex.thin true
 git config annex.backend BLAKE2BP512E
