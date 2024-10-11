@@ -96,8 +96,8 @@ readonly COLLECTION_FLAG_PATH="${TARGET_PATH}/.collection_started"
 # ** Firmware
 
 function flash_firmware_once() {
-    firmware_src="${PATH_PHASEFW}/nrf52832/sc-poc/pca10040/blank/armgcc/_build/nrf52832_xxaa.hex"
-    firmware_dst="${DATASET_PATH}/bin/nrf52832_xxaa.hex"
+    firmware_src="${PATH_PHASEFW}/nrf51422/sc-poc/pca10028/armgcc/_build/nrf51422_xxac.hex"
+    firmware_dst="${DATASET_PATH}/bin/nrf51422_xxac.hex"
     if [[ -f "${firmware_dst}" ]]; then
         if [[ "${OPT_REFLASH_FW}" -ne 1 ]]; then
             log_info "Skip flash firmware: File exists: ${firmware_dst}"
@@ -108,8 +108,8 @@ function flash_firmware_once() {
     git_checkout_logged "${PATH_PHASEFW}" "${GIT_CHECKOUT_PHASEFW}"
     
     log_info "Flash custom firmware..."
-    cd ${PATH_PHASEFW}/nrf52832/sc-poc
-    direnv exec . make -C pca10040/blank/armgcc flash
+    cd ${PATH_PHASEFW}/nrf51422/sc-poc
+    direnv exec . make -C pca10028/armgcc flash
     log_info "Save firmware: ${firmware_src} -> ${firmware_dst}"
     mkdir -p "$(dirname "$firmware_dst")" && cp "${firmware_src}" "${firmware_dst}"
 }
@@ -179,7 +179,7 @@ function experiment() {
 
         # Start collection and plot result.
         log_info "Start collection..."
-        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device=$(nrfjprog --com | cut - -d " " -f 5) --baudrate=9600 --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
                                          "${cmd}" "${TARGET_PATH}" "${plot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else
@@ -193,7 +193,7 @@ function experiment() {
 
 # Restart subset if desired.
 if [[ "${OPT_RESTART_COLLECT}" -eq 1 ]]; then
-    rm -r "${TARGET_PATH}"
+    rm -rf "${TARGET_PATH}"
 fi
 
 # Ensure collection directory is created.

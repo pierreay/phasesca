@@ -90,7 +90,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     scaff.logger.configure(enable=True, level=loglevel)
 
 def _open_serial_port():
-    LOGGER.info("Opening serial port")
+    LOGGER.info("Opening serial port with baudrate={}".format(BAUD))
     return serial.Serial(DEVICE, BAUD, timeout=5)
 
 def _close_serial_port(ser, signum = None, frame = None):
