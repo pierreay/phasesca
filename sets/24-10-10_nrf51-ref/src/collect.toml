@@ -1,5 +1,5 @@
 # How much to drop at the start of the signal after recording [s].
-drop_start = 1.2e-1
+drop_start = 1.4e-1
 # How many different plaintext/key combinations to record.
 num_points = 1
 
