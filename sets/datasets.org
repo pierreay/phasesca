@@ -198,3 +198,24 @@ CLOSED: [2024-07-11 jeu. 22:49]
 | Center frequency        | 32 MHz           |
 | Sample rate / Bandwidth | 10 Msps / 10 MHz |
 | SDR gain                | Fix              |
+
+** PROG [2024-10-10 jeu.] nRF51422 Reference
+:PROPERTIES:
+:ID:       086ce7cd-f417-437d-aade-3bee8ee6e247
+:DIR:      24-10-10_nrf51-ref
+:END:
+
+#+CAPTION: Hardware setup
+| SDR         | SDRPlay RSPdx       |
+| Target      | nRF51422 (PCA10028) |
+| Environment | Anechoic box        |
+| Distance    | 1 mm                |
+| Antenna     | TekBox H Probe      |
+| LNA 1       | No                  |
+
+#+CAPTION: Software setup
+| AES implementation      | Software TinyAES |
+| Firmware                | =sc-poc=         |
+| Center frequency        | 64 MHz           |
+| Sample rate / Bandwidth | 10 Msps / 10 MHz |
+| SDR gain                | Fix              |
