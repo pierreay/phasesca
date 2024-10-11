@@ -27,16 +27,18 @@ slow_mode_sleep_time = 0.001
 # SCAFF configuration.
 [scaff.legacy]
 sampling_rate = 10e6
-num_traces_per_point = 25
-trigger_offset = 50e-6
+num_traces_per_point = 40 
+trigger_offset = -400e-6
 trigger_rising = true
-signal_length = 200e-6
+signal_length = 800e-6
 lowpass_freq = 5e3
 bandpass_lower = 2.00e6
 bandpass_upper = 2.15e6
 trigger_threshold = 0
-min_correlation = 2.8e01
-num_traces_per_point_min = 10
+# min_correlation = 2.8e01
+min_correlation = 0
+num_traces_per_point_min = 5
+num_traces_per_point_max = 10
 
 [scaff.io]
 data_path = ""

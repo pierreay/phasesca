@@ -9,10 +9,10 @@ export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
 export COLLECT_FC="63.9992e6"
 # Recording duration [s].
-export COLLECT_DUR="0.16"
+export COLLECT_DUR="0.3"
 # Number of traces.
 export COLLECT_NUM_TRACES_TRAIN=8000
-export COLLECT_NUM_TRACES_ATTACK=2000
+export COLLECT_NUM_TRACES_ATTACK=8000
 # YKush configuration (only for YKush reset / power-cycle).
 export COLLECT_YKUSH_PORT=1
 
