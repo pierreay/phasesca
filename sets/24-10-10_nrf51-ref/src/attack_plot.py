@@ -93,7 +93,7 @@ plotters.enable_latex_fonts()
 matplotlib.rcParams.update({'font.size': 55})
 
 # plt.title('Key rank vs. Trace number')
-plt.xlabel('Traces [\#]')
+plt.xlabel('Traces')
 
 for key, value in x_y.items():
     myplot(value["x"], value["y"], param_dict=[
