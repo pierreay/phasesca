@@ -1,5 +1,4 @@
 # * Variables
-
 # Current dataset path.
 export DATASET_PATH="$(realpath "$(dirname "$0")/..")"
 
@@ -19,7 +18,7 @@ export COLLECT_YKUSH_PORT=1
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="ea65653"
 export GIT_CHECKOUT_SOAPYRX="b73de58"
-export GIT_CHECKOUT_SCAFF="528093f"
+export GIT_CHECKOUT_SCAFF="dfdd08a"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
