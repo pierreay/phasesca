@@ -1,0 +1,95 @@
+[32m[scaff] [INFO] Attack using: amp[0m
+[32m[scaff] [INFO] Subkey  0...[0m
+[32m[scaff] [INFO] Subkey  1...[0m
+[32m[scaff] [INFO] Subkey  2...[0m
+[32m[scaff] [INFO] Subkey  3...[0m
+[32m[scaff] [INFO] Subkey  4...[0m
+[32m[scaff] [INFO] Subkey  5...[0m
+[32m[scaff] [INFO] Subkey  6...[0m
+[32m[scaff] [INFO] Subkey  7...[0m
+[32m[scaff] [INFO] Subkey  8...[0m
+[32m[scaff] [INFO] Subkey  9...[0m
+[32m[scaff] [INFO] Subkey 10...[0m
+[32m[scaff] [INFO] Subkey 11...[0m
+[32m[scaff] [INFO] Subkey 12...[0m
+[32m[scaff] [INFO] Subkey 13...[0m
+[32m[scaff] [INFO] Subkey 14...[0m
+[32m[scaff] [INFO] Subkey 15...[0m
+Best Key Guess:   35   42   5a   45   05   08   aa   72   a1   af   c9   91   a5   bf   c9   39  
+Known Key:        ef   3a   38   6d   05   6f   c5   c2   61   48   13   af   1f   c0   c4   3e  
+PGE:             020  082  079  253  000  013  014  142  178  076  119  044  004  145  121  035  
+HD:              005  004  003  002  000  005  006  003  002  006  005  005  005  007  003  003  
+SUCCESS:           0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0  
+NUMBER OF CORRECT BYTES: 1
+HD SUM:                  64
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^119.4487772
+actual rounded: 2^119.5717422
+max: 2^119.6694778
+time enum: 0.167742 seconds
+
+
+[32m[scaff] [INFO] Attack using: phr[0m
+[32m[scaff] [INFO] Subkey  0...[0m
+[32m[scaff] [INFO] Subkey  1...[0m
+[32m[scaff] [INFO] Subkey  2...[0m
+[32m[scaff] [INFO] Subkey  3...[0m
+[32m[scaff] [INFO] Subkey  4...[0m
+[32m[scaff] [INFO] Subkey  5...[0m
+[32m[scaff] [INFO] Subkey  6...[0m
+[32m[scaff] [INFO] Subkey  7...[0m
+[32m[scaff] [INFO] Subkey  8...[0m
+[32m[scaff] [INFO] Subkey  9...[0m
+[32m[scaff] [INFO] Subkey 10...[0m
+[32m[scaff] [INFO] Subkey 11...[0m
+[32m[scaff] [INFO] Subkey 12...[0m
+[32m[scaff] [INFO] Subkey 13...[0m
+[32m[scaff] [INFO] Subkey 14...[0m
+[32m[scaff] [INFO] Subkey 15...[0m
+
+Starting key ranking using HEL
+Best Key Guess:   7b   3a   38   6d   32   b4   74   c2   59   48   6f   68   68   c0   0e   3f  
+Known Key:        ef   3a   38   6d   05   6f   c5   c2   61   48   13   af   1f   c0   c4   3e  
+PGE:             069  000  000  000  133  019  005  000  197  000  050  048  061  000  163  059  
+HD:              003  000  000  000  005  006  004  000  003  000  005  005  006  000  004  001  
+SUCCESS:           0    1    1    1    0    0    0    1    0    1    0    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 6
+HD SUM:                  42
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^80.32391154
+actual rounded: 2^80.66302014
+max: 2^80.93242441
+time enum: 0.160604 seconds
+
+
+[32m[scaff] [INFO] Perform recombination...[0m
+
+Starting key ranking using HEL
+Best Key Guess:   35   3a   38   6d   32   c2   8a   d4   a1   48   6f   e7   a5   c0   00   39  
+Known Key:        ef   3a   38   6d   05   6f   c5   c2   61   48   13   af   1f   c0   c4   3e  
+PGE:             024  000  000  000  006  005  002  001  207  000  078  040  001  000  151  040  
+HD:              005  000  000  000  005  005  005  003  002  000  005  002  005  000  003  003  
+SUCCESS:           0    1    1    1    0    0    0    0    0    1    0    0    0    1    0    0  
+NUMBER OF CORRECT BYTES: 5
+HD SUM:                  43
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^77.40883922
+actual rounded: 2^77.74518375
+max: 2^78.01304334
+time enum: 0.158165 seconds
+
+
+
+Starting key ranking using HEL
