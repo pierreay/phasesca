@@ -22,6 +22,7 @@ import scaff.logger
 import scaff.dsp
 import soapyrx.core
 import soapyrx.logger
+import soapyrx.plotters
 
 LOGGER = logging.getLogger('collect')
 HANDLER = logging.StreamHandler()
@@ -90,7 +91,7 @@ def cli(config, device, baudrate, ykush_port, slowmode, loglevel, continue_flag,
     scaff.logger.configure(enable=True, level=loglevel)
 
 def _open_serial_port():
-    LOGGER.info("Opening serial port")
+    LOGGER.info("Opening serial port with baudrate={}".format(BAUD))
     return serial.Serial(DEVICE, BAUD, timeout=5)
 
 def _close_serial_port(ser, signum = None, frame = None):
@@ -380,6 +381,8 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power,
                     trace_amp, trace_phr = analyze(data, average_out, target_path, plot)
                 except Exception as e:
                     LOGGER.error("Cannot extract traces: {}".format(e))
+                    if plot is True:
+                        soapyrx.plotters.SignalQuadPlot(data).plot()
                     if CONTINUE is True:
                         LOGGER.info("Restart current recording!")
                         client.reinit()
