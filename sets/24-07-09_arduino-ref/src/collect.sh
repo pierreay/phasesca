@@ -168,8 +168,7 @@ function experiment() {
         # Start SDR server.
         if [[ "${OPT_RESTART_RADIO}" -eq 1 ]]; then
             log_info "Start radio..."
-            # TODO: Change for --no-agc when gain will be configured.
-            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --agc"
+            local soapyrx_starter="soapyrx --loglevel INFO --config '${DATASET_PATH}/src/soapyrx.toml' server-start 0 '${COLLECT_FC}' '${COLLECT_FS}' --duration='${COLLECT_DUR}' --no-agc"
             if [[ "${TMUX_PANE}" -eq 1 ]]; then
                 tmux_remains="off" # [on | off]
                 tmux split-window "tmux set-window-option remain-on-exit ${tmux_remains}; ${soapyrx_starter}"
@@ -181,7 +180,7 @@ function experiment() {
 
         # Start collection and plot result.
         log_info "Start collection..."
-        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device="${TARGET_PORT}" --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
+        eval "${DATASET_PATH}/src/collect.py" --loglevel="${OPT_LOGLEVEL}" --device="${TARGET_PORT}" --baudrate=9600 --ykush-port="${ykush_port}" "${continue_flag}" "${template_path}" "${DATASET_PATH}/src/collect.toml" \
                                          "${cmd}" "${TARGET_PATH}" "${plot}" "${average_out}" --num-points="${num_points}" "${fixed_key}"
     # If we are analyzing.
     else

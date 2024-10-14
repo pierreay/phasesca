@@ -9,8 +9,7 @@ export COLLECT_FS="10e6"
 # Recording center frequency [Hz].
 export COLLECT_FC="15.987e6"
 # Recording duration [s].
-# TODO: Change for lower when configured.
-export COLLECT_DUR="0.5"
+export COLLECT_DUR="0.2"
 # Number of traces.
 export COLLECT_NUM_TRACES_TRAIN=8000
 export COLLECT_NUM_TRACES_ATTACK=2000
