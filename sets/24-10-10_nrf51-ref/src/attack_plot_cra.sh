@@ -83,9 +83,11 @@ git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
 # ** CSV
 
 # [START ; STEP ; END ; INIT?]
-attack 50 50 500 1
-# attack 250 8 500 0
-# attack 500 15 1000 0
+# DONE:
+# attack 50 20 500 1
+# attack 500 30 1000 0
+# attack 1000 40 2000 0
+# attack 2000 50 2500 0
 
 # ** PDF
 
