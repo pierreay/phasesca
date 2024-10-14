@@ -2,28 +2,28 @@
 
 """Read the output CSV file from the Bash partner script and plot the results."""
 
-import sys
+import csv
 import os
-import numpy as np
+import sys
+
 import matplotlib
 import matplotlib.pyplot as plt
-import csv
-from scipy.interpolate import make_interp_spline, BSpline
-
+import numpy as np
 from scaff import plotters
+from scipy.interpolate import BSpline, make_interp_spline
 
 # * Configuration
 
 # CSV file name.
-DIR=sys.argv[1]
-OUTFILE=sys.argv[2]
+DIR = sys.argv[1]
+OUTFILE = sys.argv[2]
 
 # Weither to smooth the plot.
-SMOOTH_PLOT=False
+SMOOTH_PLOT = False
 
-DEBUG=False
+DEBUG = False
 
-INTERACTIVE=False
+INTERACTIVE = False
 
 # * CSV reader
 
@@ -40,8 +40,8 @@ for file in os.listdir(DIR):
     y_kr_phr = []
     y_kr_recombined = []
     # Read the CSV file into lists.
-    with open(file_path, 'r') as csvfile:
-        rows = csv.reader(csvfile, delimiter=';')
+    with open(file_path, "r") as csvfile:
+        rows = csv.reader(csvfile, delimiter=";")
         # Iterate over lines.
         for i, row in enumerate(rows):
             # Skip header.
@@ -60,11 +60,17 @@ for file in os.listdir(DIR):
         print("y_kr_amp={}".format(y_kr_amp))
         print("y_kr_phr={}".format(y_kr_phr))
         print("y_kr_recombined={}".format(y_kr_recombined))
-    x_y[file] = {'x': np.asarray(x_nb), 'y': {'y_kr_amp': np.asarray(y_kr_amp),
-                                              'y_kr_phr': np.asarray(y_kr_phr),
-                                              'y_kr_recombined': np.asarray(y_kr_recombined)}}
+    x_y[file] = {
+        "x": np.asarray(x_nb),
+        "y": {
+            "y_kr_amp": np.asarray(y_kr_amp),
+            "y_kr_phr": np.asarray(y_kr_phr),
+            "y_kr_recombined": np.asarray(y_kr_recombined),
+        },
+    }
 
 # * Plot
+
 
 def myplot(x, y, param_dict, smooth=False, label=""):
     """Plot y over x.
@@ -89,24 +95,31 @@ def myplot(x, y, param_dict, smooth=False, label=""):
         plt.plot(x, y[y_key], **dict(param_dict[idx], label=label))
         idx += 1
 
+
 plotters.enable_latex_fonts()
-matplotlib.rcParams.update({'font.size': 55})
+matplotlib.rcParams.update({"font.size": 55})
 
 # plt.title('Key rank vs. Trace number')
-plt.xlabel('Traces [\#]')
+plt.xlabel("Traces")
 
 for key, value in x_y.items():
-    myplot(value["x"], value["y"], param_dict=[
-        {"color": "red", "label": "Amplitude", "linewidth": 2},
-        {"color": "blue", "label": "Phase", "linewidth": 2},
-        {"color": "purple", "label": "Fusion (Amplitude + Phase)", "linewidth": 5}
-    ], smooth=SMOOTH_PLOT, label=key)
-plt.ylabel('Log2(Key rank)')
+    myplot(
+        value["x"],
+        value["y"],
+        param_dict=[
+            {"color": "red", "label": "Amplitude", "linewidth": 2},
+            {"color": "blue", "label": "Phase", "linewidth": 2},
+            {"color": "purple", "label": "Fusion (Amplitude + Phase)", "linewidth": 5},
+        ],
+        smooth=SMOOTH_PLOT,
+        label=key,
+    )
+plt.ylabel("Log2(Key rank)")
 plt.ylim(top=128, bottom=0)
 plt.legend(loc="upper right")
 
 plt.gcf().set_size_inches(32, 18)
-plt.savefig(OUTFILE, dpi=100, bbox_inches='tight')
+plt.savefig(OUTFILE, dpi=100, bbox_inches="tight")
 if INTERACTIVE:
     plt.show()
 plt.clf()
