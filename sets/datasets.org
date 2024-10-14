@@ -151,7 +151,7 @@ since they are many.
     rotation trace is contained into low frequencies components around the
     carrier.
 
-** CANCELED [2024-07-09 mar.] Arduino Nano Reference
+** DONE [2024-07-09 mar.] Arduino Nano Reference
 CLOSED: [2024-07-09 mar. 14:30]
 :PROPERTIES:
 :DIR:      24-07-09_arduino-ref
@@ -172,10 +172,6 @@ CLOSED: [2024-07-09 mar. 14:30]
 | Center frequency        | 16 MHz           |
 | Sample rate / Bandwidth | 10 Msps / 10 MHz |
 | SDR gain                | Fix              |
-
-- Comments ::
-  - Canceled because firmware is not ready for the UART part (/e.g./, settings
-    number of repetitions).
 
 ** DONE [2024-07-09 mar.] STM32L1 Reference
 CLOSED: [2024-07-11 jeu. 22:49]
