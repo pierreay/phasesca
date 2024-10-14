@@ -261,9 +261,7 @@ def collect(target_path, average_out, plot, plot_out, max_power, raw, set_power,
         time.sleep(5)
 
     with _open_serial_port() as ser:
-        # # TODO: Is this useful?
-        # if YKUSH_PORT != 0:
-        #     LOGGER.info((ser.readline()))
+        LOGGER.info((ser.readline()))
 
         if set_power != 0:
             LOGGER.info('Setting power level to '+str(set_power))
