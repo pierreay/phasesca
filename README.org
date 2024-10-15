@@ -2,10 +2,13 @@
 
 Repository of the phase data.
 
+This repository contains the data and experiments of the project.
+
 * Prerequisites
 
-1. Installed version of [[https://github.com/pierreay/soapyrx.git][SoapyRX]] for recording.
-2. Installed version of [[https://github.com/pierreay/scaff.git][SCAFF]] for attacks.
+- To flash the firmware we used on our target devices during our attacks, the [[https://github.com/pierreay/phase_fw.git][phase_fw]] repository holds the source code.
+- To record I/Q signals from the target device emanations using a software-defined radio (SDR), our SoapySDR receiver utility [[https://github.com/pierreay/soapyrx.git][SoapyRX]] must be installed.
+- To process and analyze the datasets composed of I/Q signals, our side-channel experimental toolbox [[https://github.com/pierreay/scaff.git][SCAFF]] must be installed.
 
 * Files
 
