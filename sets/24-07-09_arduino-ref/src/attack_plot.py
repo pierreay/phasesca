@@ -5,11 +5,12 @@
 import sys
 import os
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import csv
 from scipy.interpolate import make_interp_spline, BSpline
 
-import lib.plot as libplot
+from scaff import plotters
 
 # * Configuration
 
@@ -35,7 +36,9 @@ for file in os.listdir(DIR):
     # X-axis, number of traces.
     x_nb = []
     # Y-axis, log_2(key rank).
-    y_kr = []
+    y_kr_amp = []
+    y_kr_phr = []
+    y_kr_recombined = []
     # Read the CSV file into lists.
     with open(file_path, 'r') as csvfile:
         rows = csv.reader(csvfile, delimiter=';')
@@ -49,15 +52,21 @@ for file in os.listdir(DIR):
                 continue
             # Get data. Index is the column number.
             x_nb.append(int(float(row[0])))
-            y_kr.append(int(float(row[2])))
+            y_kr_amp.append(int(float(row[3])))
+            y_kr_phr.append(int(float(row[6])))
+            y_kr_recombined.append(int(float(row[9])))
     if DEBUG:
         print("x_nb={}".format(x_nb))
-        print("y_kr={}".format(y_kr))
-    x_y[file] = {'x': np.asarray(x_nb), 'y': np.asarray(y_kr)}
+        print("y_kr_amp={}".format(y_kr_amp))
+        print("y_kr_phr={}".format(y_kr_phr))
+        print("y_kr_recombined={}".format(y_kr_recombined))
+    x_y[file] = {'x': np.asarray(x_nb), 'y': {'y_kr_amp': np.asarray(y_kr_amp),
+                                              'y_kr_phr': np.asarray(y_kr_phr),
+                                              'y_kr_recombined': np.asarray(y_kr_recombined)}}
 
 # * Plot
 
-def myplot(x, y, param_dict, smooth=False):
+def myplot(x, y, param_dict, smooth=False, label=""):
     """Plot y over x.
 
     :param smooth: Smooth the X data if True.
@@ -71,15 +80,27 @@ def myplot(x, y, param_dict, smooth=False):
         y_smooth = spl(x_smooth)
         x = x_smooth
         y = y_smooth
-    plt.plot(x, y, **param_dict)
+    idx = 0
+    for y_key in y:
+        if param_dict[idx].get("label") is not None:
+            label = param_dict[idx].get("label")
+        else:
+            label = "{}/{}".format(label, y_key)
+        plt.plot(x, y[y_key], **dict(param_dict[idx], label=label))
+        idx += 1
 
-libplot.enable_latex_fonts()
+plotters.enable_latex_fonts()
+matplotlib.rcParams.update({'font.size': 55})
 
 # plt.title('Key rank vs. Trace number')
-plt.xlabel('Number of traces')
+plt.xlabel('Traces')
 
 for key, value in x_y.items():
-    myplot(value["x"], value["y"], {"label": key}, smooth=SMOOTH_PLOT)
+    myplot(value["x"], value["y"], param_dict=[
+        {"color": "red", "label": "Amplitude", "linewidth": 2},
+        {"color": "blue", "label": "Phase", "linewidth": 2},
+        {"color": "purple", "label": "Fusion (Amplitude + Phase)", "linewidth": 5}
+    ], smooth=SMOOTH_PLOT, label=key)
 plt.ylabel('Log2(Key rank)')
 plt.ylim(top=128, bottom=0)
 plt.legend(loc="upper right")
