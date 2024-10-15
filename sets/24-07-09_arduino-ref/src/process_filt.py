@@ -33,6 +33,12 @@ if __name__ == "__main__":
     if sys.argv[4] == "lh1e6":
         processing.filter_amp = dsp.LHPFilter("high", 1e6, order=6, enabled=True)
         processing.filter_phr = dsp.LHPFilter("low",  1e6, order=6, enabled=True)
+    elif sys.argv[4] == "l1e6":
+        processing.filter_amp = dsp.LHPFilter("high", 1e6, order=6, enabled=False)
+        processing.filter_phr = dsp.LHPFilter("low",  1e6, order=6, enabled=True)
+    elif sys.argv[4] == "l2e6":
+        processing.filter_amp = dsp.LHPFilter("high", 2e6, order=6, enabled=False)
+        processing.filter_phr = dsp.LHPFilter("low",  2e6, order=6, enabled=True)
     elif sys.argv[4] == "lh500e3":
         processing.filter_amp = dsp.LHPFilter("high", 500e3, order=6, enabled=True)
         processing.filter_phr = dsp.LHPFilter("low",  500e3, order=6, enabled=True)
