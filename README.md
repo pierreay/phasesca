@@ -12,7 +12,7 @@ This repository contains the data and experiments of the project.
 
 # Files
 
-- **<expe>:** Experiments of the project.
-- **<sets>:** Datasets built during the project.
-- **<src>:** Scripts to work with the repository.
+- **[expe](./expe):** Experiments of the project.
+- **[sets](./sets):** Datasets built during the project.
+- **[src](./src):** Scripts to work with the repository.
 
