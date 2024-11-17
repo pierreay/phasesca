@@ -54,6 +54,11 @@ Required to perform the data analysis and the attacks.
 - **Near-field probes**: Can be a COTS one or a handmade for frequencies between 8 and 128 MHz.
 - **Device Under Test (DUT)**: Pick one described in the paper.
 
+# Storage
+
+This repository is managed using [git-annex](https://git-annex.branchable.com/).
+Around 400 GB of data is currently deduplicated and spread across 4 instances, including workstations and external mass storage devices.
+
 # Files
 
 - **[expe](./expe)**
