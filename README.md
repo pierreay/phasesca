@@ -6,26 +6,40 @@ This repository contains the data and experiments of the project.
 
 ## Publication
 
-This project led to the following [TCHES](https://tches.iacr.org/) publication: *Pierre Ayoub, Aurélien Hernandez, Romain Cayre, Aurélien Francillon, Clémentine Maurice (2025), PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels. IACR Transactions on Cryptographic Hardware and Embedded Systems (TCHES'25). https://hal.science/hal-04726109*
+This project led to the following [TCHES](https://tches.iacr.org/) publication: *Pierre Ayoub, Aurélien Hernandez, Romain Cayre, Aurélien Francillon, Clémentine Maurice (2025), PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels. IACR Transactions on Cryptographic Hardware and Embedded Systems (TCHES'25). https://tches.iacr.org/index.php/TCHES/article/view/11934 https://hal.science/hal-04726109*
 
 This project is also part of my Ph.D. Thesis, not yet published.
 
 ## How to cite
 
+<!---biblio-info@06cb76e-->
 ``` bibtex
 @Article{ayoub25phasesca,
-  title               = {{PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels}},
-  author              = {Ayoub, Pierre and Hernandez, Aur{\'e}lien and Cayre, Romain and Francillon, Aur{\'e}lien and Maurice, Cl{\'e}mentine},
-  journal             = {{IACR Transactions on Cryptographic Hardware and Embedded Systems}},
-  hal_local_reference = {Rapport LAAS n{\textdegree} 25001},
-  publisher           = {{IACR}},
-  year                = {2025},
-  keywords            = {Side-channel attacks ; Power/Electromagnetic analysis ; Unintended modulation ; Phase modulation ; Angle modulation ; Clock jitter},
-  url                 = {https://hal.science/hal-04726109},
-  pdf                 = {https://hal.science/hal-04726109v1/file/paper.pdf},
-  hal_id              = {hal-04726109},
-  hal_version         = {v1},
-  affiliations        = {Eurecom, Univ Lille, CNRS, Inria},
+  title         = {{PhaseSCA: Exploiting Phase-Modulated Emanations in Side
+                  Channels}},
+  author        = {Ayoub, Pierre and Hernandez, Aur{\'e}lien and Cayre,
+                  Romain and Francillon, Aur{\'e}lien and Maurice,
+                  Cl{\'e}mentine},
+  journal       = {IACR Transactions on Cryptographic Hardware and Embedded
+                  Systems (TCHES)},
+  publisher     = {{IACR}},
+  volume        = {2025},
+  doi           = {10.46586/tches.v2025.i1.392-419},
+  number        = {1},
+  pages         = {392–419},
+  year          = {2024},
+  month         = {Dec.},
+  url           = {https://tches.iacr.org/index.php/TCHES/article/view/11934},
+  urlfile       = {https://tches.iacr.org/index.php/TCHES/article/view/11934/11793},
+  keywords      = {Side-channel attacks ; Power/Electromagnetic analysis ;
+                  Unintended modulation ; Phase modulation ; Angle modulation
+                  ; Clock jitter},
+  hal_local_reference={Rapport LAAS n{\textdegree} 25001},
+  hal_url       = {https://hal.science/hal-04726109},
+  hal_pdf       = {https://hal.science/hal-04726109v1/file/paper.pdf},
+  hal_id        = {hal-04726109},
+  hal_version   = {v1},
+  affiliations  = {Eurecom, Univ Lille, CNRS, Inria}
 }
 ```
 
