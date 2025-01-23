@@ -13,11 +13,6 @@ ENV SC_DOCKER=/screaming_channels_ble/docs/demo_20240828_acsac
 WORKDIR /
 RUN test -d screaming_channels_ble && : || git clone https://github.com/pierreay/screaming_channels_ble.git
 
-# Install the WHAD project.
-RUN test -d screaming_channels_whad && : || git clone https://github.com/pierreay/screaming_channels_whad.git
-WORKDIR /screaming_channels_whad
-RUN python3 setup.py install
-ENV PYTHONPATH=/screaming_channels_whad
 
 # Install the HEL project.
 RUN chmod +x "$SC_SRC/utils/install-hel.sh"
