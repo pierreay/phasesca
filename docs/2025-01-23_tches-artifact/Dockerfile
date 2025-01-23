@@ -16,7 +16,7 @@ USER rootless
 WORKDIR /home/rootless
 
 # Allows accessing our user installed projects. 
-ENV PATH="$PATH:$HOME/.local/bin"
+ENV PATH="$PATH:/home/rootless/.local/bin"
 # TODO: Setup project env.
 # Clone our project and create environment variables for it.
 # ENV SC=/screaming_channels_ble
