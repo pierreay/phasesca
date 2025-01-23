@@ -11,25 +11,25 @@ RUN pip3 install setuptools numpy==2.0.0 click==8.1.7 matplotlib==3.9.2 colorlog
 # ENV SC=/screaming_channels_ble
 # ENV SC_SRC=/screaming_channels_ble/src
 # ENV SC_DOCKER=/screaming_channels_ble/docs/demo_20240828_acsac
-WORKDIR /
+WORKDIR /root
 # Download our projects.
 RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.git
 RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
 RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
 
 # Install SoapyRX.
-WORKDIR /soapyrx
+WORKDIR /root/soapyrx
 RUN pip install --user .
 # Install SCAFF.
-WORKDIR /scaff
+WORKDIR /root/scaff
 RUN pip install --user .
 # Install HEL.
-WORKDIR /scaff
+WORKDIR /root/scaff
 RUN chmod +x utils/install-hel.sh
 RUN utils/install-hel.sh
 
 # Get the datasets.
-WORKDIR /
+WORKDIR /root
 # TODO: Extract datasets.
 # RUN --mount=type=bind,source=.,target=/host /bin/bash -c 'tar xjvf /host/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw.tar.bz2 -C /'
 # RUN --mount=type=bind,source=.,target=/host /bin/bash -c 'tar xjvf /host/240429_highdist_2lna_highgain_norep.tar.bz2 -C /'
