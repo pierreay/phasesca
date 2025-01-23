@@ -31,43 +31,37 @@ For every datasets, we will execute the following automatized steps:
     1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
     2. Leveraging the profile, attack on an attack subset.
 
-<!--TODO: Adaptation to PhaseSCA from BlueScream-->
-
 # Setup
 
 First, we will setup necessary tools, downloading the code and the data.
 
 ## Download
 
-Clone the "Screaming Channels on Bluetooth Low Energy" repository (~ 10 MB) in the directory of your choice:
+Clone our repository (~ 100 MB) in the directory of your choice:
 
-    git clone https://github.com/pierreay/screaming_channels_ble/
+    git clone https://github.com/pierreay/phase_data/
 
-Moreover, manually download the two aforementioned datasets located at [`zenodo.org/records/13384278`](https://zenodo.org/records/13384278) which have been publicly uploaded on Zenodo (less than 2 GB).
+Moreover, manually download the two aforementioned datasets located at [`zenodo.org/records/XXXXXXXX`](https://zenodo.org/records/XXXXXXXX) which have been publicly uploaded on Zenodo (~ XXX GB).
 
 ## Installation
 
-We will setup a temporary Docker container for reproducing the attacks.
-Ensure that both [Docker](https://www.docker.com/) and its [buildx](https://docs.docker.com/build/concepts/overview/) builder are installed.
+We will setup a temporary Docker container for reproducing the attacks, in order to not clutter the host system.
 
-First, move the downloaded datasets inside the Docker folder:
+First, ensure that both [Docker](https://www.docker.com/) and its [buildx](https://docs.docker.com/build/concepts/overview/) builder are installed on the host machine, following the host distribution documentation (for example on [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) or [Arch Linux](https://wiki.archlinux.org/title/Docker)).
 
-    cd screaming_channels_ble/docs/demo_20240828_acsac
-    mv -t . /PATH/TO/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw.tar.bz2
-    mv -t . /PATH/TO/240429_highdist_2lna_highgain_norep.tar.bz2
+Second, move the downloaded datasets inside the Docker folder:
 
-Second, download and initialize the Docker image leveraging the `Dockerfile`:
+    cd phase_data/docs/2025-01-23_tches-artifact
+    mv -t . /PATH/TO/DOWNLOADED/XXX.tar.bz2
+
+Third, download and initialize the Docker image leveraging the `Dockerfile`:
 
     make build
 
-It will download around 2 GB and decompress the datasets that have been downloaded previously inside the container.
+It will download around XXX GB and decompress the datasets that have been downloaded previously inside the container.
 The image and containers will be cleaned up at the end, no files will be left or modified on the host system.
 
-If you get an error like the following one:
-
-    cp: cannot stat '/host/*.tar.bz2': No such file or directory
-
-It means that the two datasets archives were not moved correctly to the Dockerfile directory and that the Docker container cannot access them.
+<!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
 # Reproducing the attacks
 
