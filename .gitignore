@@ -3,3 +3,6 @@
 **/attack*/*.npy
 **/key*.txt
 **/pt*.txt
+# Exclude sentinel files.
+**/.datasetinit
+**/.dockerinit
