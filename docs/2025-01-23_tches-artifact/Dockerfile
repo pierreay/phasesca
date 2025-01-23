@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS ubuntu-screaming_channels_ble
+FROM ubuntu:22.04 AS ubuntu-phasesca
 # Automatically answer Yes for APT questions.
 ENV DEBIAN_FRONTEND=noninteractive
 
