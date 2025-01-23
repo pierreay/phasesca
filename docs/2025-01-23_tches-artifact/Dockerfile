@@ -8,8 +8,9 @@ RUN pip3 install setuptools numpy==2.0.0 click==8.1.7 matplotlib==3.9.2 colorlog
 
 # Setup rootless user.
 RUN useradd -ms /bin/bash rootless
-RUN mkdir -p /home/rootless
-RUN chown -R rootless:rootless /home/rootless
+RUN yes ertyerty | passwd rootless
+# RUN mkdir -p /home/rootless
+# RUN chown -R rootless:rootless /home/rootless
 RUN usermod -aG sudo rootless
 USER rootless
 WORKDIR /home/rootless
@@ -35,7 +36,7 @@ RUN pip install --user .
 # Install HEL.
 WORKDIR /home/rootless/scaff
 RUN chmod +x utils/install-hel.sh
-RUN utils/install-hel.sh
+RUN echo "ertyerty" | sudo -S utils/install-hel.sh
 
 # Get the datasets.
 WORKDIR /home/rootless
