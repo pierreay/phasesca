@@ -12,11 +12,21 @@ RUN pip3 install setuptools numpy==2.0.0 click==8.1.7 matplotlib==3.9.2 colorlog
 # ENV SC_SRC=/screaming_channels_ble/src
 # ENV SC_DOCKER=/screaming_channels_ble/docs/demo_20240828_acsac
 WORKDIR /
+# Download our projects.
 RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.git
+RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
+RUN test -d scaff      && : || git clone https://github.com/pierreay/soapyrx.git
 
-# Install the HEL project.
-RUN chmod +x "$SC_SRC/utils/install-hel.sh"
-RUN "$SC_SRC/utils/install-hel.sh"
+# Install SoapyRX.
+WORKDIR /soapyrx
+RUN pip install --user .
+# Install SCAFF.
+WORKDIR /scaff
+RUN pip install --user .
+# Install HEL.
+WORKDIR /scaff
+RUN chmod +x utils/install-hel.sh
+RUN utils/install-hel.sh
 
 # Get the datasets.
 WORKDIR /
