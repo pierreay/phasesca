@@ -27,6 +27,8 @@ RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.
 RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
 RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
 
+# Update Pip (required to install our projects successfully).
+RUN pip install -U pip
 # Install SoapyRX.
 WORKDIR /home/rootless/soapyrx
 RUN pip install --user .
