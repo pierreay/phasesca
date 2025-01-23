@@ -43,9 +43,14 @@ This project is also part of my Ph.D. Thesis, not yet published.
 }
 ```
 
-# Requirements
+# Reproducing
 
-## Software
+As an introduction, one may want to check the [TCHES artifact evaluation](./docs/2025-01-23_tches-artifact/) to reproduce parts of our results.
+All results and plots of the paper have been generated using one of the script and data in this repository, in such a way that everything must be easy to reproduce given the same hardware and software. 
+
+## Requirements
+
+### Software
 
 - **[phase_fw](https://github.com/pierreay/phase_fw.git)**
 
@@ -62,7 +67,7 @@ Required to perform the data collection.
 Used to to process and analyze the datasets composed of I/Q signals.
 Required to perform the data analysis and the attacks.
 
-## Hardware
+### Hardware
 
 - **SDR**: Pick one supported by SoapyRX.
 - **Near-field probes**: Can be a COTS one or a handmade for frequencies between 8 and 128 MHz.
@@ -74,6 +79,10 @@ This repository is managed using [git-annex](https://git-annex.branchable.com/).
 Around 400 GB of data is currently deduplicated and spread across 4 instances, including workstations and external mass storage devices.
 
 # Files
+
+- **[docs](./docs)**
+
+Documentation of the project.
 
 - **[expe](./expe)**
 
