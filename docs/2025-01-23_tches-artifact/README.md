@@ -28,8 +28,8 @@ As such, we uploaded datasets on [Zenodo](https://zenodo.org/), an open platform
 For every datasets, we will execute the following automatized steps:
 - Performing an non-profiled side-channel attack (close to a Correlation Power Attack *a.k.a* CPA).
 - Performing a profiled side-channel attack (close to a Template Attack *a.k.a* TA), composed of two steps:
-1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
-2. Leveraging the profile, attack on an attack subset.
+    1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
+    2. Leveraging the profile, attack on an attack subset.
 
 <!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
