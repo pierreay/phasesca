@@ -61,14 +61,26 @@ Third, download and initialize the Docker image leveraging the `Dockerfile`:
 It will download around XXX GB and decompress the datasets that have been downloaded previously inside the container.
 The image and containers will be cleaned up at the end, no files will be left or modified on the host system.
 
+The Docker should now be ready to be used.
+In the following, we assume that the reader is connected to the Docker container through SSH by running:
+
+    make shell
+
+The X11 display should be shared between the container and the host.
+To test this, one may run:
+
+    xclock
+
+If the clock is displayed, good to go.
+If an error of the type `Authorization required, but no authorization protocol specified` arise, run the following on the host system:
+
+    sudo xhost +local:docker=
+
+Exit and restart the Docker container, and the X11 display sharing should work.
+
 <!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
 # Reproducing the attacks
-
-The Docker is now ready to be use.
-In the following, we assume that the reader is connected to the Docker container through SSH:
-
-    make shell
 
 For the following command, the `$SC_SRC` variable is set to the path of the `screaming_channels_ble/src` directory, while the `$DATASET` variable will be set to the path of the currently analyzed dataset.
 
