@@ -1,7 +1,7 @@
 # Abstract
 
-This artifact consists of software and data to reproduce the main results of section 8.5 of our paper.
-The software is composed of Python source code and a C library.
+This artifact consists of software and data to reproduce the main results of section 7.2 of our paper.
+The software is a research project (not production ready) and is composed of Python and C source code.
 Everything is automated inside a Docker container, and dependencies and manual installation are referenced under the main project web page.
 The data mainly consists of Numpy arrays containing complex numbers representing I/Q data.
 
@@ -9,33 +9,29 @@ The data mainly consists of Numpy arrays containing complex numbers representing
 
 This guide will help you reproduce the main results of our paper.
 Note that this is a small part of our project.
-The full project can be found on GitHub at [`pierreay/screaming_channel_ble`](https://github.com/pierreay/screaming_channels_ble/).
-A web version of this guide can also be found at [`screaming_channels_ble/docs/demo_20240828_acsac/README.org`](https://github.com/pierreay/screaming_channels_ble/tree/main/docs/demo_20240828_acsac/README.org).
-We have published in open-access all of our data in the repository located at [`pierreay/screaming_channels_data`](https://github.com/pierreay/screaming_channels_data/).
+The full project can be found on GitHub at [`pierreay/phase_data`](https://github.com/pierreay/phase_data/).
 
-To fully reproduce this attack, one would have to first acquire a dataset by:
-1.  Flashing two firmware (the attacker dongle and the victim board) and installing the radio tooling.
-2.  Setup the experimental setup, including the attacker host computer, the radio, the antenna and amplifiers, the dongle, the victim dongle.
-3.  Performing a dataset collection (up to several days).
-4.  Post-processing the dataset to extract the small AES leak amplitude trace from the large RAW I/Q signal.
+To fully reproduce this attack, in the first stage, one would have to first acquire a dataset using hardware by:
+1. Flashing a firmware on the evaluated SoC (DUT) and installing the radio tooling.
+2. Setup the experimental hardware, including the attacker host computer, the radio, the antenna and amplifiers, the DUT.
+3. Performing a dataset collection (up to several hours) in a stable environment.
+
+In a second stage, without any hardware:
+4. Post-processing the dataset to extract amplitude and phase traces from the large raw I/Q signal.
 
 As you imagine, this is fairly complex and long without prior experience.
-Hence, in this guide, we provides two representative pre-processed datasets on which we can complete the second part of the attack.
-The $A_x$ refer to the paper notation, while the long name refer to our data repository notation:
-- **$A_{7}$:** `240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw`
-- **$A_{9}$:** `240429_highdist_2lna_highgain_norep`
+Hence, in this guide, we provides representative datasets on which we can complete the step 4 of the entire attack, which do not require any hardware.
+As such, we uploaded datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data:
+> Ayoub (2025) PhaseSCA: XXX Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
 
-Hence, we uploaded two representative and small datasets on Zenodo:
+For every datasets, we will execute the following automatized steps:
+- Performing an non-profiled side-channel attack (close to a Correlation Power Attack *a.k.a* CPA).
+- Performing a profiled side-channel attack (close to a Template Attack *a.k.a* TA), composed of two steps:
+1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
+2. Leveraging the profile, attack on an attack subset.
 
-> Ayoub (2024) Screaming Channels on Bluetooth Low Energy, Zenodo. DOI:
-> 10.5281/zenodo.13384278. URL: <https://zenodo.org/records/13384278>
-
-For both datasets, we will execute the following steps:
-
-1.  Create a profile (*i.e.*, a template) from a training subset to learn the leakage model.
-2.  Leveraging the profile, attack using a Template Attack on an attack subset.
-
-While it is not mandatory, the [`docs/demo_20231014/README.org`](https://github.com/pierreay/screaming_channels_ble/blob/main/docs/demo_20231014/README.org) demo give a look at visualizing how traces and the AES leakage looks like.
+<!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
 # Setup
 
