@@ -5,7 +5,7 @@ The software is a research project (not production ready) and is composed of Pyt
 Everything is automated inside a Docker container, and dependencies and manual installation are referenced under the main project web page.
 The data mainly consists of Numpy arrays containing complex numbers representing I/Q data.
 
-# Overview
+# Introduction
 
 This guide will help you reproduce the main results of our paper.
 Note that this is a small part of our project.
