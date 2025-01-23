@@ -12,7 +12,7 @@ RUN pip3 install setuptools numpy==2.0.0 click==8.1.7 matplotlib==3.9.2 colorlog
 # ENV SC_SRC=/screaming_channels_ble/src
 # ENV SC_DOCKER=/screaming_channels_ble/docs/demo_20240828_acsac
 WORKDIR /
-RUN test -d phase_sca && : || git clone https://github.com/pierreay/phase_sca.git
+RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.git
 
 # Install the HEL project.
 RUN chmod +x "$SC_SRC/utils/install-hel.sh"
