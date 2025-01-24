@@ -78,13 +78,73 @@ If an error of the type `Authorization required, but no authorization protocol s
 
 Exit and restart the Docker container, and the X11 display sharing should work.
 
-<!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
 # Reproducing the attacks
 
+## nRF52
+
+For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the IoT ecosystem.
+
+### Attacking nRF52 with non-profiled attack
+
+We will first perform a non-profiled attack (easier compared to a profiled attack) to reproduce our Figure 12.a of the paper.
+
+First, move to the dataset directory and extract the I/Q signals:
+
+```bash
+cd /home/rootless/host_sets/24-07-04_nrf52-ref
+tar xvf attack.tar
+```
+
+One may visually inspect a single trace in IQ format by running the following command:
+
+```bash
+soapyrx plot ./attack/0_iq.npy
+```
+
+This will plot you different components of the trace at index 0:
+
+[img](gfx/24-07-04_nrf52-ref_attack_0.png)
+
+In this plot, you can see:
+1. The first row showing the amplitude on the left and the phase on the right, both in time domain.
+1. The second row showing the spectrogram for the I/Q on the left, and the spectrogram (*i.e.*, frequency domain representation) for the phase component on the right.
+Note the symmetry (amplitude/phase) in the first row that is not true in the second row (IQ/phase).
+
+This IQ recording is the direct output of our SDR during signal acquisition, without any further post-processing.
+Hence, it contains both the amplitude and phase information that are exploited separately in the paper.
+
+As explained in the Section 7.2 from our paper, we will use filters to isolate the amplitude-modulated and phase-modulated signals.
+During our experiments, this was automated by the `src/process.sh` script with different filters, but to use the one of the paper, one may run the following commands:
+
+```bash
+mkdir -p attack_filt_lh1e6
+cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
+./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
+```
+
+This will plot you a preview of what will be extracted:
+
+[img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_template.png)
+
+In this plot, you can see the amplitude extraction on the left side, and the phase extraction on the right side.
+All signals (for both time-domain and frequency-domain) are shown after the filtering stage and the amplitude / phase conversion, so no IQ data is shown on this plot.
+On the first row, you can see the signal acquired with our SDR in the time-domain, where each green and red dashed lines represent the boundaries (beginning and the end) of the final extracted traces.
+On the second row, you can see the same signal as the first row but in the frequency domain in function of time (spectrogram).
+On the third row, you can see how each extracted traces align themselves.
+On the fourth and final row, you can see the resulting extracted trace, averaged from the aligned traces of the third row.
+
+You can quit the plot by hitting `q`, and the post-processing will begin.
+This will post-process our I/Q data, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
+The filters width have been determined experimentally by trial and error.
+A visual inspection of the leakage in the frequency domain give the attacker a first approximation of the correct width to use.
+By default, it will process 2000 for this dataset, but you can stop it manually at 800/2000 processed traces by hitting CTRL+C (because we already know from our paper that 800 traces is sufficient to perform a full key recovery).
+
+## <!--TODO: Adaptation to PhaseSCA from BlueScream-->
+
 For the following command, the `$SC_SRC` variable is set to the path of the `screaming_channels_ble/src` directory, while the `$DATASET` variable will be set to the path of the currently analyzed dataset.
 
-## Attacking $A_{7}$
+### Attacking $A_{7}$
 
 This dataset correspond to the scenario with the non-instrumented firmware in the anechoic box.
 
