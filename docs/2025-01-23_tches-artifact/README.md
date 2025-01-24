@@ -104,7 +104,7 @@ soapyrx plot ./attack/0_iq.npy
 
 This will plot you different components of the trace at index 0:
 
-[img](gfx/24-07-04_nrf52-ref_attack_0.png)
+![img](gfx/24-07-04_nrf52-ref_attack_0.png)
 
 In this plot, you can see:
 1. The first row showing the amplitude on the left and the phase on the right, both in time domain.
@@ -125,7 +125,7 @@ cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
 
 This will plot you a preview of what will be extracted:
 
-[img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_template.png)
+![img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_template.png)
 
 In this plot, you can see the amplitude extraction on the left side, and the phase extraction on the right side.
 All signals (for both time-domain and frequency-domain) are shown after the filtering stage and the amplitude / phase conversion, so no IQ data is shown on this plot.
