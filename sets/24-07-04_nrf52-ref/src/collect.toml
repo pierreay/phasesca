@@ -37,6 +37,7 @@ bandpass_upper = 2.15e6
 trigger_threshold = 0
 min_correlation = 2.8e01
 num_traces_per_point_min = 10
+num_traces_per_point_max = 11
 
 [scaff.io]
 data_path = ""
