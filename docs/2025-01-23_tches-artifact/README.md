@@ -129,10 +129,10 @@ This will plot you a preview of what will be extracted:
 
 In this plot, you can see the amplitude extraction on the left side, and the phase extraction on the right side.
 All signals (for both time-domain and frequency-domain) are shown after the filtering stage and the amplitude / phase conversion, so no IQ data is shown on this plot.
-On the first row, you can see the signal acquired with our SDR in the time-domain, where each green and red dashed lines represent the boundaries (beginning and the end) of the final extracted traces.
-On the second row, you can see the same signal as the first row but in the frequency domain in function of time (spectrogram).
-On the third row, you can see how each extracted traces align themselves.
-On the fourth and final row, you can see the resulting extracted trace, averaged from the aligned traces of the third row.
+1. On the first row, you can see the signal acquired with our SDR in the time-domain, where each green and red dashed lines represent the boundaries (beginning and the end) of the final extracted traces.
+2. On the second row, you can see the same signal as the first row but in the frequency domain in function of time (spectrogram).
+3. On the third row, you can see how each extracted traces align themselves.
+4. On the fourth and final row, you can see the resulting extracted trace, averaged from the aligned traces of the third row.
 
 You can quit the plot by hitting `q`, and the post-processing will begin.
 This will post-process our I/Q data, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
