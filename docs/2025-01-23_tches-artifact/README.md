@@ -136,7 +136,7 @@ All signals (for both time-domain and frequency-domain) are shown after the filt
 
 You can quit the plot by hitting `q`, and the post-processing will begin.
 This will post-process our I/Q data, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
-The filters width have been determined experimentally by trial and error.
+The filters width have been determined experimentally by trial and error and is specific to each DUT model.
 A visual inspection of the leakage in the frequency domain give the attacker a first approximation of the correct width to use.
 By default, it will process 2000 for this dataset, but you can stop it manually at 800/2000 processed traces by hitting CTRL+C (because we already know from our paper that 800 traces is sufficient to perform a full key recovery).
 
