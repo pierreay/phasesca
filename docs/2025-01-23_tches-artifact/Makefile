@@ -1,4 +1,6 @@
 DOCKER_NAME = ubuntu-phasesca
+DOCKER_LMOUNT = .
+DOCKER_RMOUNT = /home/rootless/host_sets
 
 # Create the Docker container from the image.
 build: .datasetinit .dockerinit
@@ -20,7 +22,9 @@ build: .datasetinit .dockerinit
 
 # Get a shell into the Docker container.
 shell:
-	docker run -it --env=DISPLAY --net=host \
+	docker run -it \
+		--env=DISPLAY --net=host \
+		-v $(DOCKER_LMOUNT):$(DOCKER_RMOUNT) \
 		$(DOCKER_NAME) /bin/bash
 
 # Clean our Docker images and containers.
