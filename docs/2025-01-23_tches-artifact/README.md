@@ -96,6 +96,18 @@ cd /home/rootless/host_sets/24-07-04_nrf52-ref
 tar xvf attack.tar
 ```
 
+Here are the meanings of all the directories:
+- `attack`    : Original collected raw attack set.
+- `attack_*`  : Post-processed and filtered attack set(s).
+- `train`     : Original collected raw train set.
+- `train_*`   : Post-processed and filtered train set(s).
+- `bin`       : Binaries (e.g., firmware flashed on DUT).
+- `csv_*`     : CSVs containing attack results (used for plotting paper figures).
+- `logs_*`    : Text files containing attack logging.
+- `plots_*`   : Plots of attack results based on CSVs.
+- `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
+- `src`       : Scripts used to build, process and attack the dataset.
+
 One may visually inspect a single trace in complex numbers format (storing IQ data, *i.e.*, a complex-valued signal) by running the following command:
 
 ```bash
