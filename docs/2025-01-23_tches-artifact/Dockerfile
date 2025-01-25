@@ -17,12 +17,9 @@ WORKDIR /home/rootless
 
 # Allows accessing our user installed projects. 
 ENV PATH="$PATH:/home/rootless/.local/bin"
-# TODO: Setup project env.
-# Clone our project and create environment variables for it.
-# ENV SC=/screaming_channels_ble
-# ENV SC_SRC=/screaming_channels_ble/src
-# ENV SC_DOCKER=/screaming_channels_ble/docs/demo_20240828_acsac
 # Download our projects.
+RUN mkdir git
+WORKDIR /home/rootless/git
 RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.git
 RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
 RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
@@ -30,13 +27,13 @@ RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
 # Update Pip (required to install our projects successfully).
 RUN pip install -U pip
 # Install SoapyRX.
-WORKDIR /home/rootless/soapyrx
-RUN pip install --user .
+WORKDIR /home/rootless/git/soapyrx
+RUN pip install --user -e .
 # Install SCAFF.
-WORKDIR /home/rootless/scaff
-RUN pip install --user .
+WORKDIR /home/rootless/git/scaff
+RUN pip install --user -e .
 # Install HEL.
-WORKDIR /home/rootless/scaff
+WORKDIR /home/rootless/git/scaff
 RUN chmod +x utils/install-hel.sh
 RUN echo "ertyerty" | sudo -S utils/install-hel.sh
 
