@@ -96,7 +96,7 @@ cd /home/rootless/host_sets/24-07-04_nrf52-ref
 tar xvf attack.tar
 ```
 
-One may visually inspect a single trace in IQ format by running the following command:
+One may visually inspect a single trace in complex numbers format (storing IQ data, *i.e.*, a complex-valued signal) by running the following command:
 
 ```bash
 soapyrx plot ./attack/0_iq.npy
@@ -135,10 +135,24 @@ All signals (for both time-domain and frequency-domain) are shown after the filt
 4. On the fourth and final row, you can see the resulting extracted trace, averaged from the aligned traces of the third row.
 
 You can quit the plot by hitting `q`, and the post-processing will begin.
-This will post-process our I/Q data, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
+This will post-process our I/Q data from the `attack` directory and storing the result into the `attack_filt_lh1e6` directory, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
 The filters width have been determined experimentally by trial and error and is specific to each DUT model.
 A visual inspection of the leakage in the frequency domain give the attacker a first approximation of the correct width to use.
 By default, it will process 2000 for this dataset, but you can stop it manually at 800/2000 processed traces by hitting CTRL+C (because we already know from our paper that 800 traces is sufficient to perform a full key recovery).
+
+One may visually inspect a single or multiples post-processed trace(s) in float numbers format (real-valued trace) by running the following command:
+
+```bash
+scaff show --base 0 --offset 3 --cumulative attack_filt_lh1e6 phr
+```
+
+![img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_0_phr.png)
+
+On this plot, you can see the 3 first phase shift traces of the dataset plotted on the same plot.
+Those traces are obtained by the post-processing, which perform signal alignement, averaging, and demodulation, *i.e.*, going from a complex-valued signal to a real-valued trace representing the amplitude or the phase.  
+One may notice that they are perfectly aligned, which is required to have a successful attack.
+You can use `amp` instead of `phr` to visualize amplitude traces instead of phase shift traces.
+Moreover, you can use `scaff show --help` to display the help.
 
 ## <!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
