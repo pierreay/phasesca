@@ -149,7 +149,7 @@ scaff show --base 0 --offset 3 --cumulative attack_filt_lh1e6 phr
 ![img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_0_phr.png)
 
 On this plot, you can see the 3 first phase shift traces of the dataset plotted on the same plot.
-Those traces are obtained by the post-processing, which perform signal alignement, averaging, and demodulation, *i.e.*, going from a complex-valued signal to a real-valued trace representing the amplitude or the phase.  
+Those traces are obtained by the post-processing, which perform signal alignment, averaging, and demodulation, *i.e.*, going from a complex-valued signal to a real-valued trace representing the amplitude or the phase.
 One may notice that they are perfectly aligned, which is required to have a successful attack.
 You can use `amp` instead of `phr` to visualize amplitude traces instead of phase shift traces.
 Moreover, you can use `scaff show --help` to display the help.
