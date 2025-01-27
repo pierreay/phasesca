@@ -18,6 +18,11 @@ WORKDIR /home/rootless
 
 # Allows accessing our user installed projects. 
 ENV PATH="$PATH:/home/rootless/.local/bin"
+# Set environment variables used by scripts of our projects, usually defined in a `.envrc` file.
+ENV PATH_DATASET="$HOME/pro_storage/dataset"
+ENV PATH_SCAFF="$HOME/git/scaff"
+ENV PATH_SOAPYRX="$HOME/git/soapyrx"
+ENV LD_LIBRARY_PATH="/usr/local/lib"
 # Download our projects.
 RUN mkdir git
 WORKDIR /home/rootless/git
