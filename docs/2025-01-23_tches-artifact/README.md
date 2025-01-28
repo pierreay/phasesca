@@ -112,6 +112,12 @@ Here are the meanings of all the directories:
 - `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
 - `src`       : Scripts used to build, process and attack the dataset.
 
+<!---TODO: EXPLAIN RATIONALE-->
+
+```bash
+./src/git-checkout.sh process
+```
+
 One may visually inspect a single trace in complex numbers format (storing IQ data, *i.e.*, a complex-valued signal) by running the following command:
 
 ```bash
@@ -139,7 +145,8 @@ cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
 ./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
 ```
 
-This will plot you a preview of what will be extracted:
+The following plots may vary depending on the version (*i.e.*, commit) of `scaff` that have been checkout by the `git-checkout.sh` script.
+For the latest version, this is an example plot that show you a preview of what will be extracted:
 
 ![img](gfx/24-07-04_nrf52-ref_attack_filt_lh1e6_template.png)
 
@@ -169,6 +176,140 @@ Those traces are obtained by the post-processing, which perform signal alignment
 One may notice that they are perfectly aligned, which is required to have a successful attack.
 You can use `amp` instead of `phr` to visualize amplitude traces instead of phase shift traces.
 Moreover, you can use `scaff show --help` to display the help.
+
+<!---TODO: EXPLAIN RATIONALE-->
+
+```bash
+./src/git-checkout.sh attack_cra
+```
+
+We can now proceed to a single attack using 150 amplitude traces, by running the following:
+
+```bash
+scaff --log --loglevel INFO cra --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 150 --no-bruteforce --comp amp
+```
+
+It will display a first plot of all traces to ensure that they are correctly aligned, as well as a second plot with the resulting average.
+The attack will then start by attacking each subkey (*i.e.*, key bytes) individually, which can take from 10 seconds for a hundred of traces to several minutes for thousands of traces.
+At the end, you should see the following result:
+
+```txt
+Best Key Guess:   2c   36   5e   69   6d   7e   aa   de   6a   cd   3f   4f   a2   c0   94   3a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             000  000  109  000  000  001  055  000  007  000  000  000  030  001  000  094
+HD:              000  000  003  000  000  007  005  000  006  000  000  000  004  005  000  002
+SUCCESS:           1    1    0    1    1    0    0    1    0    1    1    1    0    0    1    0
+NUMBER OF CORRECT BYTES: 9
+HD SUM:                  32
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^49.09905512
+actual rounded: 2^49.55726301
+max: 2^49.92155851
+time enum: 0.257056 seconds
+```
+
+This shows the guessed key using the side-channel, the actual known key, and different metrics from the attack (Correct bytes, Hamming Distance (HD), Partial Guess Entropy (PGE), Key Rank).
+In this example, we have an estimated key rank of 2^49, which means that after our attack, we still have to test 2^49 keys before finding the correct key.
+In other words, we reduced the AES key space from 128 bits to 49 bits.
+This result corresponds to the point of 150 traces in Figure 12.a.
+
+You can now try with other traces instead of amplitude traces, like in the core contribution of our paper, the `phr` parameter for the phase traces and the `recombined` parameter for the Multi-Channel Fusion Attack (MCFA), which recombines the amplitude and phase traces to improve the results compared to traditional attacks.
+
+```bash
+scaff --log --loglevel INFO cra --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 150 --no-bruteforce --comp phr
+```
+
+```text
+Best Key Guess:   2c   fc   dd   69   c2   85   76   de   96   cd   3f   4f   89   86   70   6a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             000  001  000  000  006  000  000  000  000  000  000  000  000  009  001  000
+HD:              000  004  000  000  006  000  000  000  000  000  000  000  000  004  004  000
+SUCCESS:           1    0    1    1    0    1    1    1    1    1    1    1    1    0    0    1
+NUMBER OF CORRECT BYTES: 12
+HD SUM:                  18
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^19.44428495
+actual rounded: 2^19.95336239
+max: 2^20.35668945
+time enum: 0.353109 seconds
+```
+
+As you can see, we have in this attack a key rank of 2^19 using phase traces.
+
+One may use the `--bruteforce` flag to bruteforce the key in a few seconds at the end of the attack, and perform a full key recovery:
+
+```bash
+scaff --log --loglevel INFO cra --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 150 --bruteforce --comp phr
+```
+
+```text
+Starting preprocessing
+current rank : 2^1
+current rank : 2^1.584962501
+current rank : 2^2.584962501
+current rank : 2^3.321928095
+current rank : 2^4.169925001
+current rank : 2^5.129283017
+current rank : 2^6.022367813
+current rank : 2^7.139551352
+current rank : 2^8.124121312
+current rank : 2^9.103287808
+current rank : 2^10.09671515
+current rank : 2^11.01611184
+current rank : 2^12.03204573
+current rank : 2^13.01941698
+current rank : 2^14.08870544
+current rank : 2^15.01902598
+current rank : 2^16.03206726
+current rank : 2^17.01976445
+current rank : 2^18.09110476
+current rank : 2^19.03235519
+
+KEY FOUND!!!
+2c 36 dd 69 6d 85 76 de 96 cd 3f 4f 89 76 94 6a
+```
+
+Finally, using MCFA:
+
+```bash
+scaff --log --loglevel INFO cra --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 150 --no-bruteforce --comp recombined
+```
+
+```text
+[scaff] [INFO] Perform recombination...
+Best Key Guess:   2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   c0   94   6a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             000  000  000  000  000  000  000  000  000  000  000  000  000  001  000  000
+HD:              000  000  000  000  000  000  000  000  000  000  000  000  000  005  000  000
+SUCCESS:           1    1    1    1    1    1    1    1    1    1    1    1    1    0    1    1
+NUMBER OF CORRECT BYTES: 15
+HD SUM:                  5
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^2
+actual rounded: 2^3.321928095
+max: 2^4.087462841
+time enum: 0.310211 seconds
+```
+
+The key rank is of 2^3, which means that we have 8 keys to test before finding the correct one after our side-channel attack, which attacked a 128 bits AES key.
 
 ## <!--TODO: Adaptation to PhaseSCA from BlueScream-->
 
