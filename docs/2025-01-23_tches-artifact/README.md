@@ -281,7 +281,7 @@ KEY FOUND!!!
 2c 36 dd 69 6d 85 76 de 96 cd 3f 4f 89 76 94 6a
 ```
 
-Finally, using MCFA:
+But we can do even better using MCFA, which recombines the information from the amplitude traces and from the phase traces inside a single attack:
 
 ```bash
 scaff --log --loglevel INFO cra --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 150 --no-bruteforce --comp recombined
