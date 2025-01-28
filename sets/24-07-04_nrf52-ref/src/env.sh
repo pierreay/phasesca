@@ -19,10 +19,9 @@ export COLLECT_YKUSH_PORT=1
 # Git commits checked out before operating corresponding repository.
 export GIT_CHECKOUT_PHASEFW="fb9b060"
 export GIT_CHECKOUT_SOAPYRX="d5db344"
-# For TA:
-# export GIT_CHECKOUT_SCAFF="23aad15"
-# For CRA:
-export GIT_CHECKOUT_SCAFF="dfdd08a"
+export GIT_CHECKOUT_SCAFF_TA="23aad15"
+export GIT_CHECKOUT_SCAFF_CRA="dfdd08a"
+export GIT_CHECKOUT_SCAFF="${GIT_CHECKOUT_SCAFF_CRA}"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
