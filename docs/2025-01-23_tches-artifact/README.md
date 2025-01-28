@@ -66,6 +66,10 @@ In the following, we assume that the reader is connected to the Docker container
 
     make shell
 
+Note that you can use the `DOCKER_LMOUNT` variable to mount the directory from the host containing the datasets:
+
+    make shell DOCKER_LMOUNT=/PATH/TO/phase_data/sets
+
 The X11 display should be shared between the container and the host.
 To test this, one may run:
 
