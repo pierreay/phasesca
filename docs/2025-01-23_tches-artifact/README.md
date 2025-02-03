@@ -491,7 +491,5 @@ Finally, once the Docker container is exited, one may run the following to clean
 
 # Conclusion
 
-In this demonstration, we reproduced the two most important results of the paper regarding attack performances.
+In this demonstration, we reproduced the most important results of the paper regarding attack performance improvement leveraging unattended phase traces.
 All other claims can also be reproduced by leveraging our full dataset repository, including scripts and data.
-Regarding the protocol manipulation part of the attack, a better solution would be to have an online platform allowing to replicate and extend such attacks.
-We are looking into this as future work.
