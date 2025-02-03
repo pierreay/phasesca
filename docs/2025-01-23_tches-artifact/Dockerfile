@@ -46,6 +46,6 @@ RUN echo "ertyerty" | sudo -S utils/install-hel.sh
 
 # Get the datasets.
 WORKDIR /home/rootless
-# TODO: Extract datasets.
+# WAIT: DATASET UPLOAD: Extract datasets.
 # RUN --mount=type=bind,source=.,target=/host /bin/bash -c 'tar xjvf /host/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw.tar.bz2 -C /'
 # RUN --mount=type=bind,source=.,target=/host /bin/bash -c 'tar xjvf /host/240429_highdist_2lna_highgain_norep.tar.bz2 -C /'
