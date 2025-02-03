@@ -325,9 +325,9 @@ This attack requires first to compute a profile of the leakage using a training 
 We will be able to perform the actual attack using the profile and an attack dataset in a second time.
 
 > [!IMPORTANT]  
-> Ensure that you completed the attack from the previous section, ensuring that everything is working and well understood.
+> Ensure that you completed the attack from the previous section, so that everything is working and well understood.
 
-Ensure that you are in the dataset directory, and extract I/Q signals for both datasets:
+Be sure you are in the dataset directory, and extract I/Q signals for both datasets:
 
 ```bash
 cd /home/rootless/host_sets/24-07-04_nrf52-ref
@@ -490,7 +490,7 @@ time enum: 0.258705 seconds
 We just went from a key rank of $2^{42}$ using amplitude traces to $2^{17}$ using multi-channel fusion attack, recombining amplitude and phase attack results.
 This result correspond to the point at trace index 100 of purple curve of the Figure 11.a of the paper.
 
-## Automated scripts for reproducing figures and attacking others targets
+## Automated scripts for reproducing figures and attacking others DUT
 
 The four datasets used in the paper are the following, from the repository root:
 - [sets/24-07-04_nrf52-ref](../../sets/24-07-04_nrf52-ref) : For the nRF52.
