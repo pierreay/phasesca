@@ -85,7 +85,7 @@ Exit and restart the Docker container, and the X11 display sharing should work.
 
 # Reproducing the attacks
 
-## nRF52
+## Step-by-step guide for attacking nRF52
 
 For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the IoT ecosystem.
 
@@ -482,6 +482,51 @@ time enum: 0.258705 seconds
 
 We just went from a key rank of $2^{42}$ using amplitude traces to $2^{17}$ using multi-channel fusion attack, recombining amplitude and phase attack results.
 This result correspond to the point at trace index 100 of purple curve of the Figure 11.a of the paper.
+
+## Automated scripts for reproducing figures and attacking others targets
+
+The four datasets used in the paper are the following, from the repository root:
+- [sets/24-07-04_nrf52-ref](../../sets/24-07-04_nrf52-ref) : For the nRF52.
+- [sets/24-10-10_nrf51-ref](../../sets/24-10-10_nrf51-ref) : For the nRF51.
+- [sets/24-07-09_stm32l1-ref](../../sets/24-07-09_stm32l1-ref) : For the STM31-L1.
+- [sets/24-07-09_arduino-ref](../../sets/24-07-09_arduino-ref) : For the ATmega328 (on the Arduino).
+
+From every one of them, we can reproduce all the attacks and plots using the following steps:
+
+1. Extract the `attack.tar` and `train.tar` archives containing the I/Q signals in the dataset directory:
+
+```bash
+cd $DATASET
+tar xvf train.tar
+tar xvf attack.tar
+cd src
+```
+
+2. Post process the signals by filtering them and extract the traces:
+
+```bash
+process.sh
+```
+
+3. Create the profiles for the profiled attacks:
+
+```bash
+profile.sh
+```
+
+4. Plot the attacks performance for the profiled attacks:
+
+```bash
+attack_plot.sh
+```
+
+5. Plot the attacks performance for the non-profiled attacks:
+
+```bash
+attack_plot_cra.sh
+```
+
+The final plots will be located in `plots_filt_lh1e6` for the nRF52, the nRF51 and the STM32, but in `plots` for the ATmega (on the Arduino).
 
 # Clean
 
