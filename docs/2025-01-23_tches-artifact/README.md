@@ -247,7 +247,7 @@ max: 2^20.35668945
 time enum: 0.353109 seconds
 ```
 
-As you can see, we have in this attack a key rank of 2^19 using phase traces.
+As you can see, we have in this attack a key rank of $2^{19}$ using phase traces.
 
 One may use the `--bruteforce` flag to bruteforce the key in a few seconds at the end of the attack, and perform a full key recovery:
 
@@ -310,7 +310,7 @@ max: 2^4.087462841
 time enum: 0.310211 seconds
 ```
 
-The key rank is of 2^3, which means that we have 8 keys to test before finding the correct one after our side-channel attack, which attacked a 128 bits AES key.
+The key rank is of $2^{3}$, which means that we have 8 keys to test before finding the correct one after our side-channel attack, which attacked a 128 bits AES key.
 
 ### Attacking nRF52 with profiled attack
 
@@ -420,7 +420,7 @@ max: 2^43.29063472
 time enum: 0.280022 seconds
 ```
 
-In this attack, we have an estimated key rank of 2^42, which means that after our attack, we still have to test 2^42 keys before finding the correct key.
+In this attack, we have an estimated key rank of $2^{42}$, which means that after our attack, we still have to test $2^{42}$ keys before finding the correct key.
 This result corresponds to the point of 100 traces in Figure 11.a for the amplitude traces.
 
 You can now try with other traces instead of amplitude traces, like in the core contribution of our paper, the `phr` parameter for the phase traces and the `recombined` parameter for the Multi-Channel Fusion Attack (MCFA), which recombines the amplitude and phase traces to improve the results compared to traditional attacks.
@@ -450,7 +450,7 @@ max: 2^38.75254885
 time enum: 0.263763 seconds
 ```
 
-As you can see, we have in this attack a key rank of 2^38 using phase traces, which is 4 bits better than with amplitude here.
+As you can see, we have in this attack a key rank of $2^{38}$ using phase traces, which is 4 bits better than with amplitude here.
 
 Finally, we can do even better using MCFA, which recombines the information from the amplitude traces and from the phase traces inside a single attack:
 
@@ -480,7 +480,7 @@ max: 2^18.40980111
 time enum: 0.258705 seconds
 ```
 
-We just went from a key rank of 2^42 using amplitude traces to 2^17 using multi-channel fusion attack, recombining amplitude and phase attack results.
+We just went from a key rank of $2^{42}$ using amplitude traces to $2^{17}$ using multi-channel fusion attack, recombining amplitude and phase attack results.
 This result correspond to the point at trace index 100 of purple curve of the Figure 11.a of the paper.
 
 # Clean
