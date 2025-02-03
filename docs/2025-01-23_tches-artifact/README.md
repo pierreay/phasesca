@@ -89,6 +89,9 @@ Exit and restart the Docker container, and the X11 display sharing should work.
 
 For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the IoT ecosystem.
 
+> [!NOTE]
+> Reproducing this step-by-step guide should take less than half an hour.
+
 ### Attacking nRF52 with non-profiled attack
 
 We will first perform a non-profiled attack (easier compared to a profiled attack) to reproduce one point of our Figure 12.a of the paper.
@@ -490,6 +493,9 @@ The four datasets used in the paper are the following, from the repository root:
 - [sets/24-10-10_nrf51-ref](../../sets/24-10-10_nrf51-ref) : For the nRF51.
 - [sets/24-07-09_stm32l1-ref](../../sets/24-07-09_stm32l1-ref) : For the STM31-L1.
 - [sets/24-07-09_arduino-ref](../../sets/24-07-09_arduino-ref) : For the ATmega328 (on the Arduino).
+
+> [!WARNING]
+> Reproducing all plots of the paper may requires up to 24 hours of computation from a standard desktop computer.
 
 From every one of them, we can reproduce all the attacks and plots using the following steps:
 
