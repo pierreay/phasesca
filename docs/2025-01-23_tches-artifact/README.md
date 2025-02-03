@@ -216,7 +216,7 @@ time enum: 0.257056 seconds
 ```
 
 This shows the guessed key using the side-channel, the actual known key, and different metrics from the attack (Correct bytes, Hamming Distance (HD), Partial Guess Entropy (PGE), Key Rank).
-In this example, we have an estimated key rank of 2^49, which means that after our attack, we still have to test 2^49 keys before finding the correct key.
+In this example, we have an estimated key rank of $2^{49}$, which means that after our attack, we still have to test $2^{49}$ keys before finding the correct key.
 In other words, we reduced the AES key space from 128 bits to 49 bits.
 This result corresponds to the point of 150 traces in Figure 12.a for amplitude traces.
 
