@@ -509,31 +509,33 @@ From every one of them, we can reproduce all the attacks and plots using the fol
 cd $DATASET
 tar xvf train.tar
 tar xvf attack.tar
-cd src
 ```
+
+> [!CAUTION]
+> Do not `cd` into the `src` directory, always execute scripts from the dataset directory like the following.
 
 2. Post process the signals by filtering them and extract the traces:
 
 ```bash
-process.sh
+./src/process.sh
 ```
 
 3. Create the profiles for the profiled attacks:
 
 ```bash
-profile.sh
+./src/profile.sh
 ```
 
 4. Plot the attacks performance for the profiled attacks:
 
 ```bash
-attack_plot.sh
+./src/attack_plot.sh
 ```
 
 5. Plot the attacks performance for the non-profiled attacks:
 
 ```bash
-attack_plot_cra.sh
+./src/attack_plot_cra.sh
 ```
 
 The final plots will be located in `plots_filt_lh1e6` for the nRF52, the nRF51 and the STM32, but in `plots` for the ATmega (on the Arduino).
