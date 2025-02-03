@@ -91,7 +91,7 @@ For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the 
 
 ### Attacking nRF52 with non-profiled attack
 
-We will first perform a non-profiled attack (easier compared to a profiled attack) to reproduce our Figure 12.a of the paper.
+We will first perform a non-profiled attack (easier compared to a profiled attack) to reproduce one point of our Figure 12.a of the paper.
 
 First, move to the dataset directory and extract the I/Q signals:
 
@@ -218,7 +218,7 @@ time enum: 0.257056 seconds
 This shows the guessed key using the side-channel, the actual known key, and different metrics from the attack (Correct bytes, Hamming Distance (HD), Partial Guess Entropy (PGE), Key Rank).
 In this example, we have an estimated key rank of 2^49, which means that after our attack, we still have to test 2^49 keys before finding the correct key.
 In other words, we reduced the AES key space from 128 bits to 49 bits.
-This result corresponds to the point of 150 traces in Figure 12.a.
+This result corresponds to the point of 150 traces in Figure 12.a for amplitude traces.
 
 You can now try with other traces instead of amplitude traces, like in the core contribution of our paper, the `phr` parameter for the phase traces and the `recombined` parameter for the Multi-Channel Fusion Attack (MCFA), which recombines the amplitude and phase traces to improve the results compared to traditional attacks.
 
@@ -312,97 +312,176 @@ time enum: 0.310211 seconds
 
 The key rank is of 2^3, which means that we have 8 keys to test before finding the correct one after our side-channel attack, which attacked a 128 bits AES key.
 
-## <!--TODO: Adaptation to PhaseSCA from BlueScream-->
+### Attacking nRF52 with profiled attack
 
-For the following command, the `$SC_SRC` variable is set to the path of the `screaming_channels_ble/src` directory, while the `$DATASET` variable will be set to the path of the currently analyzed dataset.
+We will now perform a profiled attack to reproduce one point of our Figure 11.a of the paper.
+This attack requires first to compute a profile of the leakage using a training dataset.
+We will be able to perform the actual attack using the profile and an attack dataset in a second time.
 
-### Attacking $A_{7}$
+> [!IMPORTANT]  
+> Ensure that you completed the attack from the previous section, ensuring that everything is working and well understood.
 
-This dataset correspond to the scenario with the non-instrumented firmware in the anechoic box.
+Ensure that you are in the dataset directory, and extract I/Q signals for both datasets:
 
-Set the path to the dataset:
+```bash
+cd /home/rootless/host_sets/24-07-04_nrf52-ref
+tar xvf train.tar
+tar xvf attack.tar
+```
 
-    export DATASET="/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw"
+Checkout the correct versions of our tools for this dataset for post-processing:
 
-First, create the profile:
+```bash
+./src/git-checkout.sh process
+```
 
-    "${SC_SRC}/attack.py" --dataset-path "${DATASET}" --custom-dtype --plot \
-                          --save-images --norm --comptype AMPLITUDE \
-                          --num-traces 16384 --start-point 1000 --end-point 1500 \
-                          profile --pois-algo r --num-pois 1 --poi-spacing 1 \
-                          --variable p_xor_k --align
+As explained in previous section, perform the filtering post-processing step, for both the training set and the attack set:
+
+```bash
+mkdir -p train_filt_lh1e6
+cp -t train_filt_lh1e6 train/pt.txt train/key.txt
+./src/process_filt.py train train_filt_lh1e6 src/collect.toml lh1e6
+````
+
+You can stop the process after 4000 traces, because this is the number of traces that we used for our profile in our paper.
+
+```bash
+mkdir -p attack_filt_lh1e6
+cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
+./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
+```
+
+You can stop the process after 100 traces, since we will reproduce the result of attacking using 100 traces of our Figure 11.a.
+
+#### Profiling
+
+Now that we want to start attacking using a profiled attack instead of a non-profiled attack, let's checkout the version of our tools needed to do this:
+
+```bash
+./src/git-checkout.sh attack_ta
+```
+
+Let us create the first requirement of this attack, a profile for the amplitude:
+
+```bash
+mkdir -p profile_filt_lh1e6/amp_4000_r_1
+scaff profile --plot --norm --data-path train_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 4000 --comp amp profile_filt_lh1e6/amp_4000_r_1 --pois-algo r --num-pois 1 --poi-spacing 1 --variable p_xor_k --align --fs 10e6
+```
 
 Where non-obvious options means:
-- **custom-dtype:** Use a custom `dtype` instead of the default Numpy complex `dtype`, allowing to save disk space.
 - **norm:** Normalize the traces after loading.
-- **start-point / &#x2013;end-point:** Truncate the traces between those points.
+- **start-point / end-point:** Truncate the traces between those points.
 - **pois-algo:** Use the $k-\text{fold}$ $\rho-\text{test}$ to find informative point of interests (PoIs).
 - **num-pois:** Use only 1 PoI per subbytes.
 - **variable p_xor_k:** Use the $l = p \oplus k$ leakage variable, with $p$ the plaintext and $k$ the key.
 
-At that point, a plot should open (if X11 forwarding is correctly configured with Docker) and the profile will be stored under `${DATASET}/profile`.
-If no plot appears, check that the profile has correctly been created by running:
+You should see two plots as the following ones:
+![profile_corr](./gfx/24-07-04_nrf52-ref_attack_ta_filt_lh1e6_profile_corr.png) 
+![profile_pois](./gfx/24-07-04_nrf52-ref_attack_ta_filt_lh1e6_profile_pois.png) 
 
-    evince ${DATASET}/profile/*.pdf
+The first one shows the correlation between the traces and the input for each points.
+The second one shows the computed profile, plotting each expected trace value for every possible input value.
 
-You should obtains plots similar to the following ones:
+We must do the same for the phase traces:
 
-<!--![img](gfx/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw-pois.png)-->
+```bash
+mkdir -p profile_filt_lh1e6/phr_4000_r_1
+scaff profile --plot --norm --data-path train_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 4000 --comp phr profile_filt_lh1e6/phr_4000_r_1 --pois-algo r --num-pois 1 --poi-spacing 1 --variable p_xor_k --align --fs 10e6
+```
 
-<!--![img](gfx/240207_1-leak-pairing-10cm-anechoic-2.533e9-8e6_raw-profile-pois-0.png)-->
+#### Attacking
 
-We will now attack using the created profile:
+We can now proceed to a single attack using 100 amplitude traces, by running the following:
 
-    "${SC_SRC}"/attack.py --dataset-path "${DATASET}" --custom-dtype --log \
-               --plot --norm --bruteforce --comptype AMPLITUDE \
-               --start-point 1000 --end-point 1500 --num-traces 14900 \
-               attack --attack-algo pcc --profile "${DATASET}/profile" --num-pois 1 \
-               --poi-spacing 1 --variable p_xor_k --align-attack --align-profile \
-               --no-align-profile-avg
+```bash
+scaff attack --plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 100 --no-bruteforce --comp amp profile_filt_lh1e6/amp_4000_r_1 --attack-algo pcc --variable p_xor_k --align --fs 10e6
+```
 
-The options are fairly similar to the previous command, except that we also specify to bruteforce the key at the end, and to re-perform a step of trace alignment.
-You should see this output:
+It will show a first plot to ensure that traces are correctly aligned, then, you should see this output:
 
-    Best Key Guess:   7c   19   67   e4   41   65   da   6d   f5   18   32   f7   c5   f1   13   3e
-    Known Key:        7f   18   67   e6   42   65   da   6f   f5   1b   32   f4   c6   f3   10   3e
-    PGE:             002  001  000  003  001  000  000  003  000  003  000  003  002  002  001  000
-    HD:              002  001  000  001  002  000  000  001  000  002  000  002  002  001  002  000
-    SUCCESS:           0    0    1    0    0    1    1    0    1    0    1    0    0    0    0    1
-    CORRECT BYTES: 6
-    PGE MEAN:      1
-    PGE MEDIAN:    1
-    PGE MAX:       3
-    HD SUM:        16
-    
-    Starting key ranking using HEL
-    results rank estimation
-    nb_bins = 512
-    merge = 2
-    Starting preprocessing
-    Clearing memory
-    min: 2^33.79125918
-    actual rounded: 2^34.59872304
-    max: 2^35.23080812
-    time enum: 0.343729 seconds
+```txt
+Best Key Guess:   2e   32   dc   6a   6d   87   73   de   97   c7   3b   4d   89   75   97   6a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             001  005  007  001  000  002  004  000  002  001  015  005  000  003  003  000
+HD:              001  001  001  002  000  001  002  000  001  002  001  001  000  002  002  000
+SUCCESS:           0    0    0    0    1    0    0    1    0    0    0    0    1    0    0    1
+NUMBER OF CORRECT BYTES: 4
+HD SUM:                  17
 
-Which means that this attack leads to an estimated key rank of $2^{34}$, just as $A_{7}$ in the paper.
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^41.68879949
+actual rounded: 2^42.59268258
+max: 2^43.29063472
+time enum: 0.280022 seconds
+```
 
-With the additional bruteforce, which took 1,5 hours running natively on my desktop computer but a little more inside the Docker container, you should obtain:
+In this attack, we have an estimated key rank of 2^42, which means that after our attack, we still have to test 2^42 keys before finding the correct key.
+This result corresponds to the point of 100 traces in Figure 11.a for the amplitude traces.
 
-    Starting key enumeration using HEL
-    Assuming that we know two plaintext/ciphertext pairs
-    [...]
-    Starting preprocessing
-    current rank : 2^2.584962501
-    current rank : 2^4.459431619
-    [...]
-    current rank : 2^33.13069245
-    current rank : 2^34.11663176
-    
-    KEY FOUND!!!
-    7f 18 67 e6 42 65 da 6f f5 1b 32 f4 c6 f3 10 3e
+You can now try with other traces instead of amplitude traces, like in the core contribution of our paper, the `phr` parameter for the phase traces and the `recombined` parameter for the Multi-Channel Fusion Attack (MCFA), which recombines the amplitude and phase traces to improve the results compared to traditional attacks.
 
-Which means we break the entire key!
+```bash
+scaff attack --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 100 --no-bruteforce --comp phr profile_filt_lh1e6/phr_4000_r_1 --attack-algo pcc --variable p_xor_k --align --fs 10e6
+```
+
+```text
+Best Key Guess:   2e   36   dd   69   2d   8d   75   f7   97   c9   3e   7e   85   76   94   6a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             003  000  000  000  001  001  001  016  001  002  002  004  006  000  000  000
+HD:              001  000  000  000  001  001  002  003  001  001  001  003  002  000  000  000
+SUCCESS:           0    1    1    1    0    0    0    0    0    0    0    0    0    1    1    1
+NUMBER OF CORRECT BYTES: 6
+HD SUM:                  16
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^37.28676196
+actual rounded: 2^38.10622567
+max: 2^38.75254885
+time enum: 0.263763 seconds
+```
+
+As you can see, we have in this attack a key rank of 2^38 using phase traces, which is 4 bits better than with amplitude here.
+
+Finally, we can do even better using MCFA, which recombines the information from the amplitude traces and from the phase traces inside a single attack:
+
+```bash
+scaff attack-recombined --no-plot --norm --data-path attack_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 100 --comp amp profile_filt_lh1e6/{}_4000_r_1 --attack-algo pcc --variable p_xor_k --align --fs 10e6 --corr-method add
+```
+
+```text
+comp=recombined_corr ; corr_method=add
+Best Key Guess:   2e   32   dd   69   6d   85   73   d6   97   cd   3e   4f   89   76   94   6a
+Known Key:        2c   36   dd   69   6d   85   76   de   96   cd   3f   4f   89   76   94   6a
+PGE:             002  001  000  000  000  000  001  003  001  000  002  000  000  000  000  000
+HD:              001  001  000  000  000  000  002  001  001  000  001  000  000  000  000  000
+SUCCESS:           0    0    1    1    1    1    0    0    0    1    0    1    1    1    1    1
+NUMBER OF CORRECT BYTES: 10
+HD SUM:                  7
+
+Starting key ranking using HEL
+results rank estimation
+nb_bins = 512
+merge = 2
+Starting preprocessing
+Clearing memory
+min: 2^15.86665109
+actual rounded: 2^17.31663509
+max: 2^18.40980111
+time enum: 0.258705 seconds
+```
+
+We just went from a key rank of 2^42 using amplitude traces to 2^17 using multi-channel fusion attack, recombining amplitude and phase attack results.
+This result correspond to the point at trace index 100 of purple curve of the Figure 11.a of the paper.
 
 # Clean
 
