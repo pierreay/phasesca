@@ -100,7 +100,7 @@ cd /home/rootless/host_sets/24-07-04_nrf52-ref
 tar xvf attack.tar
 ```
 
-Here are the meanings of all the directories:
+For future reference, here are the meanings of all the directories:
 - `attack`    : Original collected raw attack set.
 - `attack_*`  : Post-processed and filtered attack set(s).
 - `train`     : Original collected raw train set.
@@ -112,7 +112,8 @@ Here are the meanings of all the directories:
 - `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
 - `src`       : Scripts used to build, process and attack the dataset.
 
-<!---TODO: EXPLAIN RATIONALE-->
+Since our tools were improved during the research process, sometimes without backward compatibility, we will sometimes have to checkout the correct versions of our tools for this dataset.
+Let's do this for the post-processing:
 
 ```bash
 ./src/git-checkout.sh process
@@ -177,7 +178,7 @@ One may notice that they are perfectly aligned, which is required to have a succ
 You can use `amp` instead of `phr` to visualize amplitude traces instead of phase shift traces.
 Moreover, you can use `scaff show --help` to display the help.
 
-<!---TODO: EXPLAIN RATIONALE-->
+Now, we want to start attacking using a Correlation Radio Analysis (CRA), let's checkout the version of our tools needed to do this:
 
 ```bash
 ./src/git-checkout.sh attack_cra
