@@ -103,17 +103,18 @@ cd /home/rootless/host_sets/24-07-04_nrf52-ref
 tar xvf attack.tar
 ```
 
-For future reference, here are the meanings of all the directories:
-- `attack`    : Original collected raw attack set.
-- `attack_*`  : Post-processed and filtered attack set(s).
-- `train`     : Original collected raw train set.
-- `train_*`   : Post-processed and filtered train set(s).
-- `bin`       : Binaries (e.g., firmware flashed on DUT).
-- `csv_*`     : CSVs containing attack results (used for plotting paper figures).
-- `logs_*`    : Text files containing attack logging.
-- `plots_*`   : Plots of attack results based on CSVs.
-- `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
-- `src`       : Scripts used to build, process and attack the dataset.
+> [!TIP]
+> For future reference, here are the meanings of all the directories:
+> - `attack`    : Original collected raw attack set.
+> - `attack_*`  : Post-processed and filtered attack set(s).
+> - `train`     : Original collected raw train set.
+> - `train_*`   : Post-processed and filtered train set(s).
+> - `bin`       : Binaries (e.g., firmware flashed on DUT).
+> - `csv_*`     : CSVs containing attack results (used for plotting paper figures).
+> - `logs_*`    : Text files containing attack logging.
+> - `plots_*`   : Plots of attack results based on CSVs.
+> - `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
+> - `src`       : Scripts used to build, process and attack the dataset.
 
 Since our tools were improved during the research process, sometimes without backward compatibility, we will sometimes have to checkout the correct versions of our tools for this dataset.
 Let's do this for the post-processing:
