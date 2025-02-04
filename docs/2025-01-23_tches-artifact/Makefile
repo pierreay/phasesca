@@ -5,6 +5,13 @@ DOCKER_LMOUNT =
 # Path to the mount under the guest container.
 DOCKER_RMOUNT = /home/rootless/host_dir
 
+# Create the required variables are set.
+.PHONY: check-env
+check-env:
+ifndef DOCKER_LMOUNT
+	$(error DOCKER_LMOUNT is undefined)
+endif
+
 # Create the Docker container from the image.
 build: .datasetinit .dockerinit
 
@@ -25,6 +32,7 @@ build: .datasetinit .dockerinit
 
 # Get a shell into the Docker container.
 shell:
+shell: check-env
 	docker run -it \
 		--env=DISPLAY --net=host \
 		-v $(DOCKER_LMOUNT):$(DOCKER_RMOUNT) \
