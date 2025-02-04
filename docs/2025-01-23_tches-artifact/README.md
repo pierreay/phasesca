@@ -154,6 +154,24 @@ Exit and restart the Docker container, and the X11 display sharing should work.
 
 # Reproducing the attacks
 
+In the following, we assume that the reader will be *inside a shell of the Docker container*.
+
+You home directory should looks like:
+```bash
+rootless@HOSTNAME:~/$ tree -L 2 $HOME
+/home/rootless
+|-- git
+|   |-- phase_data
+|   |-- scaff
+|   `-- soapyrx
+`-- host_dir
+|   |-- phase_data
+    |-- 24-07-04_nrf52-ref
+    |-- 24-07-09_arduino-ref
+    |-- 24-07-09_stm32l1-ref
+    |-- 24-10-10_nrf51-ref
+```
+
 ## Step-by-step guide for attacking nRF52
 
 For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the IoT ecosystem.
