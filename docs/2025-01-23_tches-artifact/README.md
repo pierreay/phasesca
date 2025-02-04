@@ -165,7 +165,7 @@ rootless@HOSTNAME:~/$ tree -L 2 $HOME
 |   |-- scaff
 |   `-- soapyrx
 `-- host_dir
-|   |-- phase_data
+    |-- phase_data
     |-- 24-07-04_nrf52-ref
     |-- 24-07-09_arduino-ref
     |-- 24-07-09_stm32l1-ref
