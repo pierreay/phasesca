@@ -123,18 +123,14 @@ make build
 It will download around 2 GB of data to setup the guest container from an Ubuntu image.
 The image and containers will be cleaned up at the end, no files will be left or modified on the host system.
 
-4. The Docker should now be ready to be used.
-In the following, we assume that the reader is connected to the Docker container through SSH by running:
+4. The Docker container should now be ready to be used, and you can drop into its shell through SSH by running:
 
 ```bash
-make shell
+make shell DOCKER_LMOUNT=$HOST_DIR
 ```
 
-Note that you can use the `DOCKER_LMOUNT` variable to mount the directory from the host containing the datasets:
+Note that you must set the `DOCKER_LMOUNT` variable to mount the directory from the host containing the datasets.
 
-```bash
-make shell DOCKER_LMOUNT=/PATH/TO/phase_data/sets
-```
 
 The X11 display should be shared between the container and the host.
 To test this, one may run:
