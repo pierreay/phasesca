@@ -21,7 +21,7 @@ build: .dockerinit
 	touch .dockerinit
 
 # Get a shell into the Docker container.
-shell:
+.PHONY: shell
 shell: check-env
 	docker run -it \
 		--env=DISPLAY --net=host \
@@ -30,6 +30,8 @@ shell: check-env
 
 # Clean our Docker images and containers.
 # TODO: Clean the containers, only images are cleaned here.
+.PHONY: clean
 clean:
 	docker rmi -f $(DOCKER_NAME):latest
 	rm .dockerinit
+
