@@ -113,20 +113,14 @@ We will setup a temporary Docker container for reproducing the attacks, in order
 
 1. Ensure that both [Docker](https://www.docker.com/) and its [buildx](https://docs.docker.com/build/concepts/overview/) builder are installed on the host machine, following the host distribution documentation (for example on [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) or [Arch Linux](https://wiki.archlinux.org/title/Docker)).
 
-2. Move the downloaded datasets inside the Docker folder:
+3. Move to the artifact evaluation files and download then initialize the Docker image leveraging the `Dockerfile`:
 
 ```bash
-cd phase_data/docs/2025-01-23_tches-artifact
-mv -t . /PATH/TO/DOWNLOADED/XXX.tar.bz2
-```
-
-3. Download and initialize the Docker image leveraging the `Dockerfile`:
-
-```bash
+cd "$HOST_DIR/phase_data/docs/2025-01-23_tches-artifact"
 make build
 ```
 
-It will download around XXX GB and decompress the datasets that have been downloaded previously inside the container.
+It will download around 2 GB of data to setup the guest container from an Ubuntu image.
 The image and containers will be cleaned up at the end, no files will be left or modified on the host system.
 
 4. The Docker should now be ready to be used.
