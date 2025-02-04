@@ -46,11 +46,13 @@ First, we will setup necessary tools, downloading the code and the data.
 
 ## Download
 
-Clone our repository (~ 100 MB) in the directory of your choice:
+1. Clone our repository (~ 100 MB) in the directory of your choice:
 
-    git clone https://github.com/pierreay/phase_data/
+```bash
+git clone https://github.com/pierreay/phase_data/
+```
 
-Moreover, manually download the two aforementioned datasets located at [`zenodo.org/records/XXXXXXXX`](https://zenodo.org/records/XXXXXXXX) which have been publicly uploaded on Zenodo (~ XXX GB).
+2. Manually download the two aforementioned datasets which have been publicly uploaded on Zenodo.
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
