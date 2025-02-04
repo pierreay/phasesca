@@ -52,7 +52,7 @@ First, we will setup necessary tools, downloading the code and the data.
 git clone https://github.com/pierreay/phase_data/
 ```
 
-2. Manually download the two aforementioned datasets which have been publicly uploaded on Zenodo.
+2. Manually download the four aforementioned datasets which have been publicly uploaded on Zenodo.
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
