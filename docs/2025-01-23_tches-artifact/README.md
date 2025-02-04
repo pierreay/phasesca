@@ -16,13 +16,22 @@ To fully reproduce this attack, in the first stage, one would have to first acqu
 2. Setup the experimental hardware, including the attacker host computer, the radio, the antenna and amplifiers, the DUT.
 3. Performing a dataset collection (up to several hours) in a stable environment.
 
-In a second stage, without any hardware:
-4. Post-processing the dataset to extract amplitude and phase traces from the large raw I/Q signal.
+In a second stage, without any hardware, one would have to post-process the dataset to extract amplitude and phase traces from the large raw I/Q signal.
 
 As you imagine, this is fairly complex and long without prior experience.
-Hence, in this guide, we provides representative datasets on which we can complete the step 4 of the entire attack, which do not require any hardware.
-As such, we uploaded datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data:
-> Ayoub (2025) PhaseSCA: XXX Dataset, Zenodo. DOI:
+Hence, in this guide, we provides representative datasets on which we can complete the second stage of the entire attack, which do not require any hardware.
+As such, we uploaded 4 datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data:
+1. nRF52:
+> Ayoub (2025) PhaseSCA: nRF52 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+2. nRF51:
+> Ayoub (2025) PhaseSCA: nRF51 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+3. STM32L1:
+> Ayoub (2025) PhaseSCA: STM32L1 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+4. ATmega328:
+> Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
 > XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
 
 For every datasets, we will execute the following automatized steps:
