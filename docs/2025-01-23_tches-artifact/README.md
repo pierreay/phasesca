@@ -50,8 +50,8 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 3. Manually download the four following datasets which have been publicly uploaded on Zenodo under the `$HOST_DIR`:
 
 - nRF52:
-> Ayoub (2025) PhaseSCA: nRF52 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - nRF52832 Dataset, Zenodo.
+> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800633.svg)](https://doi.org/10.5281/zenodo.14800633). URL: <https://zenodo.org/records/14800633>
 - nRF51:
 > Ayoub (2025) PhaseSCA: nRF51 Dataset, Zenodo. DOI:
 > XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
