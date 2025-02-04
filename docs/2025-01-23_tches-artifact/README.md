@@ -131,9 +131,13 @@ make shell DOCKER_LMOUNT=$HOST_DIR
 
 Note that you must set the `DOCKER_LMOUNT` variable to mount the directory from the host containing the datasets.
 
+> [!TIP]
+> If you need to use `sudo` for whatever reason, the password is `ertyerty`.
 
-The X11 display should be shared between the container and the host.
-To test this, one may run:
+> [!WARNING]
+> The X11 display should be shared between the container and the host if you want to visualize the plots.
+
+To test the X11 sharing, one may run inside the container:
 
 ```bash
 xclock
