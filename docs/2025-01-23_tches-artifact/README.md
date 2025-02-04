@@ -45,17 +45,17 @@ Moreover, manually download the two aforementioned datasets located at [`zenodo.
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
-> 7.6G    24-07-04_nrf52-ref.tar.bz2
-> 12G     24-07-09_arduino-ref.tar.bz2
-> 30G     24-07-09_stm32l1-ref.tar.bz2
-> 44G     24-10-10_nrf51-ref.tar.bz2
+> - 7.6G    24-07-04_nrf52-ref.tar.bz2
+> - 12G     24-07-09_arduino-ref.tar.bz2
+> - 30G     24-07-09_stm32l1-ref.tar.bz2
+> - 44G     24-10-10_nrf51-ref.tar.bz2
 
 > [!WARNING]
 > Downloaded uncompressed datasets are of a total size of around 200 GB:
-16G     24-07-04_nrf52-ref
-24G     24-07-09_arduino-ref
-57G     24-07-09_stm32l1-ref
-83G     24-10-10_nrf51-ref
+> - 16G     24-07-04_nrf52-ref
+> - 24G     24-07-09_arduino-ref
+> - 57G     24-07-09_stm32l1-ref
+> - 83G     24-10-10_nrf51-ref
 
 ## Installation
 
