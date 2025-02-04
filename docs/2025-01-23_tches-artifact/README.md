@@ -33,13 +33,21 @@ First, we will setup necessary tools, downloading the code and the data.
 
 ## Download
 
-1. Clone our repository (~ 100 MB) in the directory of your choice:
+1. Prepare an empty directory in a location of your choice on the host system, which is the only directory that will be share with the Docker container.
+In the following, we will refer to this directory as `HOST_DIR`, that must be defined as a Bash variable.
+To do so, `cd` into this directory, and define the `HOST_DIR` variable as the following:
 
 ```bash
-git clone https://github.com/pierreay/phase_data/
+export HOST_DIR="$(pwd)"
 ```
 
-2. Manually download the four following datasets which have been publicly uploaded on Zenodo:
+2. Clone our repository (~ 100 MB) under the `$HOST_DIR`:
+
+```bash
+git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
+```
+
+3. Manually download the four following datasets which have been publicly uploaded on Zenodo under the `$HOST_DIR`:
 
 - nRF52:
 > Ayoub (2025) PhaseSCA: nRF52 Dataset, Zenodo. DOI:
@@ -68,45 +76,68 @@ git clone https://github.com/pierreay/phase_data/
 > - 57G     `24-07-09_stm32l1-ref`
 > - 83G     `24-10-10_nrf51-ref`
 
+4. Ensure that the `$HOST_DIR` have the following layout:
+
+```bash
+$ ls -alh
+
+phase_data/
+24-07-04_nrf52-ref.tar.bz2
+24-07-09_arduino-ref.tar.bz2
+24-07-09_stm32l1-ref.tar.bz2
+24-10-10_nrf51-ref.tar.bz2
+```
+
 ## Installation
 
 We will setup a temporary Docker container for reproducing the attacks, in order to not clutter the host system.
 
-First, ensure that both [Docker](https://www.docker.com/) and its [buildx](https://docs.docker.com/build/concepts/overview/) builder are installed on the host machine, following the host distribution documentation (for example on [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) or [Arch Linux](https://wiki.archlinux.org/title/Docker)).
+1. Ensure that both [Docker](https://www.docker.com/) and its [buildx](https://docs.docker.com/build/concepts/overview/) builder are installed on the host machine, following the host distribution documentation (for example on [Ubuntu](https://docs.docker.com/engine/install/ubuntu/) or [Arch Linux](https://wiki.archlinux.org/title/Docker)).
 
-Second, move the downloaded datasets inside the Docker folder:
+2. Move the downloaded datasets inside the Docker folder:
 
-    cd phase_data/docs/2025-01-23_tches-artifact
-    mv -t . /PATH/TO/DOWNLOADED/XXX.tar.bz2
+```bash
+cd phase_data/docs/2025-01-23_tches-artifact
+mv -t . /PATH/TO/DOWNLOADED/XXX.tar.bz2
+```
 
-Third, download and initialize the Docker image leveraging the `Dockerfile`:
+3. Download and initialize the Docker image leveraging the `Dockerfile`:
 
-    make build
+```bash
+make build
+```
 
 It will download around XXX GB and decompress the datasets that have been downloaded previously inside the container.
 The image and containers will be cleaned up at the end, no files will be left or modified on the host system.
 
-The Docker should now be ready to be used.
+4. The Docker should now be ready to be used.
 In the following, we assume that the reader is connected to the Docker container through SSH by running:
 
-    make shell
+```bash
+make shell
+```
 
 Note that you can use the `DOCKER_LMOUNT` variable to mount the directory from the host containing the datasets:
 
-    make shell DOCKER_LMOUNT=/PATH/TO/phase_data/sets
+```bash
+make shell DOCKER_LMOUNT=/PATH/TO/phase_data/sets
+```
 
 The X11 display should be shared between the container and the host.
 To test this, one may run:
 
-    xclock
+```bash
+xclock
+```
 
 If the clock is displayed, good to go.
 If an error of the type `Authorization required, but no authorization protocol specified` arise, run the following on the host system:
 
-    sudo xhost +local:docker=
+```bash
+sudo xhost +local:docker=
+```
 
 Exit and restart the Docker container, and the X11 display sharing should work.
-
 
 # Reproducing the attacks
 
