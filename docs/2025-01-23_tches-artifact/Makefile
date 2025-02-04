@@ -1,6 +1,9 @@
+# Name of the Docker image.
 DOCKER_NAME = ubuntu-phasesca
-DOCKER_LMOUNT = .
-DOCKER_RMOUNT = /home/rootless/host_sets
+# Path to the mount on the host.
+DOCKER_LMOUNT =
+# Path to the mount under the guest container.
+DOCKER_RMOUNT = /home/rootless/host_dir
 
 # Create the Docker container from the image.
 build: .datasetinit .dockerinit
