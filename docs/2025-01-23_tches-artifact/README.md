@@ -69,6 +69,15 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > - 30G     `24-07-09_stm32l1-ref.tar.bz2`
 > - 44G     `24-10-10_nrf51-ref.tar.bz2`
 
+4. Uncompress the datasets inside the `$HOST_DIR`:
+
+```bash
+tar xjvf 24-07-04_nrf52-ref.tar.bz2
+tar xjvf 24-07-09_arduino-ref.tar.bz2
+tar xjvf 24-07-09_stm32l1-ref.tar.bz2
+tar xjvf 24-10-10_nrf51-ref.tar.bz2
+```
+
 > [!WARNING]
 > Downloaded uncompressed datasets are of a total size of around 200 GB:
 > - 16G     `24-07-04_nrf52-ref`
@@ -76,16 +85,26 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > - 57G     `24-07-09_stm32l1-ref`
 > - 83G     `24-10-10_nrf51-ref`
 
-4. Ensure that the `$HOST_DIR` have the following layout:
+5. One may delete the original archives at this point if you need space.
+However, you may want to keep during the reproduction if you mess with the traces later.
 
 ```bash
-$ ls -alh
+rm 24-07-04_nrf52-ref.tar.bz2
+rm 24-07-09_arduino-ref.tar.bz2
+rm 24-07-09_stm32l1-ref.tar.bz2
+rm 24-10-10_nrf51-ref.tar.bz2
+```
+
+4. Ensure that the `$HOST_DIR` have (at least, more or less the original archives) the following layout:
+
+```bash
+$ ls -alh $HOST_DIR
 
 phase_data/
-24-07-04_nrf52-ref.tar.bz2
-24-07-09_arduino-ref.tar.bz2
-24-07-09_stm32l1-ref.tar.bz2
-24-10-10_nrf51-ref.tar.bz2
+24-07-04_nrf52-ref/
+24-07-09_arduino-ref/
+24-07-09_stm32l1-ref/
+24-10-10_nrf51-ref/
 ```
 
 ## Installation
