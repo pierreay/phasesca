@@ -20,20 +20,7 @@ In a second stage, without any hardware, one would have to post-process the data
 
 As you imagine, this is fairly complex and long without prior experience.
 Hence, in this guide, we provides representative datasets on which we can complete the second stage of the entire attack, which do not require any hardware.
-As such, we uploaded 4 datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data:
-1. nRF52:
-> Ayoub (2025) PhaseSCA: nRF52 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
-2. nRF51:
-> Ayoub (2025) PhaseSCA: nRF51 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
-3. STM32L1:
-> Ayoub (2025) PhaseSCA: STM32L1 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
-4. ATmega328:
-> Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
-
+As such, we uploaded 4 datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data.
 For every datasets, we will execute the following automatized steps:
 - Performing an non-profiled side-channel attack (close to a Correlation Power Attack *a.k.a* CPA).
 - Performing a profiled side-channel attack (close to a Template Attack *a.k.a* TA), composed of two steps:
@@ -52,7 +39,20 @@ First, we will setup necessary tools, downloading the code and the data.
 git clone https://github.com/pierreay/phase_data/
 ```
 
-2. Manually download the four aforementioned datasets which have been publicly uploaded on Zenodo.
+2. Manually download the four following datasets which have been publicly uploaded on Zenodo:
+
+- nRF52:
+> Ayoub (2025) PhaseSCA: nRF52 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+- nRF51:
+> Ayoub (2025) PhaseSCA: nRF51 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+- STM32L1:
+> Ayoub (2025) PhaseSCA: STM32L1 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+- ATmega328:
+> Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
+> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
