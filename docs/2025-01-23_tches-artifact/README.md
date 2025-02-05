@@ -55,8 +55,8 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - ATmega328 Dataset, Zenodo.
 > [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800719.svg)](https://doi.org/10.5281/zenodo.14800719) URL: <https://zenodo.org/records/14800719>
 - STM32L1:
-> Ayoub (2025) PhaseSCA: STM32L1 Dataset, Zenodo. DOI:
-> XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
+> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - STM32L1 Dataset, Zenodo.
+> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800774.svg)](https://doi.org/10.5281/zenodo.14800774) URL: <https://zenodo.org/records/14800774>
 - ATmega328:
 > Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
 > XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
