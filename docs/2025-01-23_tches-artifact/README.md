@@ -11,20 +11,20 @@ This guide will help you reproduce the main results of our paper.
 Note that this is a part of our project, the full project can be found on GitHub at [`pierreay/phase_data`](https://github.com/pierreay/phase_data/).
 
 To fully reproduce this attack, in the first stage, one would have to first acquire a dataset using hardware by:
-1. Flashing a firmware on the evaluated SoC (DUT) and installing the radio tooling.
-2. Setup the experimental hardware, including the attacker host computer, the radio, the antenna and amplifiers, the DUT.
-3. Performing a dataset collection (up to several hours) in a stable environment.
+1. **Flashing a firmware** on the evaluated SoC (DUT) and installing the **radio tooling**.
+2. **Setup the experimental hardware**, including the attacker host computer, the radio, the antenna and amplifiers, the DUT.
+3. Performing a **dataset collection** (up to several hours) in a stable environment.
 
-In a second stage, without any hardware, one would have to post-process the dataset to extract amplitude and phase traces from the large raw I/Q signal.
+In a second stage, without any hardware, one would have to **post-process** the dataset to extract amplitude and phase traces from the large raw I/Q signal to finally **attack** leveraging them.
 
 As you imagine, this is fairly complex and long without prior experience.
 Hence, in this guide, we provide representative datasets on which we can complete the second stage of the entire attack, which do not require any hardware.
 As such, we uploaded 4 datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data.
 For every datasets, we will execute the following steps:
-- Performing an non-profiled side-channel attack (close to a Correlation Power Attack *a.k.a* CPA).
-- Performing a profiled side-channel attack (close to a Template Attack *a.k.a* TA), composed of two steps:
-    1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
-    2. Leveraging the profile, attack on an attack subset.
+- Performing an **non-profiled side-channel attack** (close to a Correlation Power Attack *a.k.a* CPA).
+- Performing a **profiled side-channel attack** (close to a Template Attack *a.k.a* TA), composed of two steps:
+    1. Creating a *profile* (*i.e.*, a template) from a training subset to learn the leakage model.
+    2. Leveraging the profile, *attack* on an attack subset.
 
 # Setup
 
