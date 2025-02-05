@@ -243,7 +243,7 @@ We will first perform a non-profiled attack (easier compared to a profiled attac
 First, move to the dataset directory and extract the I/Q signals:
 
 ```bash
-cd $HOME/host_sets/24-07-04_nrf52-ref
+cd $HOME/host_dir/24-07-04_nrf52-ref
 tar xvf attack.tar
 ```
 
@@ -474,7 +474,7 @@ We will be able to perform the actual attack using the profile and an attack dat
 Be sure you are in the dataset directory, and extract I/Q signals for both datasets:
 
 ```bash
-cd $HOME/host_sets/24-07-04_nrf52-ref
+cd $HOME/host_dir/24-07-04_nrf52-ref
 tar xvf train.tar
 tar xvf attack.tar
 ```
