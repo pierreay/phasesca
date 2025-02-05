@@ -644,7 +644,7 @@ In this repository is located the metadata and a part of the data for the four d
 > [!WARNING]
 > Reproducing all plots of the paper may requires up to 24 hours of computation from a standard desktop computer.
 
-From every one of them, we can reproduce all the attacks and plots produced during our project using the following steps:
+From every one of the datasets, we can reproduce all the attacks and plots produced during our project using the following steps:
 
 1. Move into a dataset directory containing the I/Q signals.
 
