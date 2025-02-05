@@ -8,8 +8,7 @@ The data mainly consists of Numpy arrays containing complex numbers representing
 # Introduction
 
 This guide will help you reproduce the main results of our paper.
-Note that this is a small part of our project.
-The full project can be found on GitHub at [`pierreay/phase_data`](https://github.com/pierreay/phase_data/).
+Note that this is a part of our project, the full project can be found on GitHub at [`pierreay/phase_data`](https://github.com/pierreay/phase_data/).
 
 To fully reproduce this attack, in the first stage, one would have to first acquire a dataset using hardware by:
 1. Flashing a firmware on the evaluated SoC (DUT) and installing the radio tooling.
@@ -19,9 +18,9 @@ To fully reproduce this attack, in the first stage, one would have to first acqu
 In a second stage, without any hardware, one would have to post-process the dataset to extract amplitude and phase traces from the large raw I/Q signal.
 
 As you imagine, this is fairly complex and long without prior experience.
-Hence, in this guide, we provides representative datasets on which we can complete the second stage of the entire attack, which do not require any hardware.
+Hence, in this guide, we provide representative datasets on which we can complete the second stage of the entire attack, which do not require any hardware.
 As such, we uploaded 4 datasets on [Zenodo](https://zenodo.org/), an open platform for hosting research data.
-For every datasets, we will execute the following automatized steps:
+For every datasets, we will execute the following steps:
 - Performing an non-profiled side-channel attack (close to a Correlation Power Attack *a.k.a* CPA).
 - Performing a profiled side-channel attack (close to a Template Attack *a.k.a* TA), composed of two steps:
     1. Creating a profile (*i.e.*, a template) from a training subset to learn the leakage model.
@@ -47,7 +46,7 @@ export HOST_DIR="$(pwd)"
 git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 ```
 
-3. Manually download the four following datasets which have been publicly uploaded on Zenodo under the `$HOST_DIR`:
+3. Manually download the four datasets which have been publicly uploaded on Zenodo by clicking on *Download all* for each of the following links:
 
 - nRF52:
 > Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - nRF52832 Dataset, Zenodo.
@@ -64,29 +63,48 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
-> - 7.6G    `24-07-04_nrf52-ref.tar.bz2`
-> - 12G     `24-07-09_arduino-ref.tar.bz2`
+> - 7.6G    `24-07-04_nrf52-ref.tar.bz2`   / `14800633.zip`
+> - 12G     `24-07-09_arduino-ref.tar.bz2` / `14800719.zip`
 > - 30G     `24-07-09_stm32l1-ref.tar.bz2`
 > - 44G     `24-10-10_nrf51-ref.tar.bz2`
 
-4. Uncompress the datasets inside the `$HOST_DIR`:
+4. Assuming the datasets have been downloaded under `~/Downloads`, unzip the ZIP archive (that contains split TAR archives) in the `$HOST_DIR`:
 
 ```bash
+unzip -d $HOST_DIR ~/Downloads/14800633.zip
+unzip -d $HOST_DIR ~/Downloads/14800719.zip
+unzip -d $HOST_DIR ~/Downloads/XXXXXXXX.zip
+unzip -d $HOST_DIR ~/Downloads/XXXXXXXX.zip
+```
+
+You can remove the ZIP archives if you need space:
+
+```bash
+rm ~/Downloads/14800633.zip
+rm ~/Downloads/14800719.zip
+rm ~/Downloads/XXXXXXXX.zip
+rm ~/Downloads/XXXXXXXX.zip
+```
+
+5. Recombine the split TAR archives into single ones and uncompress them under the `$HOST_DIR`:
+
+```bash
+cd $HOST_DIR
+
+cat 24-07-04_nrf52-ref.tar.bz2.part* > 24-07-04_nrf52-ref.tar.bz2
 tar xjvf 24-07-04_nrf52-ref.tar.bz2
+
+cat 24-07-09_arduino-ref.tar.bz2.part* > 24-07-09_arduino-ref.tar.bz2
 tar xjvf 24-07-09_arduino-ref.tar.bz2
+
+cat 24-07-09_stm32l1-ref.tar.bz2.part* > .tar.bz2
 tar xjvf 24-07-09_stm32l1-ref.tar.bz2
+
+cat 24-10-10_nrf51-ref.tar.bz2.part* > 24-10-10_nrf51-ref.tar.bz2
 tar xjvf 24-10-10_nrf51-ref.tar.bz2
 ```
 
-> [!WARNING]
-> Downloaded uncompressed datasets are of a total size of around 200 GB:
-> - 16G     `24-07-04_nrf52-ref`
-> - 24G     `24-07-09_arduino-ref`
-> - 57G     `24-07-09_stm32l1-ref`
-> - 83G     `24-10-10_nrf51-ref`
-
-5. One may delete the original archives at this point if you need space.
-However, you may want to keep during the reproduction if you mess with the traces later.
+You can remove the TAR archives if you need space:
 
 ```bash
 rm 24-07-04_nrf52-ref.tar.bz2
@@ -95,7 +113,14 @@ rm 24-07-09_stm32l1-ref.tar.bz2
 rm 24-10-10_nrf51-ref.tar.bz2
 ```
 
-4. Ensure that the `$HOST_DIR` have (at least, more or less the original archives) the following layout:
+> [!WARNING]
+> Uncompressed datasets are of a total size of around 200 GB:
+> - 16G     `24-07-04_nrf52-ref`
+> - 24G     `24-07-09_arduino-ref`
+> - 57G     `24-07-09_stm32l1-ref`
+> - 83G     `24-10-10_nrf51-ref`
+
+4. Ensure that the `$HOST_DIR` have (at least, more or less the TAR archives) the following layout:
 
 ```bash
 $ ls -alh $HOST_DIR
