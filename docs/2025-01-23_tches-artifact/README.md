@@ -63,10 +63,10 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
-> - 7.6G    `24-07-04_nrf52-ref.tar.bz2`   / `14800633.zip`
-> - 12G     `24-07-09_arduino-ref.tar.bz2` / `14800719.zip`
-> - 30G     `24-07-09_stm32l1-ref.tar.bz2`
-> - 44G     `24-10-10_nrf51-ref.tar.bz2`
+> - 7.6G    `14800633.zip` (unzipped to `24-07-04_nrf52-ref.tar.bz2`)
+> - 12G     `14800719.zip` (unzipped to `24-07-09_arduino-ref.tar.bz2`)
+> - 30G     `XXXXXXXX.zip` (unzipped to `24-07-09_stm32l1-ref.tar.bz2`)
+> - 44G     `XXXXXXXX.zip` (unzipped to `24-10-10_nrf51-ref.tar.bz2`)
 
 4. Assuming the datasets have been downloaded under `~/Downloads`, unzip the ZIP archive (that contains split TAR archives) in the `$HOST_DIR`:
 
