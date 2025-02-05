@@ -666,13 +666,13 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 ./src/profile.sh
 ```
 
-4. Plot the attacks performance for the profiled attacks:
+4. Save the plots for the profiled attacks performance:
 
 ```bash
 ./src/attack_plot.sh
 ```
 
-5. Plot the attacks performance for the non-profiled attacks:
+4. Save the plots for the non-profiled attacks performance:
 
 ```bash
 ./src/attack_plot_cra.sh
