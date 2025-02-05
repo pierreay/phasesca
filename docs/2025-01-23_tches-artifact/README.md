@@ -616,7 +616,7 @@ time enum: 0.258705 seconds
 We just went from a key rank of $2^{42}$ using amplitude traces to $2^{17}$ using multi-channel fusion attack, recombining amplitude and phase attack results.
 This result correspond to the point at trace index 100 of purple curve of the Figure 11.a of the paper.
 
-## Automated scripts for reproducing figures and attacking others DUT
+## Automated scripts for reproducing figures and attacking other DUT
 
 In this repository is located the metadata and a part of the data for the four datasets used in the paper, which are located under (from the repository root):
 - [sets/24-07-04_nrf52-ref](../../sets/24-07-04_nrf52-ref) : For the nRF52.
