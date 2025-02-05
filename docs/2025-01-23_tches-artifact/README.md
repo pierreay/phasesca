@@ -618,7 +618,7 @@ This result correspond to the point at trace index 100 of purple curve of the Fi
 
 ## Automated scripts for reproducing figures and attacking others DUT
 
-In this repository is located the metadata and a part of the data for the four datasets used in the paper are the following, located under (from the repository root):
+In this repository is located the metadata and a part of the data for the four datasets used in the paper, which are located under (from the repository root):
 - [sets/24-07-04_nrf52-ref](../../sets/24-07-04_nrf52-ref) : For the nRF52.
 - [sets/24-10-10_nrf51-ref](../../sets/24-10-10_nrf51-ref) : For the nRF51.
 - [sets/24-07-09_stm32l1-ref](../../sets/24-07-09_stm32l1-ref) : For the STM31-L1.
