@@ -296,9 +296,8 @@ You can quit the plot by hitting `q`, and the post-processing will begin.
 This will post-process our I/Q data from the `attack` directory and storing the result into the `attack_filt_lh1e6` directory, extracting traces for the side-channel attack, using a high-pass filter of 1 MHz for the amplitude traces and a low-pass filter of 1 MHz for the phase traces.
 The filters width have been determined experimentally by trial and error and is specific to each DUT model.
 A visual inspection of the leakage in the frequency domain give the attacker a first approximation of the correct width to use.
-By default, it will process 2000 for this dataset, but you can stop it manually at 800/2000 processed traces by hitting CTRL+C (because we already know from our paper that 800 traces is sufficient to perform a full key recovery).
 
-One may visually inspect a single or multiples post-processed trace(s) in float numbers format (real-valued trace) by running the following command:
+Once post-processing is finished, one may visually inspect a single or multiples post-processed trace(s) in float numbers format (real-valued trace) by running the following command:
 
 ```bash
 scaff show --base 0 --offset 3 --cumulative attack_filt_lh1e6 phr
