@@ -497,6 +497,9 @@ mkdir -p profile_filt_lh1e6/amp_4000_r_1
 scaff profile --plot --norm --data-path train_filt_lh1e6 --start-point 0 --end-point 0 --num-traces 4000 --comp amp profile_filt_lh1e6/amp_4000_r_1 --pois-algo r --num-pois 1 --poi-spacing 1 --variable p_xor_k --align --fs 10e6
 ```
 
+> [!WARNING]
+> Creating a profile may take more than 10 minutes on low end CPUs.
+
 > [!TIP]
 > Those non-obvious options means:
 > - **norm:** Normalize the traces after loading.
