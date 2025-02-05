@@ -203,6 +203,18 @@ rootless@HOSTNAME:~/$ tree -L 2 $HOME
     |-- 24-10-10_nrf51-ref
 ```
 
+Each downloaded datasets from Zenodo contains only the data, without the source code used to work with it.
+The source code is located in our GitHub repository, and there is some specific configuration to each dataset.
+Moreover, the source code is designed such that it needs to be located inside a `src` folder of the current dataset.
+Therefore, for each datasets, we will copy the corresponding source code to it:
+
+```bash
+cp -r $HOME/host_dir/phase_data/sets/24-07-04_nrf52-ref/src   $HOME/host_dir/24-07-04_nrf52-ref
+cp -r $HOME/host_dir/phase_data/sets/24-07-09_arduino-ref/src $HOME/host_dir/24-07-09_arduino-ref
+cp -r $HOME/host_dir/phase_data/sets/24-07-09_stm32l1-ref/src $HOME/host_dir/24-07-09_stm32l1-ref
+cp -r $HOME/host_dir/phase_data/sets/24-10-10_nrf51-ref/src   $HOME/host_dir/24-10-10_nrf51-ref
+```
+
 ## Step-by-step guide for attacking nRF52
 
 For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the IoT ecosystem.
