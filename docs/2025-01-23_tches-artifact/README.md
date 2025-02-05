@@ -275,8 +275,11 @@ As explained in the Section 7.2 from our paper, we will use filters to isolate t
 During our experiments, this was automated by the `src/process.sh` script with different filters, but to use the one of the paper, one may run the following commands:
 
 ```bash
+# Create a new directory for the filtered traces.
 mkdir -p attack_filt_lh1e6
+# Copy the keys and plaintexts used when recording the traces in the new directory.
 cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
+# Start the filtering post-processing using the `lh1e6` predefined filter.
 ./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
 ```
 
