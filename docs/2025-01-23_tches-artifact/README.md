@@ -97,7 +97,7 @@ tar xjvf 24-07-04_nrf52-ref.tar.bz2
 cat 24-07-09_arduino-ref.tar.bz2.part* > 24-07-09_arduino-ref.tar.bz2
 tar xjvf 24-07-09_arduino-ref.tar.bz2
 
-cat 24-07-09_stm32l1-ref.tar.bz2.part* > .tar.bz2
+cat 24-07-09_stm32l1-ref.tar.bz2.part* > 24-07-09_stm32l1-ref.tar.bz2
 tar xjvf 24-07-09_stm32l1-ref.tar.bz2
 
 cat 24-10-10_nrf51-ref.tar.bz2.part* > 24-10-10_nrf51-ref.tar.bz2
