@@ -456,12 +456,10 @@ We will be able to perform the actual attack using the profile and an attack dat
 > [!IMPORTANT]  
 > Ensure that you completed the attack from the previous section, so that everything is working and well understood.
 
-Be sure you are in the dataset directory, and extract I/Q signals for both datasets:
+Be sure you are in the dataset directory containing I/Q signals:
 
 ```bash
 cd $HOME/host_dir/24-07-04_nrf52-ref
-tar xvf train.tar
-tar xvf attack.tar
 ```
 
 Checkout the correct versions of our tools for this dataset for post-processing:
@@ -470,7 +468,7 @@ Checkout the correct versions of our tools for this dataset for post-processing:
 ./src/git-checkout.sh process
 ```
 
-As explained in previous section, perform the filtering post-processing step, for both the training set and the attack set:
+As explained in previous section, perform the filtering post-processing step, this time for the training set:
 
 ```bash
 mkdir -p train_filt_lh1e6
@@ -478,15 +476,8 @@ cp -t train_filt_lh1e6 train/pt.txt train/key.txt
 ./src/process_filt.py train train_filt_lh1e6 src/collect.toml lh1e6
 ````
 
-You can stop the process after 4000 traces, because this is the number of traces that we used for our profile in our paper.
-
-```bash
-mkdir -p attack_filt_lh1e6
-cp -t attack_filt_lh1e6 attack/pt.txt attack/key.txt
-./src/process_filt.py attack attack_filt_lh1e6 src/collect.toml lh1e6
-```
-
-You can stop the process after 100 traces, since we will reproduce the result of attacking using 100 traces of our Figure 11.a.
+> [!NOTE]
+> The attack set is already processed from the previous section.
 
 #### Profiling
 
