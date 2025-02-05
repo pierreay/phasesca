@@ -626,6 +626,7 @@ In this repository is located the metadata and a part of the data for the four d
 
 > [!NOTE]
 > The data is managed using [git-annex](https://git-annex.branchable.com/), spreading data across different hosts.
+> Therefore, the traces data are not uploaded directly into this GitHub repository, you must use the Zenodo downloads.
 
 > [!TIP]
 > For reference, here are the meanings of all the directories inside a dataset:
