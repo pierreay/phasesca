@@ -651,6 +651,9 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 > [!CAUTION]
 > Do not `cd` into the `src` directory, always execute scripts from the dataset directory like the following.
 
+> [!CAUTION]
+> Our scripts share some resources, therefore, do not launch them in parallel (even for different datasets).
+
 2. Post process the signals by filtering them and extract the traces:
 
 ```bash
