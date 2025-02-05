@@ -61,6 +61,9 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
 > XX.XXXX/zenodo.XXXXXXXX. URL: <https://zenodo.org/records/XXXXXXXX>
 
+> [!TIP]
+> If you have a limited time and/or space, you can only download the nRF52 dataset, as this is the smallest one and the one we will use for the step-by-step guide.
+
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
 > - 7.6G    `14800633.zip` (unzipped to `24-07-04_nrf52-ref.tar.bz2`)
