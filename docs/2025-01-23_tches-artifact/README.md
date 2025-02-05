@@ -240,25 +240,11 @@ For our first attacks, we propose to attack the nRF52, a wide-spread SoC in the 
 
 We will first perform a non-profiled attack (easier compared to a profiled attack) to reproduce one point of our Figure 12.a of the paper.
 
-First, move to the dataset directory and extract the I/Q signals:
+First, move to the dataset directory where are located the I/Q signals:
 
 ```bash
 cd $HOME/host_dir/24-07-04_nrf52-ref
-tar xvf attack.tar
 ```
-
-> [!TIP]
-> For future reference, here are the meanings of all the directories:
-> - `attack`    : Original collected raw attack set.
-> - `attack_*`  : Post-processed and filtered attack set(s).
-> - `train`     : Original collected raw train set.
-> - `train_*`   : Post-processed and filtered train set(s).
-> - `bin`       : Binaries (e.g., firmware flashed on DUT).
-> - `csv_*`     : CSVs containing attack results (used for plotting paper figures).
-> - `logs_*`    : Text files containing attack logging.
-> - `plots_*`   : Plots of attack results based on CSVs.
-> - `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
-> - `src`       : Scripts used to build, process and attack the dataset.
 
 Since our tools were improved during the research process, sometimes without backward compatibility, we will sometimes have to checkout the correct versions of our tools for this dataset.
 Let's do this for the post-processing:
@@ -641,6 +627,19 @@ The four datasets used in the paper are the following, from the repository root:
 - [sets/24-10-10_nrf51-ref](../../sets/24-10-10_nrf51-ref) : For the nRF51.
 - [sets/24-07-09_stm32l1-ref](../../sets/24-07-09_stm32l1-ref) : For the STM31-L1.
 - [sets/24-07-09_arduino-ref](../../sets/24-07-09_arduino-ref) : For the ATmega328 (on the Arduino).
+
+> [!TIP]
+> For future reference, here are the meanings of all the directories:
+> - `attack`    : Original collected raw attack set.
+> - `attack_*`  : Post-processed and filtered attack set(s).
+> - `train`     : Original collected raw train set.
+> - `train_*`   : Post-processed and filtered train set(s).
+> - `bin`       : Binaries (e.g., firmware flashed on DUT).
+> - `csv_*`     : CSVs containing attack results (used for plotting paper figures).
+> - `logs_*`    : Text files containing attack logging.
+> - `plots_*`   : Plots of attack results based on CSVs.
+> - `profile_*` : Template used for profiled attacks based on a specific post-processing train set.
+> - `src`       : Scripts used to build, process and attack the dataset.
 
 > [!WARNING]
 > Reproducing all plots of the paper may requires up to 24 hours of computation from a standard desktop computer.
