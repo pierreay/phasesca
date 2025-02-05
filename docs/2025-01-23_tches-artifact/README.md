@@ -629,7 +629,7 @@ The four datasets used in the paper are the following, from the repository root:
 - [sets/24-07-09_arduino-ref](../../sets/24-07-09_arduino-ref) : For the ATmega328 (on the Arduino).
 
 > [!TIP]
-> For future reference, here are the meanings of all the directories:
+> For reference, here are the meanings of all the directories:
 > - `attack`    : Original collected raw attack set.
 > - `attack_*`  : Post-processed and filtered attack set(s).
 > - `train`     : Original collected raw train set.
