@@ -618,14 +618,17 @@ This result correspond to the point at trace index 100 of purple curve of the Fi
 
 ## Automated scripts for reproducing figures and attacking others DUT
 
-The four datasets used in the paper are the following, from the repository root:
+In this repository is located the metadata and a part of the data for the four datasets used in the paper are the following, located under (from the repository root):
 - [sets/24-07-04_nrf52-ref](../../sets/24-07-04_nrf52-ref) : For the nRF52.
 - [sets/24-10-10_nrf51-ref](../../sets/24-10-10_nrf51-ref) : For the nRF51.
 - [sets/24-07-09_stm32l1-ref](../../sets/24-07-09_stm32l1-ref) : For the STM31-L1.
 - [sets/24-07-09_arduino-ref](../../sets/24-07-09_arduino-ref) : For the ATmega328 (on the Arduino).
 
+> [!NOTE]
+> The data is managed using [git-annex](https://git-annex.branchable.com/), spreading data across different hosts.
+
 > [!TIP]
-> For reference, here are the meanings of all the directories:
+> For reference, here are the meanings of all the directories inside a dataset:
 > - `attack`    : Original collected raw attack set.
 > - `attack_*`  : Post-processed and filtered attack set(s).
 > - `train`     : Original collected raw train set.
@@ -640,15 +643,9 @@ The four datasets used in the paper are the following, from the repository root:
 > [!WARNING]
 > Reproducing all plots of the paper may requires up to 24 hours of computation from a standard desktop computer.
 
-From every one of them, we can reproduce all the attacks and plots using the following steps:
+From every one of them, we can reproduce all the attacks and plots produced during our project using the following steps:
 
-1. Extract the `attack.tar` and `train.tar` archives containing the I/Q signals in the dataset directory:
-
-```bash
-cd $DATASET
-tar xvf train.tar
-tar xvf attack.tar
-```
+1. Move into a dataset directory containing the I/Q signals.
 
 > [!CAUTION]
 > Do not `cd` into the `src` directory, always execute scripts from the dataset directory like the following.
