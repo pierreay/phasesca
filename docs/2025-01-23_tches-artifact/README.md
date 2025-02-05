@@ -1,3 +1,7 @@
+> [!NOTE]
+> As of 2025.02.05 at 14 PM, all datasets have been successfully uploaded.
+> TCHES Artifact Evaluation is now possible.
+
 # Abstract
 
 This artifact consists of software and data to reproduce the main results of section 7.2 of our paper.
