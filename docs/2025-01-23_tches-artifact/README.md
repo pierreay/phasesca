@@ -30,6 +30,9 @@ For every datasets, we will execute the following steps:
 
 First, we will setup necessary tools, downloading the code and the data.
 
+> [!TIP]
+> Prefer to work on a SSD instead of a HDD and with a decent or high-end CPU, as it will considerably speed-up the computations and I/O operations.
+
 ## Download
 
 1. Prepare an empty directory in a location of your choice on the host system, which is the only directory that will be share with the Docker container.
@@ -55,7 +58,7 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - ATmega328 Dataset, Zenodo.
 > [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800719.svg)](https://doi.org/10.5281/zenodo.14800719) URL: <https://zenodo.org/records/14800719>
 - STM32L1:
-> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - STM32L1 Dataset, Zenodo.
+> Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - S TM32L1 Dataset, Zenodo.
 > [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800774.svg)](https://doi.org/10.5281/zenodo.14800774) URL: <https://zenodo.org/records/14800774>
 - ATmega328:
 > Ayoub (2025) PhaseSCA: ATmega328 Dataset, Zenodo. DOI:
