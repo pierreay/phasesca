@@ -642,7 +642,7 @@ In this repository is located the metadata and a part of the data for the four d
 > - `src`       : Scripts used to build, process and attack the dataset.
 
 > [!WARNING]
-> Reproducing all plots of the paper may requires up to 24 hours of computation from a standard desktop computer.
+> Reproducing all results of the project (not only the plots of the paper) may requires up to 24 hours of computation from a standard desktop computer.
 
 From every one of the datasets, we can reproduce all the attacks and plots produced during our project using the following steps:
 
