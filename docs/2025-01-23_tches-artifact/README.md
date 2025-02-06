@@ -670,6 +670,10 @@ Where for example, `$DATASET` being equal to `24-07-04_nrf52-ref` for the nRF52.
 This will try different filter configuration (*e.g.*, `hl50e3`, `lh1e6`, `lh500e3`, `lh50e3`), where `lh` means high-pass for the amplitude and low-pass for the phase trace (or the opposite, respectively, for `lh`), where `500e3` means a cut-off frequency of 500 kHz.
 For each filtering configuration, a plot will show the result.
 
+> [!TIP]
+> Reset the `DISPLAY` Bash variable to disable the plots of this step such that it can run in the background without interventions:
+> `DISPLAY="" ./src/process.sh`
+
 3. Create the profiles for the profiled attacks:
 
 ```bash
