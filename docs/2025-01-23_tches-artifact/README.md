@@ -686,6 +686,8 @@ The final plots will be located in `plots_filt_lh1e6` for the nRF52, the nRF51 a
 ./src/attack_plot_cra.sh
 ```
 
+The final plots will be located in `plots_filt_lh1e6_cra` for the nRF52, the nRF51 and the STM32, but in `plots_cra` for the ATmega (on the Arduino).
+
 # Clean
 
 Finally, once the Docker container is exited, one may run the following to clean the image:
