@@ -627,6 +627,7 @@ In this repository is located the metadata and a part of the data for the four d
 > [!NOTE]
 > The data is managed using [git-annex](https://git-annex.branchable.com/), spreading data across different hosts.
 > Therefore, the traces data are not uploaded directly into this GitHub repository, you must use the Zenodo downloads.
+> However, the source code to work with the datasets is located in our GitHub repositories.
 
 > [!TIP]
 > For reference, here are the meanings of all the directories inside a dataset:
@@ -646,7 +647,13 @@ In this repository is located the metadata and a part of the data for the four d
 
 From every one of the datasets, we can reproduce all the attacks and plots produced during our project using the following steps:
 
-1. Move into a dataset directory containing the I/Q signals.
+1. Assuming that the Docker container is setup correctly, copy the source code from the repository to the dataset and move into its top level folder: 
+
+```bash
+cp -r $HOME/host_dir/phase_data/sets/$DATASET/src   $HOME/host_dir/$DATASET
+cd $HOME/host_dir/$DATASET
+```
+Where for example, `$DATASET` being equal to `24-07-04_nrf52-ref` for the nRF52.
 
 > [!CAUTION]
 > Do not `cd` into the `src` directory, always execute scripts from the dataset directory like the following.
