@@ -669,7 +669,7 @@ For each filtering configuration, a plot will show the result.
 ./src/profile.sh
 ```
 
-It will use the best filtering that we determined during our experiments.
+It will use the best filtering configuration that we determined during our experiments.
 
 4. Save the plots for the profiled attacks performance:
 
