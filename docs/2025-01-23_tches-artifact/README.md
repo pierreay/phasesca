@@ -660,7 +660,7 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 ./src/process.sh
 ```
 
-This will try different filter configuration (*e.g.*, `hl50e3`, `lh1e6`, `lh500e3`, `lh50e3`), where `hl` means high-pass for the amplitude and low-pass for the phase trace (or the opposite, respectively, for `lh`), where `50e3` means a cut-off frequency of 50 kHz.
+This will try different filter configuration (*e.g.*, `hl50e3`, `lh1e6`, `lh500e3`, `lh50e3`), where `lh` means high-pass for the amplitude and low-pass for the phase trace (or the opposite, respectively, for `lh`), where `500e3` means a cut-off frequency of 500 kHz.
 For each filtering configuration, a plot will the result.
 
 3. Create the profiles for the profiled attacks:
