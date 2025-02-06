@@ -660,11 +660,16 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 ./src/process.sh
 ```
 
+This will try different filter configuration (*e.g.*, `hl50e3`, `lh1e6`, `lh500e3`, `lh50e3`), where `hl` means high-pass for the amplitude and low-pass for the phase trace (or the opposite, respectively, for `lh`), where `50e3` means a cut-off frequency of 50 kHz.
+For each filtering configuration, a plot will the result.
+
 3. Create the profiles for the profiled attacks:
 
 ```bash
 ./src/profile.sh
 ```
+
+It will use the best filtering that we determined during our experiments.
 
 4. Save the plots for the profiled attacks performance:
 
@@ -672,13 +677,14 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 ./src/attack_plot.sh
 ```
 
-4. Save the plots for the non-profiled attacks performance:
+It will try a lot of attacks with a different number of traces to create a plot just like the ones used in the paper.
+The final plots will be located in `plots_filt_lh1e6` for the nRF52, the nRF51 and the STM32, but in `plots` for the ATmega (on the Arduino).
+
+4. Perform the same as the previous one, but for the non-profiled attacks:
 
 ```bash
 ./src/attack_plot_cra.sh
 ```
-
-The final plots will be located in `plots_filt_lh1e6` for the nRF52, the nRF51 and the STM32, but in `plots` for the ATmega (on the Arduino).
 
 # Clean
 
