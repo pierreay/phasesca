@@ -41,7 +41,7 @@ function attack() {
 # * Script
 
 # Ensure SCAFF version.
-git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF_CRA}"
 
 for num_traces_attack in "${ATTACK_NUM_TRACES_LIST[@]}"; do
     attack "${num_traces_attack}"

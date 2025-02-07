@@ -97,7 +97,7 @@ function attack() {
 # * Script
 
 # Ensure SCAFF version.
-git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF}"
+git_checkout_logged "${PATH_SCAFF}" "${GIT_CHECKOUT_SCAFF_TA}"
 
 # ** CSV
 

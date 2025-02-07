@@ -23,9 +23,9 @@ export TARGET_BAUDRATE="9600"
 export GIT_CHECKOUT_PHASEFW="75775c5"
 export GIT_CHECKOUT_SOAPYRX="d5db344"
 # For TA:
-# export GIT_CHECKOUT_SCAFF="23aad15"
+export GIT_CHECKOUT_SCAFF_TA="23aad15"
 # For CRA:
-export GIT_CHECKOUT_SCAFF="dfdd08a"
+export GIT_CHECKOUT_SCAFF_CRA="dfdd08a"
 
 # If set, use new Tmux pane for background processes.
 export TMUX_PANE=1
