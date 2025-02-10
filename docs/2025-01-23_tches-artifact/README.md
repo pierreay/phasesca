@@ -71,6 +71,9 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > [!TIP]
 > If you have a limited time and/or space, you can only download the nRF52 dataset, as this is the smallest one and the one we will use for the step-by-step guide.
 
+> [!TIP]
+> If you have a slow connection, prefer downloading `.tar.bz2.part*` files one by one instead of downloading the whole `.zip` file.
+
 > [!WARNING]
 > Downloaded compressed datasets are of a total size of around 100 GB:
 > - 7.6G    `14800633.zip` (unzipped to `24-07-04_nrf52-ref.tar.bz2`)
