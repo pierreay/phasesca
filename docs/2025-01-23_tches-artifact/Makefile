@@ -29,9 +29,9 @@ shell: check-env
 		$(DOCKER_NAME) /bin/bash
 
 # Clean our Docker images and containers.
-# TODO: Clean the containers, only images are cleaned here.
 .PHONY: clean
 clean:
-	docker rmi -f $(DOCKER_NAME):latest
+	docker container ls --all | grep $(DOCKER_NAME) | awk '{print $1}' | xargs -n1 docker container rm
+	docker rm $(DOCKER_NAME):latest
 	rm .dockerinit
 

@@ -699,7 +699,7 @@ The final plots will be located in `plots_filt_lh1e6_cra` for the nRF52, the nRF
 
 # Clean
 
-Finally, once the Docker container is exited, one may run the following to clean the image:
+Finally, once the Docker container is exited, one may run the following to clean the image and the stopped containers:
 
     make clean
 
