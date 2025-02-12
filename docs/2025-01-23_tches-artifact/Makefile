@@ -31,7 +31,7 @@ shell: check-env
 # Clean our Docker images and containers.
 .PHONY: clean
 clean:
-	docker container ls --all | grep $(DOCKER_NAME) | awk '{print $$1}' | xargs -n1 docker container rm
+	docker container ls --all | grep $(DOCKER_NAME) | awk '{print $$1}' | xargs -n1 -r docker container rm
 	docker rm $(DOCKER_NAME):latest
 	rm .dockerinit
 
