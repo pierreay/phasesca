@@ -59,14 +59,14 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - nRF52832 Dataset, Zenodo.
 > [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800633.svg)](https://doi.org/10.5281/zenodo.14800633) URL: <https://zenodo.org/records/14800633>
 - nRF51:
-> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - ATmega328 Dataset, Zenodo.
-> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800719.svg)](https://doi.org/10.5281/zenodo.14800719) URL: <https://zenodo.org/records/14800719>
+> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - nRF51422 Dataset, Zenodo.
+> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14849086.svg)](https://doi.org/10.5281/zenodo.14849086) URL: <https://zenodo.org/records/14849086>
 - STM32L1:
 > Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - STM32L1 Dataset, Zenodo.
 > [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800774.svg)](https://doi.org/10.5281/zenodo.14800774) URL: <https://zenodo.org/records/14800774>
 - ATmega328:
-> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - nRF51422 Dataset, Zenodo.
-> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14849086.svg)](https://doi.org/10.5281/zenodo.14849086) URL: <https://zenodo.org/records/14849086>
+> Pierre Ayoub (2025) PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels - ATmega328 Dataset, Zenodo.
+> [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14800719.svg)](https://doi.org/10.5281/zenodo.14800719) URL: <https://zenodo.org/records/14800719>
 
 > [!TIP]
 > If you have a limited time and/or space, you can only download the nRF52 dataset, as this is the smallest one and the one we will use for the step-by-step guide.
@@ -79,7 +79,7 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 > - 7.6G    `14800633.zip` (unzipped to `24-07-04_nrf52-ref.tar.bz2`)
 > - 12G     `14800719.zip` (unzipped to `24-07-09_arduino-ref.tar.bz2`)
 > - 30G     `14800774.zip` (unzipped to `24-07-09_stm32l1-ref.tar.bz2`)
-> - 41G     `14800800.zip` (unzipped to `24-10-10_nrf51-ref.tar.bz2`)
+> - 41G     `14849086.zip` (unzipped to `24-10-10_nrf51-ref.tar.bz2`)
 
 4. Assuming the datasets have been downloaded under `~/Downloads`, unzip the ZIP archive (that contains split TAR archives) in the `$HOST_DIR`:
 
@@ -87,7 +87,7 @@ git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
 unzip -d $HOST_DIR ~/Downloads/14800633.zip
 unzip -d $HOST_DIR ~/Downloads/14800719.zip
 unzip -d $HOST_DIR ~/Downloads/14800774.zip
-unzip -d $HOST_DIR ~/Downloads/14800800.zip
+unzip -d $HOST_DIR ~/Downloads/14849086.zip
 ```
 
 You can remove the ZIP archives if you need space:
@@ -96,7 +96,7 @@ You can remove the ZIP archives if you need space:
 rm ~/Downloads/14800633.zip
 rm ~/Downloads/14800719.zip
 rm ~/Downloads/14800774.zip
-rm ~/Downloads/14800800.zip
+rm ~/Downloads/14849086.zip
 ```
 
 5. Recombine the split TAR archives into single ones and uncompress them under the `$HOST_DIR`:
