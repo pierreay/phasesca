@@ -30,6 +30,7 @@ endif
 	git remote -v
 
 annex-config-group:
+	$(BIN_PATH)/git-annex-group-reset "$$(realpath .)"
 ifeq ($(HOSTNAME_PHS),cintra)
 	git annex group . transfer
 	git annex wanted . "standard"
