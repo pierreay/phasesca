@@ -6,7 +6,7 @@ SHELL := /usr/bin/bash
 # Targets
 # ==============================================================================
 
-DEFAULT_GOAL: all
+.DEFAULT_GOAL := all
 
 all: annex-all
 
