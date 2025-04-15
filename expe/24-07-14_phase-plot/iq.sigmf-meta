@@ -1,0 +1,10 @@
+{
+    "global": {
+        "core:datatype": "cf32_le",
+        "core:sample_rate": 10000000,
+        "core:sha512": "74058d85884639264c31c230d940114963bb7e51184c3096765333c02ed5b220bfeace3d931c72e99c63de4772a681dfbfd7a752be255ba3fdd0bdc46dc34524",
+        "core:version": "1.2.2"
+    },
+    "captures": [],
+    "annotations": []
+}
