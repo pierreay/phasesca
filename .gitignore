@@ -6,3 +6,6 @@
 # Exclude sentinel files.
 **/.datasetinit
 **/.dockerinit
+# Exclude git-annex related files.
+Makefile
+make.d
