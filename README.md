@@ -54,7 +54,7 @@ All results and plots of the paper have been generated using one of the script a
 
 ### Software
 
-- **[phase_fw](https://github.com/pierreay/phase_fw.git)**
+- **[phasesca-fw](https://github.com/pierreay/phasesca-fw.git)**
 
 Source code used to flash the firmware we used on our target devices during our attacks.
 Required to perform the data collection.
