@@ -32,7 +32,7 @@ ENV PATH_SOAPYRX="$HOME/git/soapyrx"
 # Download our projects.
 RUN mkdir git
 WORKDIR /home/rootless/git
-RUN test -d phase_data && : || git clone https://github.com/pierreay/phase_data.git
+RUN test -d phasesca && : || git clone https://github.com/pierreay/phasesca.git
 RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
 RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
 

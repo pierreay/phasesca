@@ -8,7 +8,7 @@ The data mainly consists of Numpy arrays containing complex numbers representing
 # Introduction
 
 This guide will help you reproduce the main results of our paper.
-Note that this is a part of our project, the full project can be found on GitHub at [`pierreay/phase_data`](https://github.com/pierreay/phase_data/).
+Note that this is a part of our project, the full project can be found on GitHub at [`pierreay/phasesca`](https://github.com/pierreay/phasesca/).
 
 To fully reproduce this attack, in the first stage, one would have to first acquire a dataset using hardware by:
 1. **Flashing a firmware** on the evaluated SoC (DUT) and installing the **radio tooling**.
@@ -46,7 +46,7 @@ export HOST_DIR="$(pwd)"
 2. Clone our repository (~ 100 MB) under the `$HOST_DIR`:
 
 ```bash
-git clone https://github.com/pierreay/phase_data/ "$HOST_DIR/phase_data"
+git clone https://github.com/pierreay/phasesca/ "$HOST_DIR/phasesca"
 ```
 
 3. Manually download the four datasets which have been publicly uploaded on Zenodo by clicking on *Download all* for each of the following links:
@@ -134,7 +134,7 @@ rm 24-10-10_nrf51-ref.tar.bz2
 ```bash
 $ ls -alh $HOST_DIR
 
-phase_data/
+phasesca/
 24-07-04_nrf52-ref/
 24-07-09_arduino-ref/
 24-07-09_stm32l1-ref/
@@ -150,7 +150,7 @@ We will setup a temporary Docker container for reproducing the attacks, in order
 3. Move to the artifact evaluation files and download then initialize the Docker image leveraging the `Dockerfile`:
 
 ```bash
-cd "$HOST_DIR/phase_data/docs/2025-01-23_tches-artifact"
+cd "$HOST_DIR/phasesca/docs/2025-01-23_tches-artifact"
 make build
 ```
 
@@ -195,11 +195,11 @@ You home directory should looks like:
 rootless@HOSTNAME:~/$ tree -L 2 $HOME
 /home/rootless
 |-- git
-|   |-- phase_data
+|   |-- phasesca
 |   |-- scaff
 |   `-- soapyrx
 `-- host_dir
-    |-- phase_data
+    |-- phasesca
     |-- 24-07-04_nrf52-ref
     |-- 24-07-09_arduino-ref
     |-- 24-07-09_stm32l1-ref
@@ -212,10 +212,10 @@ Moreover, the source code is designed such that it needs to be located inside a 
 Therefore, for each datasets, we will copy the corresponding source code to it:
 
 ```bash
-cp -r $HOME/host_dir/phase_data/sets/24-07-04_nrf52-ref/src   $HOME/host_dir/24-07-04_nrf52-ref
-cp -r $HOME/host_dir/phase_data/sets/24-07-09_arduino-ref/src $HOME/host_dir/24-07-09_arduino-ref
-cp -r $HOME/host_dir/phase_data/sets/24-07-09_stm32l1-ref/src $HOME/host_dir/24-07-09_stm32l1-ref
-cp -r $HOME/host_dir/phase_data/sets/24-10-10_nrf51-ref/src   $HOME/host_dir/24-10-10_nrf51-ref
+cp -r $HOME/host_dir/phasesca/sets/24-07-04_nrf52-ref/src   $HOME/host_dir/24-07-04_nrf52-ref
+cp -r $HOME/host_dir/phasesca/sets/24-07-09_arduino-ref/src $HOME/host_dir/24-07-09_arduino-ref
+cp -r $HOME/host_dir/phasesca/sets/24-07-09_stm32l1-ref/src $HOME/host_dir/24-07-09_stm32l1-ref
+cp -r $HOME/host_dir/phasesca/sets/24-10-10_nrf51-ref/src   $HOME/host_dir/24-10-10_nrf51-ref
 ```
 
 Finally, ensure that the layout of each dataset looks like the following one:
@@ -649,7 +649,7 @@ From every one of the datasets, we can reproduce all the attacks and plots produ
 1. Assuming that the Docker container is setup correctly, copy the source code from the repository to the dataset and move into its top level folder: 
 
 ```bash
-cp -r $HOME/host_dir/phase_data/sets/$DATASET/src   $HOME/host_dir/$DATASET
+cp -r $HOME/host_dir/phasesca/sets/$DATASET/src   $HOME/host_dir/$DATASET
 cd $HOME/host_dir/$DATASET
 ```
 Where for example, `$DATASET` being equal to `24-07-04_nrf52-ref` for the nRF52.
