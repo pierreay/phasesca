@@ -2,13 +2,15 @@
 
 Main repository of the PhaseSCA project.
 
-This repository contains the data and experiments of the project.
+This project is about demonstrating the exploitation of phase-modulated emanations in electromagnetic side-channel analysis using software-defined radios (SDRs), instead of exploiting amplitude-modulated emanations as it is more conventionally done in the literature. 
+This repository mainly contains documentation, sources and experiments of the project.
+Small data files are stored directly in this repository, but datasets are stored on [Zenodo](https://zenodo.org/) (refer to [TCHES artifact](./docs/2025-01-23_tches-artifact/README.md)) and duplicated offline in another repository using [git-annex](https://git-annex.branchable.com/).
 
 ## Publication
 
-This project led to the following [TCHES](https://tches.iacr.org/) publication: *Pierre Ayoub, Aurélien Hernandez, Romain Cayre, Aurélien Francillon, Clémentine Maurice (2025), PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels. IACR Transactions on Cryptographic Hardware and Embedded Systems (TCHES'25). https://tches.iacr.org/index.php/TCHES/article/view/11934 https://hal.science/hal-04726109*
+This project led to the following [TCHES](https://tches.iacr.org/) publication: *Pierre Ayoub, Aurélien Hernandez, Romain Cayre, Aurélien Francillon, Clémentine Maurice (2025). PhaseSCA: Exploiting Phase-Modulated Emanations in Side Channels. IACR Transactions on Cryptographic Hardware and Embedded Systems (TCHES'25). https://tches.iacr.org/index.php/TCHES/article/view/11934 https://hal.science/hal-04726109*
 
-This project is also part of my Ph.D. Thesis, not yet published.
+This project is also part of my PhD thesis: *Pierre Ayoub (2024). Compromising Electromagnetic Emanations: Side-Channel Leakages in Embedded Devices. Sorbonne Université. https://theses.fr/2024SORUS558 https://theses.hal.science/tel-05008752*
 
 ## How to cite
 
@@ -72,26 +74,3 @@ Required to perform the data analysis and the attacks.
 - **SDR**: Pick one supported by SoapyRX.
 - **Near-field probes**: Can be a COTS one or a handmade for frequencies between 8 and 128 MHz.
 - **Device Under Test (DUT)**: Pick one described in the paper.
-
-# Storage
-
-This repository is managed using [git-annex](https://git-annex.branchable.com/).
-Around 400 GB of data is currently deduplicated and spread across 4 instances, including workstations and external mass storage devices.
-
-# Files
-
-- **[docs](./docs)**
-
-Documentation of the project.
-
-- **[expe](./expe)**
-
-Experiments of the project.
-
-- **[sets](./sets)**
-
-Datasets built during the project.
-
-- **[src](./src)**
-
-Scripts to work with the repository.
