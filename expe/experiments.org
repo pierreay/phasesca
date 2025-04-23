@@ -4,7 +4,7 @@
 * Experiments
 
 The following experiments are considered as dirty and saved as backup only.
-They were taken from the old =screaming_channels_ble= repository:
+They were taken from the old =bluescream= repository:
 - [[file:240116][240116]]
 - [[file:240118][240118]]
 - [[file:240119][240119]]
