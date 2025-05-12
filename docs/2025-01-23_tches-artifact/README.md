@@ -192,8 +192,8 @@ In the following, we assume that the reader will be *inside a shell of the Docke
 
 You home directory should looks like:
 ```bash
-rootless@HOSTNAME:~/$ tree -L 2 $HOME
-/home/rootless
+USERNAME@HOSTNAME:~/$ tree -L 2 $HOME
+/home/USERNAME
 |-- git
 |   |-- phasesca
 |   |-- scaff
@@ -221,11 +221,11 @@ cp -r $HOME/host_dir/phasesca/sets/24-10-10_nrf51-ref/src   $HOME/host_dir/24-10
 Finally, ensure that the layout of each dataset looks like the following one:
 
 ```bash
-rootless@HOSTNAME:~$ ls -lh $HOME/host_dir/24-07-04_nrf52-ref/
+USERNAME@HOSTNAME:~$ ls -lh $HOME/host_dir/24-07-04_nrf52-ref/
 total 600K
-drwxr-xr-x 2 rootless rootless 120K Feb  3 22:22 attack
-drwxr-xr-x 2 rootless rootless 4.0K Feb  5 14:24 src
-drwxr-xr-x 2 rootless rootless 472K Feb  3 22:21 train
+drwxr-xr-x 2 USERNAME USERNAME 120K Feb  3 22:22 attack
+drwxr-xr-x 2 USERNAME USERNAME 4.0K Feb  5 14:24 src
+drwxr-xr-x 2 USERNAME USERNAME 472K Feb  3 22:21 train
 ```
 
 ## Step-by-step guide for attacking nRF52

@@ -1,3 +1,5 @@
+# Template: 4a045d95-227b-46ca-80b9-f279ce7ff162
+
 FROM ubuntu:22.04 AS ubuntu-phasesca
 # Automatically answer "yes" for `apt` questions.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,20 +12,28 @@ RUN apt-get update && apt-get install -yq libxcb* libxkb*
 # Mitigate LaTeX complaining about missing `type1ec.sty`.
 RUN apt-get update && apt-get install -yq cm-super-minimal
 
-# Setup rootless user.
-RUN useradd -ms /bin/bash rootless
-RUN yes ertyerty | passwd rootless
-# RUN mkdir -p /home/rootless
-# RUN chown -R rootless:rootless /home/rootless
-RUN usermod -aG sudo rootless
-USER rootless
-WORKDIR /home/rootless
+# Allows the Makefile to pass a user configuration that match the host user for
+# seamless file sharing (mitigate permission errors).
+ARG DOCKER_USER=rootless # User name.
+ARG DOCKER_UID=1000      # User ID.
+ARG DOCKER_GID=1000      # Group ID.
+
+# Setup a rootless user matching configuration above with password `ertyerty`.
+RUN groupadd -g $DOCKER_GID $DOCKER_USER
+RUN useradd -u $DOCKER_UID -g $DOCKER_GID -ms /bin/bash $DOCKER_USER
+RUN yes ertyerty | passwd $DOCKER_USER
+RUN usermod -aG sudo $DOCKER_USER
+
+# Log into the new user and set working directory to its HOME.
+ENV HOME="/home/$DOCKER_USER"
+USER $DOCKER_USER
+WORKDIR $HOME
+
 # User configuration.
-ENV HOME="/home/rootless"
 RUN direnv hook bash >> $HOME/.bashrc
 
 # Allows accessing our user installed projects. 
-ENV PATH="$PATH:/home/rootless/.local/bin"
+ENV PATH="$PATH:$HOME/.local/bin"
 ENV LD_LIBRARY_PATH="/usr/local/lib"
 # Set environment variables used by scripts of our projects, usually defined in a `.envrc` file.
 ENV PATH_DATASET="$HOME/pro_storage/dataset"
@@ -31,7 +41,7 @@ ENV PATH_SCAFF="$HOME/git/scaff"
 ENV PATH_SOAPYRX="$HOME/git/soapyrx"
 # Download our projects.
 RUN mkdir git
-WORKDIR /home/rootless/git
+WORKDIR $HOME/git
 RUN test -d phasesca && : || git clone https://github.com/pierreay/phasesca.git
 RUN test -d soapyrx    && : || git clone https://github.com/pierreay/soapyrx.git
 RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
@@ -39,15 +49,15 @@ RUN test -d scaff      && : || git clone https://github.com/pierreay/scaff.git
 # Update Pip (required to install our projects successfully).
 RUN pip install -U pip
 # Install SoapyRX.
-WORKDIR /home/rootless/git/soapyrx
+WORKDIR $HOME/git/soapyrx
 RUN pip install --user -e .
 # Install SCAFF.
-WORKDIR /home/rootless/git/scaff
+WORKDIR $HOME/git/scaff
 RUN pip install --user -e .
 # Install HEL.
-WORKDIR /home/rootless/git/scaff
+WORKDIR $HOME/git/scaff
 RUN chmod +x utils/install-hel.sh
 RUN echo "ertyerty" | sudo -S utils/install-hel.sh
 
 # Get the datasets.
-WORKDIR /home/rootless
+WORKDIR $HOME
