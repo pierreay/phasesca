@@ -54,6 +54,12 @@ All results and plots of the paper have been generated using one of the script a
 
 ### Software
 
+The following software is included as `git` submodules inside this repository, and can be initialized by running:
+
+```bash
+git submodule update --init --recursive
+```
+
 - **[phasesca-fw](https://github.com/pierreay/phasesca-fw.git)**
 
 Source code used to flash the firmware we used on our target devices during our attacks.
