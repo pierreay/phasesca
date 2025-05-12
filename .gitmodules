@@ -1,3 +1,9 @@
 [submodule "mods/phasesca-fw"]
 	path = mods/phasesca-fw
 	url = https://github.com/pierreay/phasesca-fw
+[submodule "mods/scaff"]
+	path = mods/scaff
+	url = https://github.com/pierreay/scaff
+[submodule "mods/soapyrx"]
+	path = mods/soapyrx
+	url = https://github.com/pierreay/soapyrx
